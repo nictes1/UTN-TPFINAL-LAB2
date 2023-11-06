@@ -1,0 +1,36 @@
+# depslib dependency file v1.0
+1698794709 source:c:\tps lab ii\trabajo final programacion 2\libreriaalquileres.c
+	<stdio.h>
+	<stdlib.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	<string.h>
+	<unistd.h>
+
+1699138199 c:\tps lab ii\trabajo final programacion 2\librerialistapersonas.h
+
+1699032779 c:\tps lab ii\trabajo final programacion 2\libreriaarboldelibros.h
+
+1699138387 source:c:\tps lab ii\trabajo final programacion 2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+
+1699048340 source:c:\tps lab ii\trabajo final programacion 2\libreriaarboldelibros.c
+	<stdio.h>
+	<stdlib.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	<string.h>
+	<unistd.h>
+
+1699138813 source:c:\tps lab ii\trabajo final programacion 2\librerialistapersonas.c
+	<stdio.h>
+	<stdlib.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	<string.h>
+	<unistd.h>
+
