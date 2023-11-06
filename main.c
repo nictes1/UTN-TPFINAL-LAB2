@@ -4,7 +4,7 @@
 #include "libreriaListaPersonas.h"
 #include "LibreriaArboLdeLibros.h"
 
-
+//nuevo comentario
 //Constantes para los archivos
 const char * archivoLectores = "archivoLectores.bin";
 const char * archivoLibros = "archivoLibros.bin";
