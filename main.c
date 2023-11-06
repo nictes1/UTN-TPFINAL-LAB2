@@ -4,6 +4,7 @@
 #include "libreriaListaPersonas.h"
 #include "LibreriaArboLdeLibros.h"
 
+//comentario agregado de practica - nico
 //nuevo comentario
 //Constantes para los archivos
 const char * archivoLectores = "archivoLectores.bin";
