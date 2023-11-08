@@ -16,6 +16,8 @@ int main()
 {
         //Funcion para cargar archivo
         cargarArchivoLectores(archivoLectores);
+        cargarLibroEnArchivo(archivoLibros);
+        /*
         //Inicializar la lista
         nodoLector * listadoDeLectores = iniciarLista();
         //Funcion para cargar la lista con los datos del archivo
@@ -24,6 +26,16 @@ int main()
         imprimirListaLectores(listadoDeLectores);
         //Funcion para añadir un lector a la lista y tambien guardarlo en el archivo
          agregarLectorAListaYArchivo(&listadoDeLectores, archivoLectores);
+
+         //cargarLibroEnArchivo(archivoLibros);*/
+         puts("Libros\n");
+         mostrarArchivoDeLibros(archivoLibros);
+         /*   puts("\n");
+         listaGeneros * listaPrincipal = inicializarListaGeneros ();
+         listaPrincipal = cargarListaDeGenerosDesdeArchivo(archivoLibros,listaPrincipal);
+         recorrerListaDeGeneros(listaPrincipal);*/
+         puts("Lectores\n");
+         mostrarArchivo(archivoLectores);
 
     return 0;
 }
