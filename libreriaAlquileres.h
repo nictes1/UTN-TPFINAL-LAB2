@@ -4,11 +4,16 @@
 typedef struct nodoAlquiler
 {
     stlibros datoLibro;
-    lector datosLecto
+    lector datosLector;
 
     struct nodoAlquiler * siguiente ;
 }nodoAlquiler;
 
+typedef struct
+{
+    stlibros datoLibroAlquilado;
+    lector datosLector;
+}stRegistroAlquiler;
 
 
 #endif // LIBRERIAALQUILERES_H_INCLUDED

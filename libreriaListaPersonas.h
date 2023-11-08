@@ -14,7 +14,7 @@ typedef struct {
     int esEstudiante; // 1 ó 0
     char email [20];
     char direccion [20];
-    int alquiler; // 1 tiene un libro ó 0 no tiene libro
+    int alquiler; // 0 no puede alquilar ó 1 puede alquilar
     fecha fechaAlquiler;
 
 }lector;
