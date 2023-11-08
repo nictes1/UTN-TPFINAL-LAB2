@@ -35,22 +35,45 @@ void realizarAlquiler (const char * archivoLectores, const char * archivoLibros,
     char tituloBuscado[20];
     char nombreLector[20];
 
+
+    printf("Ingrese el nombre del lector que va a alquilar: ");
+    fflush(stdin);
+    gets(nombreLector);
+
+    nodoLector * lectorEncontrado = buscarNodoLector (*lista,nombreLector);
+
+    if(lectorEncontrado == NULL)
+    {
+        char mander = 's';
+        puts("Desea crear el usuario ? \n");
+        fflush(stdin);
+        scanf("%c",&mander);
+        if(mander == 's')
+        {
+            lector nuevo = cargarLector(nombreLector);
+            insertarOrdenado(&listaLectores,crearNodoLector(nuevo));
+
+        }else
+        {
+            fclose(archiLibros);
+            fclose(archiLectores);
+            fclose(archiAlquiler);
+            return;
+
+        }
+    }
+
+
+    nodoArbolLibro *libroEncontrado = buscarLibroPorTitulo(*listaLibros, tituloBuscado);
     printf("Ingrese el título del libro que desea buscar: ");
     fflush(stdin);
     gets(tituloBuscado);
 
-    nodoArbolLibro *libroEncontrado = buscarLibroPorTitulo(*listaLibros, tituloBuscado);
 
-    if (libroEncontrado != NULL && libroEncontrado->dato.Copias.cantCopias >= 1) //el libroexiste y dispone de 1 o mas Copias
+    if (libroEncontrado != NULL && libroEncontrado->dato.Copias.cantCopias >= 1) //el libroexiste y dispone de 1 o mas Copia
     {
 
-        printf("Ingrese el nombre del lector que va a alquilar: ");
-        fflush(stdin);
-        gets(nombreLector);
-
-        nodoLector * lectorEncontrado = buscarNodoLector (*lista,nombreLector);
-
-        if(lectorEncontrado != NULL && lectorEncontrado->info.alquiler == 1)  //Si esta en 1 puede alquilar
+        if(lectorEncontrado->info.alquiler == 1)  //Si esta en 1 puede alquilar
         {
 
 
@@ -67,12 +90,6 @@ void realizarAlquiler (const char * archivoLectores, const char * archivoLibros,
             //Mostrar Registro Alquiler
             //MostrarLista
 
-        }else if ( lectorEncontrado == NULL)
-        {
-            printf("Lector no encontrado");
-            fclose(archiLibros);
-            fclose(archiLectores);
-            fclose(archiAlquiler);
         }
          fclose(archiLibros);
         fclose(archiLectores);
