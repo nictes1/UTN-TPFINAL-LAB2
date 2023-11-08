@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "libreriaListaPersonas.h"
 #include "LibreriaArboLdeLibros.h"
+#include "libreriaAlquileres.h"
 #include <string.h>
 #include <unistd.h>
 
@@ -24,7 +25,7 @@ lector cargarLector(char nombrelector[])
     printf("Ingrese la dirección: ");
     scanf("%s", nuevoLector.direccion);
 
-    nuevoLector.alquiler = 0;
+    nuevoLector.alquiler = 1;
 
     return nuevoLector;
 }
@@ -309,4 +310,6 @@ void agregarLectorAListaYArchivo(nodoLector **lista, const char *archivoLectores
 
     printf("Lector guardado en la lista y en el archivo.\n");
 }
+
+
 
