@@ -42,7 +42,7 @@ void realizarAlquiler (const char * archivoLectores, const char * archivoLibros,
 
     nodoLector * lectorEncontrado = buscarNodoLector (*lista,nombreLector);
 
-    if(lectorEncontrado == NULL)
+    if(lectorEncontrado == NULL)  //Si no existe le doy opcion a crear desde aca
     {
         char mander = 's';
         puts("Desea crear el usuario ? \n");

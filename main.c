@@ -40,58 +40,6 @@ int main()
 
 
 
-//Funciones Archivo
-void guardarListaEnArchivo(const char* nombreArchivo, nodoLector* lista) {
-    FILE* archivo = fopen(nombreArchivo, "ab"); // Abrir el archivo en modo de escritura binaria
-
-    if (archivo == NULL) {
-        printf("No se pudo abrir el archivo para escritura.\n");
-        return;
-    }
-
-    lector aux;
-
-    nodoLector* actual = lista;
-
-    while (actual != NULL) {
-
-
-        fwrite(&actual->info, sizeof(lector), 1, archivo);  //No guarda el nodo sino que guarda los datos de ese nodo.
-        actual = actual->sig;
-    }
-
-    fclose(archivo); // Cerrar el archivo
-}
-
-
-
-void guardarArregloDeArboles(celdaGeneros ADA[], int dim)
-{
-    FILE *archivo = fopen(archivoLibros, "wb"); // Abre el archivo para escritura binaria
-    if (archivo == NULL)
-    {
-        printf("Error al abrir el archivo para escritura.\n");
-        return;
-    }
-
-    for (int i = 0; i < dim; i++)
-    {
-        guardarArbolLibrosRecursivo(ADA[i].arbolDeLibros, archivo);
-    }
-
-    fclose(archivo);
-}
-
-
-void guardarArbolLibrosRecursivo(nodoArbolLibro *arbol, FILE *archivo)
-{
-    if (arbol != NULL)
-    {
-        fwrite(&arbol->dato , sizeof(stlibros), 1, archivo); // Guarda el libro en el archivo
-        guardarArbolLibrosRecursivo(arbol->izq, archivo); // Recorre el subárbol izquierdo
-        guardarArbolLibrosRecursivo(arbol->der, archivo); // Recorre el subárbol derecho
-    }
-}
 
 ///Funcion Dias
 int contarDias(lector a)
