@@ -6,108 +6,124 @@
 #include <string.h>
 #include <unistd.h>
 
-/*
 
-*/
-
-void realizarAlquiler (const char * archivoLectores, const char * archivoLibros, const char * archivoAlquileres, listaGeneros ** listaLibros, nodoLector ** listaLectores, nodoAlquiler ** listaAlquileres)
+void mostrarAlquilerPendienteDeDevolucion (nodoAlquiler * listaAlquileres, char nombreLectorAbuscar[])
 {
-    FILE* archiLibros = fopen(archivoLibros, "rb+");
-    FILE* archiLectores = fopen(archivoLectores, "rb+");
-    FILE* archiAlquiler = fopen(archivoAlquileres, "rb+");
-
-    if (archiAlquiler == NULL)
+    if(listaAlquileres == NULL)
     {
-        archiAlquiler = fopen(archivoAlquileres, "wb+");
-        if (archiAlquiler == NULL)
+        puts("Lista Vacia\n");
+    }else
+    {
+        nodoAlquiler * sig;
+        sig = listaAlquileres;
+        while(sig != NULL && strcasecmp(sig->datosLector.nombreYapellido,nombreLectorAbuscar)!=0)
         {
-            printf("Error al abrir el archivo de alquiler\n");
-            return;
+            sig = sig->siguiente;
         }
+        mostrarDatosAlquiler(sig);
     }
+}
 
-    if (archiLibros == NULL || archiLectores == NULL)
-    {
-        printf("Error al abrir los archivos\n");
-        return;
-    }
+void mostrarDatosAlquiler(nodoAlquiler * listaAlquileres)
+{
+    printf("Nombre : %s \n", listaAlquileres->datosLector.nombreYapellido);
+    printf("Libro : %s \n",listaAlquileres->datoLibro.titulo);
+    printf("DNI: %i \n", listaAlquileres->datosLector.dni);
+    printf("Email: %s\n", listaAlquileres->datosLector.email);
+    printf("Fecha de alquiler: %d/%d/%d\n", listaAlquileres->datosLector.fechaAlquiler.dia, listaAlquileres->datosLector.fechaAlquiler.mes, listaAlquileres->datosLector.fechaAlquiler.anio);
+    puts("\n---------------------\n");
+}
 
-    char tituloBuscado[20];
+void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, const char *archivoAlquileres, listaGeneros **listaLibros, nodoLector **listaLectores, nodoAlquiler **listaAlquileres) {
     char nombreLector[20];
-
+    char tituloBuscado[20];
+    int dia, mes, anio;
 
     printf("Ingrese el nombre del lector que va a alquilar: ");
     fflush(stdin);
     gets(nombreLector);
 
-    nodoLector * lectorEncontrado = buscarNodoLector (*lista,nombreLector);
+    // Buscar el lector
+    nodoLector *lectorEncontrado = buscarNodoLector(*listaLectores, nombreLector);
 
-    if(lectorEncontrado == NULL)  //Si no existe le doy opcion a crear desde aca
-    {
+    if (lectorEncontrado != NULL && lectorEncontrado->info.alquiler == 0) {
+        printf("El lector tiene un alquiler pendiente de devolución:\n");
+        mostrarAlquilerPendienteDeDevolucion(*listaAlquileres, lectorEncontrado->info.nombreYapellido);
+        return;
+    }
+
+    if (lectorEncontrado == NULL) {
         char mander = 's';
-        puts("Desea crear el usuario ? \n");
+        printf("El lector no está registrado, ¿desea crearlo? (s/n): ");
         fflush(stdin);
-        scanf("%c",&mander);
-        if(mander == 's')
-        {
+        scanf("%c", &mander);
+
+        if (mander == 's') {
             lector nuevo = cargarLector(nombreLector);
-            insertarOrdenado(&listaLectores,crearNodoLector(nuevo));
-
-        }else
-        {
-            fclose(archiLibros);
-            fclose(archiLectores);
-            fclose(archiAlquiler);
+            insertarOrdenado(listaLectores, crearNodoLector(nuevo));
+            lectorEncontrado = buscarNodoLector(*listaLectores, nombreLector);
+        } else {
             return;
-
         }
     }
 
-
-    nodoArbolLibro *libroEncontrado = buscarLibroPorTitulo(*listaLibros, tituloBuscado);
     printf("Ingrese el título del libro que desea buscar: ");
     fflush(stdin);
     gets(tituloBuscado);
 
+    // Buscar el libro en la lista de libros
+    nodoArbolLibro *libroEncontrado = buscarLibroEnArbol(*listaLibros, tituloBuscado);
 
-    if (libroEncontrado != NULL && libroEncontrado->dato.Copias.cantCopias >= 1) //el libroexiste y dispone de 1 o mas Copia
-    {
+    if (libroEncontrado == NULL) {
+        printf("Libro no encontrado.\n");
+        return;
+    }
 
-        if(lectorEncontrado->info.alquiler == 1)  //Si esta en 1 puede alquilar
-        {
+    if (libroEncontrado->dato.Copias.cantCopias == 0) {
+        printf("Libro no disponible.\n");
+        return;
+    }
+
+    libroEncontrado->dato.Copias.cantCopias--;
 
 
+    lectorEncontrado->info.alquiler = 0;
 
+    printf("Ingrese la fecha de alquiler (DD MM AAAA): ");
+    scanf("%d %d %d", &dia, &mes, &anio);
 
-            fclose(archiLibros);
-            fclose(archiLectores);
-            fclose(archiAlquiler);
-        }
-        else if ( lectorEncontrado != NULL && lectorEncontrado->info.alquiler == 0) //El lector existe pero no puede alquilar
-        {
+    stRegistroAlquiler nuevoAlquiler;
+    nuevoAlquiler.datoLibroAlquilado = libroEncontrado->dato;
+    nuevoAlquiler.datosLector = lectorEncontrado->info;
+    nuevoAlquiler.fechaAlquiler.dia = dia;
+    nuevoAlquiler.fechaAlquiler.mes = mes;
+    nuevoAlquiler.fechaAlquiler.anio = anio;
 
-            printf("El lector ya posee un alquiler");
-            //Mostrar Registro Alquiler
-            //MostrarLista
+    // Agregar el alquiler a la lista de alquileres
+    nodoAlquiler *nuevoNodoAlquiler = (nodoAlquiler *)malloc(sizeof(nodoAlquiler));
+    nuevoNodoAlquiler->datoLibro = nuevoAlquiler.datoLibroAlquilado;
+    nuevoNodoAlquiler->datosLector = nuevoAlquiler.datosLector;
+    nuevoNodoAlquiler->fechaAlquiler = nuevoAlquiler.fechaAlquiler;
+    nuevoNodoAlquiler->siguiente = *listaAlquileres;
+    *listaAlquileres = nuevoNodoAlquiler;
 
-        }
-         fclose(archiLibros);
-        fclose(archiLectores);
-        fclose(archiAlquiler);
-    }else if (libroEncontrado != NULL && libroEncontrado->dato.Copias.cantCopias < 1 )//el libro existe pero no esta disponible
-    {
-        printf("Libro no disponible");
-        //Podriamos agregar una funcion de agregar personas a una FILA ..
-        fclose(archiLibros);
-        fclose(archiLectores);
-        fclose(archiAlquiler);
+    // Guardar el alquiler en el archivo de alquileres
+    FILE *archivoAlquiler = fopen(archivoAlquileres, "ab");
+    if (archivoAlquiler != NULL) {
+        fwrite(&nuevoAlquiler, sizeof(stRegistroAlquiler), 1, archivoAlquiler);
+        fclose(archivoAlquiler);
+    } else {
+        printf("Error al abrir el archivo de alquileres para escritura.\n");
+    }
 
-    }else if(libroExisteEnArchivo == NULL){
-        printf("El libro no fue encontrado.\n");
-        fclose(archiLibros);
-        fclose(archiLectores);
-        fclose(archiAlquiler);
+    // Actualizar el estado del lector en el archivo de lectores
+    FILE *archivoLect = fopen(archivoLectores, "r+b");
+    if (archivoLect != NULL) {
+        fseek(archivoLect, (long)(-sizeof(lector)), SEEK_CUR);
+        fwrite(&(lectorEncontrado->info), sizeof(lector), 1, archivoLect);
+        fclose(archivoLect);
+    } else {
+        printf("Error al abrir el archivo de lectores para escritura.\n");
     }
 }
-
 
