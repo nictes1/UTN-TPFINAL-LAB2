@@ -46,22 +46,22 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
     // Buscar el lector
     nodoLector *lectorEncontrado = buscarNodoLector(*listaLectores, nombreLector);
 
-    if (lectorEncontrado != NULL && lectorEncontrado->info.alquiler == 0) {
+    if (lectorEncontrado != NULL && lectorEncontrado->info.alquiler == 0) {  //si existe en la lista y tiene el estado de alquiler en 0
         printf("El lector tiene un alquiler pendiente de devolución:\n");
-        mostrarAlquilerPendienteDeDevolucion(*listaAlquileres, lectorEncontrado->info.nombreYapellido);
+        mostrarAlquilerPendienteDeDevolucion(*listaAlquileres, lectorEncontrado->info.nombreYapellido); //como tiene un alquiler pendiente de devolucion lo buscamos en la lista de alquileres
         return;
     }
 
-    if (lectorEncontrado == NULL) {
+    if (lectorEncontrado == NULL) { //si no existe damos la opcion de crearlo
         char mander = 's';
         printf("El lector no está registrado, ¿desea crearlo? (s/n): ");
         fflush(stdin);
         scanf("%c", &mander);
 
         if (mander == 's') {
-            lector nuevo = cargarLector(nombreLector);
-            insertarOrdenado(listaLectores, crearNodoLector(nuevo));
-            lectorEncontrado = buscarNodoLector(*listaLectores, nombreLector);
+            lector nuevo = cargarLector(nombreLector);  //creamos el nodo
+            insertarOrdenado(listaLectores, crearNodoLector(nuevo)); //lo insertamos en la lista ordenada de lectores
+            lectorEncontrado = buscarNodoLector(*listaLectores, nombreLector); //volvemos a capturar el puntero al lector que creamos
         } else {
             return;
         }
@@ -84,28 +84,20 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
         return;
     }
 
-    libroEncontrado->dato.Copias.cantCopias--;
+    libroEncontrado->dato.Copias.cantCopias--; //modificamos la cantidad de copias del libro
 
 
-    lectorEncontrado->info.alquiler = 0;
+    lectorEncontrado->info.alquiler = 0; //ponemos el estado del lector en 0
 
     printf("Ingrese la fecha de alquiler (DD MM AAAA): ");
     scanf("%d %d %d", &dia, &mes, &anio);
 
-    stRegistroAlquiler nuevoAlquiler;
-    nuevoAlquiler.datoLibroAlquilado = libroEncontrado->dato;
-    nuevoAlquiler.datosLector = lectorEncontrado->info;
-    nuevoAlquiler.fechaAlquiler.dia = dia;
-    nuevoAlquiler.fechaAlquiler.mes = mes;
-    nuevoAlquiler.fechaAlquiler.anio = anio;
+     // Crear el registro de alquiler usando la función modularizada
+    stRegistroAlquiler nuevoAlquiler = crearRegistroAlquiler(libroEncontrado->dato, lectorEncontrado->info, dia, mes, anio);
 
-    // Agregar el alquiler a la lista de alquileres
-    nodoAlquiler *nuevoNodoAlquiler = (nodoAlquiler *)malloc(sizeof(nodoAlquiler));
-    nuevoNodoAlquiler->datoLibro = nuevoAlquiler.datoLibroAlquilado;
-    nuevoNodoAlquiler->datosLector = nuevoAlquiler.datosLector;
-    nuevoNodoAlquiler->fechaAlquiler = nuevoAlquiler.fechaAlquiler;
-    nuevoNodoAlquiler->siguiente = *listaAlquileres;
-    *listaAlquileres = nuevoNodoAlquiler;
+
+    // Agregar el alquiler a la lista de alquileres con la función modularizada
+    *listaAlquileres = crearNodoAlquiler(nuevoAlquiler, *listaAlquileres);
 
     // Guardar el alquiler en el archivo de alquileres
     FILE *archivoAlquiler = fopen(archivoAlquileres, "ab");
@@ -125,5 +117,37 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
     } else {
         printf("Error al abrir el archivo de lectores para escritura.\n");
     }
+
+    FILE *archivoLib = fopen(archivoLibros, "r+b");
+    if (archivoLib != NULL) {
+        fseek(archivoLib, (long)(-sizeof(stlibros)), SEEK_CUR);
+        fwrite(&(libroEncontrado->dato), sizeof(stlibros), 1, archivoLib);
+        fclose(archivoLib);
+    } else {
+        printf("Error al abrir el archivo de libros para escritura.\n");
+    }
+}
+
+stRegistroAlquiler crearRegistroAlquiler(stlibros libro, lector lectorEncontrado, int dia, int mes, int anio) {
+    stRegistroAlquiler nuevoAlquiler;
+
+    nuevoAlquiler.datoLibroAlquilado = libro;
+    nuevoAlquiler.datosLector = lectorEncontrado;
+    nuevoAlquiler.fechaAlquiler.dia = dia;
+    nuevoAlquiler.fechaAlquiler.mes = mes;
+    nuevoAlquiler.fechaAlquiler.anio = anio;
+
+    return nuevoAlquiler;
+}
+
+nodoAlquiler* crearNodoAlquiler(const stRegistroAlquiler nuevoAlquiler, nodoAlquiler *listaAlquileres) {
+    nodoAlquiler *nuevoNodoAlquiler = (nodoAlquiler *)malloc(sizeof(nodoAlquiler));
+
+    nuevoNodoAlquiler->datoLibro = nuevoAlquiler.datoLibroAlquilado;
+    nuevoNodoAlquiler->datosLector = nuevoAlquiler.datosLector;
+    nuevoNodoAlquiler->fechaAlquiler = nuevoAlquiler.fechaAlquiler;
+    nuevoNodoAlquiler->siguiente = listaAlquileres;
+
+    return nuevoNodoAlquiler;
 }
 

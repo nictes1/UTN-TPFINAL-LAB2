@@ -282,19 +282,10 @@ void insertarOrdenado(nodoLector **lista, nodoLector *nuevoNodo)
     }
 }
 
-void agregarLectorAListaYArchivo(nodoLector **lista, const char *archivoLectores) {
-    char nombre[20];
-    printf("Ingrese el nombre del Lector: ");
-    fflush(stdin);
-    gets(nombre);
+void agregarLectorAListaYArchivo(nodoLector **lista, const char *archivoLectores, lector aGuardar) {
 
-    if (lectorExiste(nombre, archivoLectores)) {
-        printf("El lector ya existe en el archivo.\n");
-        return;
-    }
 
-    lector lectorAGuardar = cargarLector(nombre);
-    nodoLector *nuevoNodo = crearNodoLector(lectorAGuardar);
+    nodoLector *nuevoNodo = crearNodoLector(aGuardar);
 
     insertarOrdenado(lista, nuevoNodo); // Agregar a la lista
 
@@ -305,7 +296,7 @@ void agregarLectorAListaYArchivo(nodoLector **lista, const char *archivoLectores
         return;
     }
 
-    fwrite(&lectorAGuardar, sizeof(lectorAGuardar), 1, archivo); // Guardar en el archivo
+    fwrite(&aGuardar, sizeof(aGuardar), 1, archivo); // Guardar en el archivo
     fclose(archivo);
 
     printf("Lector guardado en la lista y en el archivo.\n");
