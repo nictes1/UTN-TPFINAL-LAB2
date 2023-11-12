@@ -4,6 +4,7 @@
 #include "libreriaListaPersonas.h"
 #include "LibreriaArboLdeLibros.h"
 #include "libreriaAlquileres.h"
+#include <string.h>
 
 
 const char * archivoLectores = "archivoLectores.bin";
@@ -12,10 +13,14 @@ const char * archivoAlquileres = "archivoAlquileres.bin";
 
 int main()
 {
-        //Funcion para cargar archivo
+        //Funcion para cargar archivos
+
         //cargarArchivoLectores(archivoLectores);
        //cargarLibroEnArchivo(archivoLibros);
 
+        //Funcion para mostrar archivos;
+        //mostrarArchivolectores(archivoLectores);
+        // mostrarArchivoDeLibros(archivoLibros);
 
         //Inicializar la lista
         nodoLector * listadoDeLectores = iniciarLista();
@@ -23,6 +28,11 @@ int main()
         listadoDeLectores = cargarLectoresDesdeArchivo (archivoLectores);
         puts("\n");
         imprimirListaLectores(listadoDeLectores);
+
+        puts("Buscar lector");
+        nodoLector * aBuscar = buscarNodoLector(listadoDeLectores,"federico sosa");
+        puts("Nodo a buscar \n");
+        mostrarLector(aBuscar->info);
 
          puts("Libros\n");
 

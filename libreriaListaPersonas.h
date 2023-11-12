@@ -9,11 +9,11 @@ typedef struct
 
 typedef struct {
 
-    char nombreYapellido [20];
+    char nombreYapellido [30];
     int dni;
     int esEstudiante; // 1 ó 0
-    char email [20];
-    char direccion [20];
+    char email [30];
+    char direccion [30];
     int alquiler; // 0 no puede alquilar ó 1 puede alquilar
     fecha fechaAlquiler;
 
@@ -35,7 +35,7 @@ nodoLector* iniciarLista();
 nodoLector* crearNodoLector(lector nuevo);
 nodoLector * borrarNodoLector(nodoLector * lista, int dni) ;
 void imprimirListaLectores(nodoLector* lista);
-void mostrarArchivo (const char * archivoLectores);
+void mostrarArchivolectores (const char * archivoLectores);
 nodoLector *cargarLectorDesdeArchivo(FILE *archivo);
 nodoLector *cargarLectoresDesdeArchivo(const char *nombreArchivo);
 void liberarListaLectores(nodoLector *lista);

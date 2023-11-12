@@ -40,7 +40,7 @@ void mostrarDatosAlquiler(nodoAlquiler * listaAlquileres)
 }
 
 void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, const char *archivoAlquileres, listaGeneros **listaLibros, nodoLector **listaLectores, nodoAlquiler **listaAlquileres) {
-    char nombreLector[20];
+    char nombreLector[30];
     char tituloBuscado[20];
     int dia, mes, anio;
 
@@ -51,6 +51,8 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
 
     // Buscar el lector
     nodoLector *lectorEncontrado = buscarNodoLector(*listaLectores, nombreLector);
+
+    mostrarLector(lectorEncontrado->info);
 
     if (lectorEncontrado != NULL && lectorEncontrado->info.alquiler == 0) {  //si existe en la lista y tiene el estado de alquiler en 0
         printf("El lector tiene un alquiler pendiente de devolución:\n");
