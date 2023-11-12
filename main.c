@@ -3,37 +3,37 @@
 #include <unistd.h>
 #include "libreriaListaPersonas.h"
 #include "LibreriaArboLdeLibros.h"
+#include "libreriaAlquileres.h"
 
-//comentario agregado de practica - nico
-//nuevo comentario
-//Constantes para los archivos
+
 const char * archivoLectores = "archivoLectores.bin";
 const char * archivoLibros = "archivoLibros.bin";
+const char * archivoAlquileres = "archivoAlquileres.bin";
 
 int main()
 {
         //Funcion para cargar archivo
-        cargarArchivoLectores(archivoLectores);
-        cargarLibroEnArchivo(archivoLibros);
-        /*
+        //cargarArchivoLectores(archivoLectores);
+       //cargarLibroEnArchivo(archivoLibros);
+
+
         //Inicializar la lista
         nodoLector * listadoDeLectores = iniciarLista();
         //Funcion para cargar la lista con los datos del archivo
         listadoDeLectores = cargarLectoresDesdeArchivo (archivoLectores);
         puts("\n");
         imprimirListaLectores(listadoDeLectores);
-        //Funcion para añadir un lector a la lista y tambien guardarlo en el archivo
-         agregarLectorAListaYArchivo(&listadoDeLectores, archivoLectores);
 
-         //cargarLibroEnArchivo(archivoLibros);*/
          puts("Libros\n");
-         mostrarArchivoDeLibros(archivoLibros);
-         /*   puts("\n");
+
+         puts("\n");
          listaGeneros * listaPrincipal = inicializarListaGeneros ();
          listaPrincipal = cargarListaDeGenerosDesdeArchivo(archivoLibros,listaPrincipal);
-         recorrerListaDeGeneros(listaPrincipal);*/
-         puts("Lectores\n");
-         mostrarArchivo(archivoLectores);
+         recorrerListaDeGeneros(listaPrincipal);
+
+         nodoAlquiler * listaAlquileres = inicializarListaAlquiler();
+
+         realizarAlquiler(archivoLectores,archivoLibros,archivoAlquileres,&listaPrincipal,&listadoDeLectores,&listaAlquileres);
 
     return 0;
 }

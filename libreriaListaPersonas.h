@@ -40,6 +40,6 @@ nodoLector *cargarLectorDesdeArchivo(FILE *archivo);
 nodoLector *cargarLectoresDesdeArchivo(const char *nombreArchivo);
 void liberarListaLectores(nodoLector *lista);
 void insertarOrdenado(nodoLector **lista, nodoLector *nuevoNodo);
-
+void mostrarLector(lector unLector);
 
 #endif // LIBRERIALISTAPERSONAS_H_INCLUDED

@@ -68,15 +68,26 @@ void guardarLector(const lector *lectorAGuardar, const char *archivoLectores)
 }
 
 
-
-void cargarArchivoLectores(const char *archivoLectores)
-{
-    FILE *archivo = fopen(archivoLectores, "ab");
-    if (archivo == NULL)
-    {
-        printf("Error al abrir el archivo para escritura.\n");
+void cargarArchivoLectores(const char *archivoLectores) {
+    FILE *archivo = fopen(archivoLectores, "rb");
+    if (archivo == NULL) {
+        printf("El archivo no existe o no se puede abrir. Creando un nuevo archivo...\n");
+        archivo = fopen(archivoLectores, "ab+");
+        if (archivo == NULL) {
+            printf("No se pudo crear el archivo para escritura.\n");
+            return;
+        }
+        fclose(archivo);
         return;
     }
+
+    fseek(archivo, 0, SEEK_END);
+    if (ftell(archivo) == 0) {
+        printf("El archivo está vacío. No hay datos para leer.\n");
+        fclose(archivo);
+        return;
+    }
+    rewind(archivo);
 
     char mander = 's';
     int existeLector = 0;
@@ -169,10 +180,21 @@ nodoLector * borrarNodoLector(nodoLector * lista, int dni) {
     return lista;
 }
 
+void mostrarLector(lector unLector) {
+    printf("Nombre: %s\n", unLector.nombreYapellido);
+    printf("DNI: %d\n", unLector.dni);
+    printf("Es estudiante: %s\n", unLector.esEstudiante ? "Sí" : "No");
+    printf("Email: %s\n", unLector.email);
+    printf("Dirección: %s\n", unLector.direccion);
+    printf("Estado de alquiler: %s\n", unLector.alquiler ? "Disponible" : "En alquiler");
+}
+
+
+
 void imprimirListaLectores(nodoLector* lista) {
     nodoLector* actual = lista;
     while (actual != NULL) {
-        printf("Nombre: %s, DNI: %d\n", actual->info.nombreYapellido, actual->info.dni);
+        mostrarLector(actual->info);
         actual = actual->sig;
     }
     printf("\n");

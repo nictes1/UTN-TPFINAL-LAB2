@@ -6,6 +6,11 @@
 #include <string.h>
 #include <unistd.h>
 
+nodoAlquiler * inicializarListaAlquiler ()
+{
+    return NULL;
+}
+
 
 void mostrarAlquilerPendienteDeDevolucion (nodoAlquiler * listaAlquileres, char nombreLectorAbuscar[])
 {
@@ -41,7 +46,8 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
 
     printf("Ingrese el nombre del lector que va a alquilar: ");
     fflush(stdin);
-    gets(nombreLector);
+    scanf("%s",&nombreLector);
+
 
     // Buscar el lector
     nodoLector *lectorEncontrado = buscarNodoLector(*listaLectores, nombreLector);
