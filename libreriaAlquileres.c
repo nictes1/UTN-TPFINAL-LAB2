@@ -46,13 +46,12 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
 
     printf("Ingrese el nombre del lector que va a alquilar: ");
     fflush(stdin);
-    scanf("%s",&nombreLector);
-
+    fgets(nombreLector, sizeof(nombreLector), stdin);
+    nombreLector[strcspn(nombreLector, "\n")] = 0;
 
     // Buscar el lector
     nodoLector *lectorEncontrado = buscarNodoLector(*listaLectores, nombreLector);
 
-    mostrarLector(lectorEncontrado->info);
 
     if (lectorEncontrado != NULL && lectorEncontrado->info.alquiler == 0) {  //si existe en la lista y tiene el estado de alquiler en 0
         printf("El lector tiene un alquiler pendiente de devolución:\n");
@@ -76,11 +75,12 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
     }
 
     printf("Ingrese el título del libro que desea buscar: ");
-    fflush(stdin);
-    gets(tituloBuscado);
+    fgets(tituloBuscado, sizeof(tituloBuscado), stdin);
+    tituloBuscado[strcspn(tituloBuscado, "\n")] = 0;
 
     // Buscar el libro en la lista de libros
-    nodoArbolLibro *libroEncontrado = buscarLibroEnArbol(*listaLibros, tituloBuscado);
+    nodoArbolLibro *libroEncontrado = buscarLibroPorTituloEnLista(*listaLibros, tituloBuscado);
+
 
     if (libroEncontrado == NULL) {
         printf("Libro no encontrado.\n");

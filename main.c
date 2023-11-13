@@ -17,7 +17,7 @@ int main()
         //Funcion para cargar archivos
 
         //cargarArchivoLectores(archivoLectores);
-       //cargarLibroEnArchivo(archivoLibros);
+        //cargarLibroEnArchivo(archivoLibros);
 
         //Funcion para mostrar archivos;
         //mostrarArchivolectores(archivoLectores);
