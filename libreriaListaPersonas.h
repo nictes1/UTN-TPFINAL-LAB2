@@ -11,10 +11,10 @@ typedef struct {
 
     char nombreYapellido [30];
     int dni;
-    int esEstudiante; // 1 ó 0
+    int esEstudiante; // 1 ï¿½ 0
     char email [30];
     char direccion [30];
-    int alquiler; // 0 no puede alquilar ó 1 puede alquilar
+    int alquiler; // 0 no puede alquilar ï¿½ 1 puede alquilar
     fecha fechaAlquiler;
 
 }lector;

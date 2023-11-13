@@ -1,12 +1,15 @@
 #ifndef LIBRERIAARBOLDELIBROS_H_INCLUDED
 #define LIBRERIAARBOLDELIBROS_H_INCLUDED
 
+//copias de libros
 typedef struct
 {
     int cantCopias;
     float precioAlquiler;
 } stcopias;
 
+
+//libros
 typedef struct
 {
     char titulo[20];
@@ -19,6 +22,7 @@ typedef struct
 
 } stlibros;
 
+//Arbol de libros
 typedef struct nodoArbolLibro
 {
     stlibros dato;
@@ -26,12 +30,14 @@ typedef struct nodoArbolLibro
     struct nodoArbolLibro * der;
 } nodoArbolLibro;
 
+//lista de arboles --> lista de generos - arbol de libros
 typedef struct nodoGenero {
     char genero[20];
     nodoArbolLibro *arbolDeLibros;
     struct nodoGenero *siguiente;
 } nodoGenero;
 
+//Lista de generos
 typedef struct listaGeneros {
     nodoGenero *primero;
 } listaGeneros;
