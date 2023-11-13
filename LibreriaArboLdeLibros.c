@@ -270,7 +270,9 @@ void agregarLibroAListaYArchivo(listaGeneros *lista, const char *nombreArchivo) 
     fflush(stdin);
     gets(nombreLibro);
 
-    if (libroExisteEnLista(lista, nombreLibro)) {
+    int existe = libroExisteEnArchivo(lista,nombreLibro);
+
+    if (existe == 1) {
         printf("El libro ya existe en la lista.\n");
         return;
     }

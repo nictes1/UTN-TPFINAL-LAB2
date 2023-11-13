@@ -3,97 +3,54 @@
 #include <unistd.h>
 #include "libreriaListaPersonas.h"
 #include "LibreriaArboLdeLibros.h"
+#include "libreriaAlquileres.h"
+#include <string.h>
 
 
-//2023
-//comentario agregado de practica - nico
-//nuevo comentario
-//Constantes para los archivos
+
 const char * archivoLectores = "archivoLectores.bin";
 const char * archivoLibros = "archivoLibros.bin";
+const char * archivoAlquileres = "archivoAlquileres.bin";
 
 int main()
 {
-        //Funcion para cargar archivo
-        cargarArchivoLectores(archivoLectores);
-        cargarLibroEnArchivo(archivoLibros);
-        /*
+        //Funcion para cargar archivos
+
+        //cargarArchivoLectores(archivoLectores);
+       //cargarLibroEnArchivo(archivoLibros);
+
+        //Funcion para mostrar archivos;
+        //mostrarArchivolectores(archivoLectores);
+        // mostrarArchivoDeLibros(archivoLibros);
+
         //Inicializar la lista
         nodoLector * listadoDeLectores = iniciarLista();
         //Funcion para cargar la lista con los datos del archivo
         listadoDeLectores = cargarLectoresDesdeArchivo (archivoLectores);
         puts("\n");
         imprimirListaLectores(listadoDeLectores);
-        //Funcion para añadir un lector a la lista y tambien guardarlo en el archivo
-         agregarLectorAListaYArchivo(&listadoDeLectores, archivoLectores);
 
-         //cargarLibroEnArchivo(archivoLibros);*/
+        puts("Buscar lector");
+        nodoLector * aBuscar = buscarNodoLector(listadoDeLectores,"federico sosa");
+        puts("Nodo a buscar \n");
+        mostrarLector(aBuscar->info);
+
          puts("Libros\n");
-         mostrarArchivoDeLibros(archivoLibros);
-         /*   puts("\n");
+
+         puts("\n");
          listaGeneros * listaPrincipal = inicializarListaGeneros ();
          listaPrincipal = cargarListaDeGenerosDesdeArchivo(archivoLibros,listaPrincipal);
-         recorrerListaDeGeneros(listaPrincipal);*/
-         puts("Lectores\n");
-         mostrarArchivo(archivoLectores);
+         recorrerListaDeGeneros(listaPrincipal);
+
+         nodoAlquiler * listaAlquileres = inicializarListaAlquiler();
+
+         realizarAlquiler(archivoLectores,archivoLibros,archivoAlquileres,&listaPrincipal,&listadoDeLectores,&listaAlquileres);
 
     return 0;
 }
 
 
 
-//Funciones Archivo
-void guardarListaEnArchivo(const char* nombreArchivo, nodoLector* lista) {
-    FILE* archivo = fopen(nombreArchivo, "ab"); // Abrir el archivo en modo de escritura binaria
-
-    if (archivo == NULL) {
-        printf("No se pudo abrir el archivo para escritura.\n");
-        return;
-    }
-
-    lector aux;
-
-    nodoLector* actual = lista;
-
-    while (actual != NULL) {
-
-
-        fwrite(&actual->info, sizeof(lector), 1, archivo);  //No guarda el nodo sino que guarda los datos de ese nodo.
-        actual = actual->sig;
-    }
-
-    fclose(archivo); // Cerrar el archivo
-}
-
-
-
-void guardarArregloDeArboles(celdaGeneros ADA[], int dim)
-{
-    FILE *archivo = fopen(archivoLibros, "wb"); // Abre el archivo para escritura binaria
-    if (archivo == NULL)
-    {
-        printf("Error al abrir el archivo para escritura.\n");
-        return;
-    }
-
-    for (int i = 0; i < dim; i++)
-    {
-        guardarArbolLibrosRecursivo(ADA[i].arbolDeLibros, archivo);
-    }
-
-    fclose(archivo);
-}
-
-
-void guardarArbolLibrosRecursivo(nodoArbolLibro *arbol, FILE *archivo)
-{
-    if (arbol != NULL)
-    {
-        fwrite(&arbol->dato , sizeof(stlibros), 1, archivo); // Guarda el libro en el archivo
-        guardarArbolLibrosRecursivo(arbol->izq, archivo); // Recorre el subárbol izquierdo
-        guardarArbolLibrosRecursivo(arbol->der, archivo); // Recorre el subárbol derecho
-    }
-}
 
 ///Funcion Dias
 int contarDias(lector a)
