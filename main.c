@@ -7,6 +7,7 @@
 #include <string.h>
 
 
+
 const char * archivoLectores = "archivoLectores.bin";
 const char * archivoLibros = "archivoLibros.bin";
 const char * archivoAlquileres = "archivoAlquileres.bin";
