@@ -109,7 +109,7 @@ stlibros crearLibro(char nombreLibro[])
     fflush(stdin);
     fgets(libro.genero, sizeof(libro.genero), stdin);
     libro.genero[strcspn(libro.genero, "\n")] = 0;
-   
+
     printf("Ingrese el año de lanzamiento: ");
     scanf("%d", &libro.anioLanzamiento);
 
