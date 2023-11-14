@@ -19,7 +19,10 @@ int main()
 {
 
         generarArchivoConGenerosYLibros("libros.bin");
-        //Funcion para cargar archivos
+        mostrarArchivoDeLibros("libros.bin");
+        listaGeneros * listaPrincipal = inicializarListaGeneros ();
+        recorrerListaDeGeneros(listaPrincipal);
+        /*//Funcion para cargar archivos
 
         //cargarArchivoLectores(archivoLectores);
         //cargarLibroEnArchivo(archivoLibros);
@@ -80,7 +83,7 @@ int main()
              puts("Libro inexistente");
          }
 
-
+*/
         //Funciones de alquiler
 
         //Inicializar la lista y cargarla con los datos del archivo de alquiler
@@ -89,7 +92,7 @@ int main()
         //mostrarLa lista de alquileres
             mostrarAlquileres(listaAlquileres);
 
-         realizarAlquiler(archivoLectores,archivoLibros,archivoAlquileres,&listaPrincipal,&listadoDeLectores,&listaAlquileres);
+         //realizarAlquiler(archivoLectores,archivoLibros,archivoAlquileres,&listaPrincipal,&listadoDeLectores,&listaAlquileres);
 
 
         //Funcion para cargar la lista con los datos del archivo
@@ -97,11 +100,11 @@ int main()
         listadoDeLectores = cargarLectoresDesdeArchivo (archivoLectores);
 
         //
-        listaGeneros * listaPrincipal = inicializarListaGeneros (); //inicializar La lista
+//        listaGeneros * listaPrincipal = inicializarListaGeneros (); //inicializar La lista
         listaPrincipal = cargarListaDeGenerosDesdeArchivo(archivoLibros,listaPrincipal); //Cargar la lista con los datos del archivo
 
         //Inicializar la lista y cargarla con los datos del archivo de alquiler
-        nodoAlquiler *listaAlquileres = cargarAlquileresDesdeArchivo(archivoAlquileres);
+     //   nodoAlquiler *listaAlquileres = cargarAlquileresDesdeArchivo(archivoAlquileres);
 
          int opcion;
 
