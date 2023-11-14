@@ -6,6 +6,27 @@
 #include <string.h>
 #include <unistd.h>
 
+#define NUM_GENEROS 5
+#define LIBROS_POR_GENERO 10
+
+const char *generos[NUM_GENEROS] = {"Fantasia", "Ciencia Ficcion", "Terror", "Aventura", "Romance"};
+const char *titulos[NUM_GENEROS][LIBROS_POR_GENERO] = {
+    {"El Hobbit", "Harry Potter y la piedra filosofal", "El nombre del viento", "Juego de Tronos", "El señor de los anillos", "La historia interminable", "Las crónicas de Narnia", "American Gods", "Elric de Melniboné", "La rueda del tiempo"},
+    {"Dune", "Neuromante", "El juego de Ender", "Fahrenheit 451", "2001: Una odisea del espacio", "El marciano", "Blade Runner", "Hyperion", "Fundación", "La guerra de los mundos"},
+    {"Drácula", "It", "El exorcista", "La llamada de Cthulhu", "El resplandor", "Frankenstein", "La casa de hojas", "Cementerio de animales", "El silencio de los corderos", "Carrie"},
+    {"La isla del tesoro", "Las aventuras de Huckleberry Finn", "Robinson Crusoe", "Viaje al centro de la Tierra", "Los tres mosqueteros", "Moby Dick", "El conde de Montecristo", "La vuelta al mundo en 80 días", "El último mohicano", "La Odisea"},
+    {"Orgullo y prejuicio", "Lo que el viento se llevó", "Romeo y Julieta", "El amor en los tiempos del cólera", "Cumbres Borrascosas", "Jane Eyre", "La dama de las camelias", "Los puentes de Madison", "Posdata: Te amo", "El tiempo entre costuras"}
+};
+const char *autores[NUM_GENEROS][LIBROS_POR_GENERO] = {
+    {"J.R.R. Tolkien", "J.K. Rowling", "Patrick Rothfuss", "George R.R. Martin", "J.R.R. Tolkien", "Michael Ende", "C.S. Lewis", "Neil Gaiman", "Michael Moorcock", "Robert Jordan"},
+    {"Frank Herbert", "William Gibson", "Orson Scott Card", "Ray Bradbury", "Arthur C. Clarke", "Andy Weir", "Philip K. Dick", "Dan Simmons", "Isaac Asimov", "H.G. Wells"},
+    {"Bram Stoker", "Stephen King", "William Peter Blatty", "H.P. Lovecraft", "Stephen King", "Mary Shelley", "Mark Z. Danielewski", "Stephen King", "Thomas Harris", "Stephen King"},
+    {"Robert Louis Stevenson", "Mark Twain", "Daniel Defoe", "Julio Verne", "Alexandre Dumas", "Herman Melville", "Alexandre Dumas", "Julio Verne", "James Fenimore Cooper", "Homero"},
+    {"Jane Austen", "Margaret Mitchell", "William Shakespeare", "Gabriel García Márquez", "Emily Brontë", "Charlotte Brontë", "Alexandre Dumas (hijo)", "Robert James Waller", "Cecelia Ahern", "María Dueñas"}
+};
+
+
+
 //Crea un libro - carga de datos de forma manual por el usuario
 stlibros crearLibro(char nombreLibro[])
 {
@@ -24,7 +45,7 @@ stlibros crearLibro(char nombreLibro[])
     fflush(stdin);
     gets(libro.genero);
 
-    printf("Ingrese el a�o de lanzamiento: ");
+    printf("Ingrese el año de lanzamiento: ");
     scanf("%d", &libro.anioLanzamiento);
 
     printf("Ingrese el ID interno del libro: ");
