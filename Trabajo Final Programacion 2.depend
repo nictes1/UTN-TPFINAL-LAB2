@@ -34,22 +34,24 @@
 	<string.h>
 	<unistd.h>
 
-1699988172 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
+1700000905 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
 	"LibreriaArboLdeLibros.h"
 	"libreriaAlquileres.h"
+	"globals.h"
 	<string.h>
 	<unistd.h>
+	"constants.h"
 
 1699915631 c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.h
 
-1699988124 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
+1699996583 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
 
 1699987240 c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.h
 
-1699987916 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
+1699996583 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -58,7 +60,7 @@
 	<string.h>
 	<unistd.h>
 
-1699989674 source:c:\carpeta git\utn-tpfinal-lab2\main.c
+1700000457 source:c:\carpeta git\utn-tpfinal-lab2\main.c
 	<stdio.h>
 	<stdlib.h>
 	<unistd.h>
@@ -75,4 +77,9 @@
 	"libreriaAlquileres.h"
 	<string.h>
 	<unistd.h>
+
+1699996583 c:\carpeta git\utn-tpfinal-lab2\globals.h
+	"constants.h"
+
+1699998957 c:\carpeta git\utn-tpfinal-lab2\constants.h
 

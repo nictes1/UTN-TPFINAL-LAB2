@@ -6,6 +6,7 @@
 #include "globals.h"
 #include <string.h>
 #include <unistd.h>
+#include "constants.h"
 
 const char *generos[NUM_GENEROS] = {"Fantasia", "Ciencia Ficcion", "Terror", "Aventura", "Romance"};
 const char *titulos[NUM_GENEROS][LIBROS_POR_GENERO] = {
@@ -64,6 +65,7 @@ void serializarYGuardarListaGeneros(FILE *archivo, listaGeneros *lista) {
         }
         generoActual = generoActual->siguiente;
     }
+
 }
 
 void generarArchivoConGenerosYLibros(const char* nombreArchivo) {
@@ -73,17 +75,15 @@ void generarArchivoConGenerosYLibros(const char* nombreArchivo) {
         return;
     }
 
-    listaGeneros* lista = inicializarListaGeneros();
+    stlibros libro;
+
      for (int i = 0; i < NUM_GENEROS; i++) {
-        nodoArbolLibro *arbol = inicializarArbol();
         for (int j = 0; j < LIBROS_POR_GENERO; j++) {
-            stlibros libro = crearLibroEspecifico(titulos[i][j], autores[i][j], generos[i], 2000 + j, 5, 50.0);
-            arbol = insertarPorCopias(arbol, crearNodoArbolLibro(libro));
+            libro = crearLibroEspecifico(titulos[i][j], autores[i][j], generos[i], 2000 + j, 5, 50.0);
+            fwrite(&libro, sizeof(libro), 1, archivo);
         }
-        nodoGenero *nuevoGenero = crearNodoGenero(generos[i], arbol);
-        agregarGeneroALista(lista, nuevoGenero);
     }
-    serializarYGuardarListaGeneros(archivo, lista);
+
 
     fclose(archivo);
 }
@@ -109,7 +109,7 @@ stlibros crearLibro(char nombreLibro[])
     fflush(stdin);
     fgets(libro.genero, sizeof(libro.genero), stdin);
     libro.genero[strcspn(libro.genero, "\n")] = 0;
-   
+
     printf("Ingrese el año de lanzamiento: ");
     scanf("%d", &libro.anioLanzamiento);
 
@@ -339,7 +339,7 @@ void mostrarArchivoDeLibros(const char *archivo) {
 
     while (fread(&libro, sizeof(stlibros), 1, file) == 1) {
 
-        printf("\n");
+        mostrarLibro(libro);
     }
 
     fclose(file);
