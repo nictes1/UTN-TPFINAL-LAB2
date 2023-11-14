@@ -133,7 +133,7 @@ void agregarGenero(listaGeneros *lista, const char genero[]) {
 }
 
 //Busca un libro en el arbol de libros por su titulo.
-nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char titulo[]) {
+nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo) {
     if (arbol == NULL) {
         return NULL; // El �rbol est� vac�o, no se encontr� el libro
     }
@@ -147,6 +147,20 @@ nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char titulo[]) {
     } else {
         return buscarLibroEnArbol(arbol->der, titulo); // Buscar en el sub�rbol derecho
     }
+}
+
+nodoArbolLibro* buscarLibroPorTituloEnLista(listaGeneros *listaLibros, char const * libroBuscado) {
+    nodoGenero *tempGenero = listaLibros->primero;
+
+    while (tempGenero != NULL) {
+        nodoArbolLibro *libroEncontrado = buscarLibroEnArbol(tempGenero->arbolDeLibros, libroBuscado);
+        if (libroEncontrado != NULL) {
+            return libroEncontrado;
+        }
+        tempGenero = tempGenero->siguiente;
+    }
+
+    return NULL;
 }
 
 
@@ -223,7 +237,7 @@ listaGeneros *cargarListaDeGenerosDesdeArchivo(const char *nombreArchivo, listaG
     return listaGeneros; // Devolver la lista modificada
 }
 
-//muestra la informacion del archivo de libros. 
+//muestra la informacion del archivo de libros.
 void mostrarArchivoDeLibros(const char *archivo) {
     FILE *file = fopen(archivo, "rb");
 
@@ -257,7 +271,7 @@ void recorrerListaDeGeneros(listaGeneros *lista) {
 
     while (actual != NULL) {
         printf("G�nero: %s\n", actual->genero);
-        printf("Libros en este g�nero (ordenados por ID interno):\n");
+        printf("Libros en este g�nero (ordenados por Cantidad de copias):\n");
 
         inorder(actual->arbolDeLibros);
 

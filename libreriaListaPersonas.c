@@ -112,25 +112,46 @@ void cargarArchivoLectores(const char *archivoLectores)
     fclose(archivo);
 }
 
-
+/*
 //Busca un lector en la lista...
 nodoLector* buscarNodoLector(nodoLector* lista, char nombre[]) {
     nodoLector* seg = lista;
 
+    while (seg != NULL && strcasecmp(seg->info.nombreYapellido, nombre) != 0) {
+            seg = seg->sig;
+        }
+
+    return seg;
+}
+*/
+
+
+nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
+    if (lista == NULL) {
+        printf("La lista está vacía.\n");
+        return NULL;
+    }
+
+    if (nombre == NULL) {
+        printf("El nombre proporcionado es NULL.\n");
+        return NULL;
+    }
+
+    printf("nombre %s\n",nombre);
+
+    nodoLector* seg = lista;
     while (seg != NULL) {
-        printf("Revisando nodo: %s\n", seg->info.nombreYapellido);  // Muestra el nombre del nodo en el que se encuentra
-        if (strcasecmp(seg->info.nombreYapellido, nombre) == 0) {
-            printf("�Se encontr� el lector!\n");
-            break;
+            printf("Lector : %s\n",seg->info.nombreYapellido);
+
+        if (strcmp(seg->info.nombreYapellido, nombre) == 0) {
+            printf("Se encontró el lector: %s\n", seg->info.nombreYapellido);
+            return seg;
         }
         seg = seg->sig;
     }
 
-    if (seg == NULL) {
-        printf("�No se encontr� el lector!\n");
-    }
-
-    return seg;
+    printf("No se encontró el lector con nombre %s.\n", nombre);
+    return NULL;
 }
 
 //Inicializa la lista del lector

@@ -12,10 +12,10 @@ typedef struct
 //libros
 typedef struct
 {
-    char titulo[20];
-    char autor[20];
+    char titulo[30];
+    char autor[30];
     int cantPag;
-    char genero[20];
+    char genero[30];
     int anioLanzamiento;
     int  idInterno;
     stcopias Copias;
@@ -32,7 +32,7 @@ typedef struct nodoArbolLibro
 
 //lista de arboles --> lista de generos - arbol de libros
 typedef struct nodoGenero {
-    char genero[20];
+    char genero[30];
     nodoArbolLibro *arbolDeLibros;
     struct nodoGenero *siguiente;
 } nodoGenero;
@@ -42,7 +42,7 @@ typedef struct listaGeneros {
     nodoGenero *primero;
 } listaGeneros;
 
-
+nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo);
 stlibros crearLibro(char nombreLibro[]);
 int libroExisteEnArchivo(const char *nombreLibro, const char *archivo);
 void cargarLibroEnArchivo(const char *archivo);
@@ -50,7 +50,7 @@ nodoArbolLibro *inicializarArbol();
 listaGeneros *inicializarListaGeneros();
 nodoArbolLibro *crearNodoArbolLibro(stlibros libro);
 void agregarGenero(listaGeneros *lista, const char genero[]);
-nodoArbolLibro *buscar(nodoArbolLibro *arbol, int idInterno);
+nodoArbolLibro* buscarLibroPorTituloEnLista(listaGeneros *listaLibros, char const * libroBuscado);
 nodoArbolLibro *insertarPorCopias(nodoArbolLibro *arbol, nodoArbolLibro *nuevo);
 void inorder(nodoArbolLibro *arbol);
 nodoGenero *buscarGenero(listaGeneros *lista, const char genero[]);
