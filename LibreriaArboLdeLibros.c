@@ -27,6 +27,65 @@ const char *autores[NUM_GENEROS][LIBROS_POR_GENERO] = {
 
 
 
+stlibros crearLibroEspecifico(const char *titulo, const char *autor, const char *genero, int anio, int cantCopias, float precio) {
+    stlibros libro;
+    strcpy(libro.titulo, titulo);
+    strcpy(libro.autor, autor);
+    libro.cantPag = 300;
+    strcpy(libro.genero, genero);
+    libro.anioLanzamiento = anio;
+    libro.Copias.cantCopias = cantCopias;
+    libro.Copias.precioAlquiler = precio;
+    return libro;
+}
+
+nodoGenero *crearNodoGenero(const char *genero, nodoArbolLibro *arbol) {
+    nodoGenero *nuevoGenero = (nodoGenero *)malloc(sizeof(nodoGenero));
+    strcpy(nuevoGenero->genero, genero);
+    nuevoGenero->arbolDeLibros = arbol;
+    nuevoGenero->siguiente = NULL;
+    return nuevoGenero;
+}
+
+void agregarGeneroALista(listaGeneros *lista, nodoGenero *nuevoGenero) {
+    if (lista->primero == NULL) {
+        lista->primero = nuevoGenero;
+    } else {
+        nodoGenero *actual = lista->primero;
+        while (actual->siguiente != NULL) {
+            actual = actual->siguiente;
+        }
+        actual->siguiente = nuevoGenero;
+    }
+}
+
+void serializarYGuardarListaGeneros(FILE *archivo, listaGeneros *lista) {
+    nodoGenero *generoActual = lista->primero;
+    while (generoActual != NULL) {
+        nodoArbolLibro *libroActual = generoActual->arbolDeLibros;
+        while (libroActual != NULL) {
+            fwrite(&(libroActual->dato), sizeof(stlibros), 1, archivo);
+            libroActual = libroActual->der;
+        }
+        generoActual = generoActual->siguiente;
+    }
+}
+
+void generarArchivoConGenerosYLibros(const char* nombreArchivo) {
+    FILE* archivo = fopen(nombreArchivo, "wb");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo para escritura.\n");
+        return;
+    }
+
+    listaGeneros* lista = inicializarListaGeneros();
+    serializarYGuardarListaGeneros(archivo, lista);
+
+    fclose(archivo);
+}
+
+
+
 //Crea un libro - carga de datos de forma manual por el usuario
 stlibros crearLibro(char nombreLibro[])
 {
