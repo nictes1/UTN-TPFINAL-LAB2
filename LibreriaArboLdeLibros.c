@@ -138,7 +138,7 @@ nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo) {
         return NULL; // El �rbol est� vac�o, no se encontr� el libro
     }
 
-    int comparacion = strcmp(titulo, arbol->dato.titulo);
+    int comparacion = strcasecmp(titulo, arbol->dato.titulo);
 
     if (comparacion == 0) {
         return arbol; // El libro fue encontrado en este nodo
@@ -193,16 +193,16 @@ void inorder(nodoArbolLibro *arbol)
     if (arbol != NULL)
     {
         inorder(arbol->izq);
-        printf("ID: %d - T�tulo: %s - Autor: %s\n", arbol->dato.idInterno, arbol->dato.titulo, arbol->dato.autor);
+        mostrarLibro(arbol->dato);
         inorder(arbol->der);
     }
 }
 
-//busca un genero de la lista por su nombre.
+//busca un genero de la lista por su nombre - Ideal para mostrar todos los libros de un genero
 nodoGenero *buscarGenero(listaGeneros *lista, const char genero[]) {
     nodoGenero *actual = lista->primero;
     while (actual != NULL) {
-        if (strcmp(actual->genero, genero) == 0) {
+        if (strcasecmp(actual->genero, genero) == 0) {
             return actual;
         }
         actual = actual->siguiente;
@@ -251,18 +251,23 @@ void mostrarArchivoDeLibros(const char *archivo) {
     printf("Libros en el archivo:\n");
 
     while (fread(&libro, sizeof(stlibros), 1, file) == 1) {
-        printf("T�tulo: %s\n", libro.titulo);
-        printf("Autor: %s\n", libro.autor);
-        printf("Cantidad de p�ginas: %d\n", libro.cantPag);
-        printf("G�nero: %s\n", libro.genero);
-        printf("A�o de lanzamiento: %d\n", libro.anioLanzamiento);
-        printf("ID interno: %d\n", libro.idInterno);
-        printf("Cantidad de copias: %d\n", libro.Copias.cantCopias);
-        printf("Precio de alquiler por copia: %.2f\n", libro.Copias.precioAlquiler);
+
         printf("\n");
     }
 
     fclose(file);
+}
+
+void mostrarLibro(stlibros libro)
+{
+    printf("Titulo: %s\n", libro.titulo);
+    printf("Autor: %s\n", libro.autor);
+    printf("Cantidad de paginas: %d\n", libro.cantPag);
+    printf("Genero: %s\n", libro.genero);
+    printf("Anio de lanzamiento: %d\n", libro.anioLanzamiento);
+    printf("ID interno: %d\n", libro.idInterno);
+    printf("Cantidad de copias: %d\n", libro.Copias.cantCopias);
+    printf("Precio de alquiler por copia: %.2f\n", libro.Copias.precioAlquiler);
 }
 
 //Recorre la lista de generos y muesta los libros ordenados por id. (utiliza funcion inorder(nodoArbolLibro *arbol);)
@@ -270,8 +275,7 @@ void recorrerListaDeGeneros(listaGeneros *lista) {
     nodoGenero *actual = lista->primero;
 
     while (actual != NULL) {
-        printf("G�nero: %s\n", actual->genero);
-        printf("Libros en este g�nero (ordenados por Cantidad de copias):\n");
+        printf("Genero: %s\n", actual->genero);
 
         inorder(actual->arbolDeLibros);
 
@@ -328,5 +332,19 @@ void agregarLibroAListaYArchivo(listaGeneros *lista, const char *nombreArchivo) 
 
     printf("Libro guardado en la lista y en el archivo.\n");
 }
+
+// Función para mostrar el árbol completo de libros de un determinado género
+void mostrarLibrosPorGenero(listaGeneros *lista, const char *genero) {
+    // Buscar el género en la lista
+    nodoGenero *generoEncontrado = buscarGenero(lista, genero);
+
+    if (generoEncontrado != NULL) {
+        printf("Libros del género %s:\n", genero);
+        inorder(generoEncontrado->arbolDeLibros);
+    } else {
+        printf("El género %s no se encuentra en la lista.\n", genero);
+    }
+}
+
 
 
