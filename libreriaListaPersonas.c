@@ -117,8 +117,17 @@ void cargarArchivoLectores(const char *archivoLectores)
 nodoLector* buscarNodoLector(nodoLector* lista, char nombre[]) {
     nodoLector* seg = lista;
 
+<<<<<<< Updated upstream
     while (seg != NULL && strcasecmp(seg->info.nombreYapellido, nombre) != 0) {
             seg = seg->sig;
+=======
+    while (seg != NULL) {
+        printf("Revisando nodo: %s\n", seg->info.nombreYapellido);  // Muestra el nombre del nodo en el que se encuentra
+        if (strcasecmp(seg->info.nombreYapellido, nombre) == 0) {
+            printf("Se encontro el lector!\n");
+
+            break;
+>>>>>>> Stashed changes
         }
 
     return seg;
