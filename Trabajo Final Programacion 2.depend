@@ -34,7 +34,7 @@
 	<string.h>
 	<unistd.h>
 
-1699918541 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
+1699988172 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -45,11 +45,11 @@
 
 1699915631 c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.h
 
-1699918527 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
+1699988124 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
 
-1699799373 c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.h
+1699987240 c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.h
 
-1699915928 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
+1699987916 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -58,7 +58,7 @@
 	<string.h>
 	<unistd.h>
 
-1699916831 source:c:\carpeta git\utn-tpfinal-lab2\main.c
+1699988224 source:c:\carpeta git\utn-tpfinal-lab2\main.c
 	<stdio.h>
 	<stdlib.h>
 	<unistd.h>
@@ -67,7 +67,7 @@
 	"libreriaAlquileres.h"
 	<string.h>
 
-1699918527 source:c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.c
+1699987262 source:c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
