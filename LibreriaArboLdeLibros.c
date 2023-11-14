@@ -74,6 +74,15 @@ void generarArchivoConGenerosYLibros(const char* nombreArchivo) {
     }
 
     listaGeneros* lista = inicializarListaGeneros();
+     for (int i = 0; i < NUM_GENEROS; i++) {
+        nodoArbolLibro *arbol = inicializarArbol();
+        for (int j = 0; j < LIBROS_POR_GENERO; j++) {
+            stlibros libro = crearLibroEspecifico(titulos[i][j], autores[i][j], generos[i], 2000 + j, 5, 50.0);
+            arbol = insertarPorCopias(arbol, crearNodoArbolLibro(libro));
+        }
+        nodoGenero *nuevoGenero = crearNodoGenero(generos[i], arbol);
+        agregarGeneroALista(lista, nuevoGenero);
+    }
     serializarYGuardarListaGeneros(archivo, lista);
 
     fclose(archivo);
