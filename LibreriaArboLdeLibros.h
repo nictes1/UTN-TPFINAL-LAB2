@@ -58,6 +58,8 @@ listaGeneros *cargarListaDeGenerosDesdeArchivo(const char *nombreArchivo, listaG
 void mostrarArchivoDeLibros(const char *archivo);
 void recorrerListaDeGeneros(listaGeneros *lista);
 void agregarLibroAListaYArchivo(listaGeneros *lista, const char *nombreArchivo);
+void mostrarLibro(stlibros libro);
+void mostrarLibrosPorGenero(listaGeneros *lista, const char *genero);
 
 
 //Generacion de archivo .bin 

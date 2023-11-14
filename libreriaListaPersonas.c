@@ -142,10 +142,7 @@ nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
 
     nodoLector* seg = lista;
     while (seg != NULL) {
-            printf("Lector : %s\n",seg->info.nombreYapellido);
-
         if (strcmp(seg->info.nombreYapellido, nombre) == 0) {
-            printf("Se encontró el lector: %s\n", seg->info.nombreYapellido);
             return seg;
         }
         seg = seg->sig;

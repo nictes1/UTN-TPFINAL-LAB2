@@ -29,6 +29,16 @@ void mostrarAlquilerPendienteDeDevolucion (nodoAlquiler * listaAlquileres, char 
     }
 }
 
+void mostrarAlquileres(nodoAlquiler *listaAlquileres) {
+    nodoAlquiler *actual = listaAlquileres;
+
+    while (actual != NULL) {
+        mostrarDatosAlquiler(actual);
+        actual = actual->siguiente;
+    }
+}
+
+
 void mostrarDatosAlquiler(nodoAlquiler * listaAlquileres)
 {
     printf("Nombre : %s \n", listaAlquileres->datosLector.nombreYapellido);
@@ -149,6 +159,7 @@ stRegistroAlquiler crearRegistroAlquiler(stlibros libro, lector lectorEncontrado
 }
 
 nodoAlquiler* crearNodoAlquiler(const stRegistroAlquiler nuevoAlquiler, nodoAlquiler *listaAlquileres) {
+
     nodoAlquiler *nuevoNodoAlquiler = (nodoAlquiler *)malloc(sizeof(nodoAlquiler));
 
     nuevoNodoAlquiler->datoLibro = nuevoAlquiler.datoLibroAlquilado;
@@ -159,3 +170,65 @@ nodoAlquiler* crearNodoAlquiler(const stRegistroAlquiler nuevoAlquiler, nodoAlqu
     return nuevoNodoAlquiler;
 }
 
+void mostrarArchivoAlquileres(const char * archivoAlquileres)
+{
+    FILE * archi = fopen(archivoAlquileres,"rb");
+
+    if(archivoAlquileres == NULL)
+    {
+        puts("No hay alquileres registrados todavia\n");
+        return;
+    }
+
+    stRegistroAlquiler aux;
+
+    while(fread((&aux),sizeof(stRegistroAlquiler),1,archi)==1)
+    {
+        mostrarAlquiler(aux);
+        puts("\n");
+    }
+}
+
+
+void mostrarAlquiler (stRegistroAlquiler dato)
+{
+    printf("Nombre : %s \n", dato.datosLector.nombreYapellido);
+    printf("Libro : %s \n",dato.datoLibroAlquilado.titulo);
+    printf("DNI: %i \n", dato.datosLector.dni);
+    printf("Email: %s\n", dato.datosLector.email);
+    printf("Fecha de alquiler: %d/%d/%d\n", dato.datosLector.fechaAlquiler.dia, dato.datosLector.fechaAlquiler.mes, dato.datosLector.fechaAlquiler.anio);
+}
+
+nodoAlquiler *cargarAlquileresDesdeArchivo(const char *nombreArchivo) {
+    FILE *archivo = fopen(nombreArchivo, "rb");
+    if (archivo == NULL) {
+        // El archivo no existe, crea uno vacío
+        archivo = fopen(nombreArchivo, "wb");
+        if (archivo == NULL) {
+            printf("No se pudo crear el archivo de alquileres.\n");
+            return NULL;
+        }
+        fclose(archivo);
+
+        // Vuelve a abrir el archivo en modo lectura binaria
+        archivo = fopen(nombreArchivo, "rb");
+        if (archivo == NULL) {
+            printf("No se pudo abrir el archivo de alquileres.\n");
+            return NULL;
+        }
+    }
+
+    nodoAlquiler *listaAlquileres = inicializarListaAlquiler();
+    stRegistroAlquiler registroAlquiler; // Cambio: mover la declaración fuera del bucle
+
+    // Lectura continua desde el archivo
+    while (fread(&registroAlquiler, sizeof(registroAlquiler), 1, archivo) == 1) {
+        nodoAlquiler *nuevoNodoAlquiler = crearNodoAlquiler(registroAlquiler, listaAlquileres);
+
+        // Conectar el nuevo nodo a la lista
+        listaAlquileres = nuevoNodoAlquiler;
+    }
+
+    fclose(archivo);
+    return listaAlquileres;
+}
