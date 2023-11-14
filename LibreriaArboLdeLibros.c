@@ -3,11 +3,9 @@
 #include "libreriaListaPersonas.h"
 #include "LibreriaArboLdeLibros.h"
 #include "libreriaAlquileres.h"
+#include "globals.h"
 #include <string.h>
 #include <unistd.h>
-
-#define NUM_GENEROS 5
-#define LIBROS_POR_GENERO 10
 
 const char *generos[NUM_GENEROS] = {"Fantasia", "Ciencia Ficcion", "Terror", "Aventura", "Romance"};
 const char *titulos[NUM_GENEROS][LIBROS_POR_GENERO] = {
@@ -25,8 +23,6 @@ const char *autores[NUM_GENEROS][LIBROS_POR_GENERO] = {
     {"Jane Austen", "Margaret Mitchell", "William Shakespeare", "Gabriel García Márquez", "Emily Brontë", "Charlotte Brontë", "Alexandre Dumas (hijo)", "Robert James Waller", "Cecelia Ahern", "María Dueñas"}
 };
 
-
-
 stlibros crearLibroEspecifico(const char *titulo, const char *autor, const char *genero, int anio, int cantCopias, float precio) {
     stlibros libro;
     strcpy(libro.titulo, titulo);
@@ -38,7 +34,6 @@ stlibros crearLibroEspecifico(const char *titulo, const char *autor, const char 
     libro.Copias.precioAlquiler = precio;
     return libro;
 }
-
 nodoGenero *crearNodoGenero(const char *genero, nodoArbolLibro *arbol) {
     nodoGenero *nuevoGenero = (nodoGenero *)malloc(sizeof(nodoGenero));
     strcpy(nuevoGenero->genero, genero);
@@ -95,15 +90,17 @@ stlibros crearLibro(char nombreLibro[])
 
     printf("Ingrese el autor del libro : ");
     fflush(stdin);
-    gets(libro.autor);
+    fgets(libro.autor, sizeof(libro.autor), stdin);
+    libro.autor[strcspn(libro.autor, "\n")] = 0;
 
     printf("Ingrese la cantidad de p�ginas: ");
     scanf("%d", &libro.cantPag);
 
     printf("Ingrese el g�nero del libro : ");
     fflush(stdin);
-    gets(libro.genero);
-
+    fgets(libro.genero, sizeof(libro.genero), stdin);
+    libro.genero[strcspn(libro.genero, "\n")] = 0;
+   
     printf("Ingrese el año de lanzamiento: ");
     scanf("%d", &libro.anioLanzamiento);
 
@@ -153,9 +150,10 @@ void cargarLibroEnArchivo(const char *archivo) {
             return;
         }
 
-        printf("Ingrese el t�tulo del libro: ");
+        printf("Ingrese el titulo del libro: ");
         fflush(stdin);
-        gets(libro.titulo);
+        fgets(libro.titulo, sizeof(libro.titulo), stdin);
+        libro.titulo[strcspn(libro.titulo, "\n")] = 0;
 
         if (libroExisteEnArchivo(libro.titulo, archivo)) {
             printf("El libro ya existe en el archivo. No se puede cargar nuevamente.\n");
@@ -166,7 +164,7 @@ void cargarLibroEnArchivo(const char *archivo) {
             fwrite(&libro, sizeof(stlibros), 1, file);
             fclose(file);
 
-            printf("�Desea cargar otro libro? (S/N): ");
+            printf("Desea cargar otro libro? (S/N): ");
             fflush(stdin);
             scanf(" %c", &continuar);
         }
@@ -350,8 +348,8 @@ void recorrerListaDeGeneros(listaGeneros *lista) {
     nodoGenero *actual = lista->primero;
 
     while (actual != NULL) {
-        printf("G�nero: %s\n", actual->genero);
-        printf("Libros en este g�nero (ordenados por Cantidad de copias):\n");
+        printf("Genero: %s\n", actual->genero);
+        printf("Libros en este genero (ordenados por Cantidad de copias):\n");
 
         inorder(actual->arbolDeLibros);
 
@@ -366,9 +364,10 @@ void agregarLibroAListaYArchivo(listaGeneros *lista, const char *nombreArchivo) 
     char nombreLibro[20];
     char genero[20];
 
-    printf("Ingrese el t�tulo del libro: ");
+    printf("Ingrese el titulo del libro: ");
     fflush(stdin);
-    gets(nombreLibro);
+    fgets(nombreLibro, sizeof(nombreLibro), stdin);
+    nombreLibro[strcspn(nombreLibro, "\n")] = 0;
 
     int existe = libroExisteEnArchivo(lista,nombreLibro);
 
@@ -377,9 +376,10 @@ void agregarLibroAListaYArchivo(listaGeneros *lista, const char *nombreArchivo) 
         return;
     }
 
-    printf("Ingrese el g�nero del libro: ");
+    printf("Ingrese el gwnero del libro: ");
     fflush(stdin);
-    gets(genero);
+    fgets(genero, sizeof(genero), stdin);
+    genero[strcspn(genero, "\n")] = 0;
 
     stlibros libroAGuardar = crearLibro(nombreLibro);
     nodoArbolLibro *nuevoNodo = crearNodoArbolLibro(libroAGuardar);

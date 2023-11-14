@@ -14,6 +14,8 @@ const char * archivoAlquileres = "archivoAlquileres.bin";
 
 int main()
 {
+
+        generarArchivoConGenerosYLibros("libros.bin");
         //Funcion para cargar archivos
 
         //cargarArchivoLectores(archivoLectores);

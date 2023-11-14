@@ -59,4 +59,12 @@ void mostrarArchivoDeLibros(const char *archivo);
 void recorrerListaDeGeneros(listaGeneros *lista);
 void agregarLibroAListaYArchivo(listaGeneros *lista, const char *nombreArchivo);
 
+
+//Generacion de archivo .bin 
+void generarArchivoConGenerosYLibros(const char* nombreArchivo);
+void serializarYGuardarListaGeneros(FILE *archivo, listaGeneros *lista);
+void agregarGeneroALista(listaGeneros *lista, nodoGenero *nuevoGenero);
+nodoGenero *crearNodoGenero(const char *genero, nodoArbolLibro *arbol);
+stlibros crearLibroEspecifico(const char *titulo, const char *autor, const char *genero, int anio, int cantCopias, float precio);
+
 #endif // LIBRERIAARBOLDELIBROS_H_INCLUDED
