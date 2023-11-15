@@ -136,7 +136,7 @@ int libroExisteEnArchivo(const char *nombreLibro, const char *archivo) {
 
     while (fread(&libro, sizeof(stlibros), 1, file) == 1) {
         // Comparar el nombre del libro en el archivo con el nombre proporcionado
-        if (strcmp(libro.titulo, nombreLibro) == 0) {
+        if (strcasecmp(libro.titulo, nombreLibro) == 0) {
             fclose(file);
             return 1; // El libro existe en el archivo
         }
@@ -172,11 +172,11 @@ void cargarLibroEnArchivo(const char *archivo) {
 
             fwrite(&libro, sizeof(stlibros), 1, file);
             fclose(file);
-
-            printf("Desea cargar otro libro? (S/N): ");
-            fflush(stdin);
-            scanf(" %c", &continuar);
         }
+
+        printf("Desea cargar otro libro? (S/N): ");
+        fflush(stdin);
+        scanf(" %c", &continuar);
     }
 }
 
