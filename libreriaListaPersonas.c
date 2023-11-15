@@ -113,18 +113,7 @@ void cargarArchivoLectores(const char *archivoLectores)
     fclose(archivo);
 }
 
-/*
-//Busca un lector en la lista...
-nodoLector* buscarNodoLector(nodoLector* lista, char nombre[]) {
-    nodoLector* seg = lista;
 
-    while (seg != NULL && strcasecmp(seg->info.nombreYapellido, nombre) != 0) {
-            seg = seg->sig;
-        }
-
-    return seg;
-}
-*/
 
 
 nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
@@ -142,7 +131,7 @@ nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
 
     nodoLector* seg = lista;
     while (seg != NULL) {
-        if (strcmp(seg->info.nombreYapellido, nombre) == 0) {
+        if (strcasecmp(seg->info.nombreYapellido, nombre) == 0) {
             return seg;
         }
         seg = seg->sig;
