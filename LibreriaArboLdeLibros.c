@@ -65,7 +65,6 @@ void serializarYGuardarListaGeneros(FILE *archivo, listaGeneros *lista) {
         }
         generoActual = generoActual->siguiente;
     }
-
 }
 
 void generarArchivoConGenerosYLibros(const char* nombreArchivo) {
@@ -301,7 +300,7 @@ nodoGenero *buscarGenero(listaGeneros *lista, const char genero[]) {
         }
         actual = actual->siguiente;
     }
-    return NULL; // G�nero no encontrado
+    return NULL; // Genero no encontrado
 }
 
 //carga la lista de generos desde archivo .bin con datos de los generos.
