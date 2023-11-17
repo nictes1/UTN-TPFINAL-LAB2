@@ -193,10 +193,10 @@ void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLe
                 realizarAlquiler(archivoLectores, archivoLibros, archivoAlquileres, &listaDeGeneros, &listaDeLectores, &listaDeAlquileres);
                 break;
             case 2:
-                mostrarAlquilerPendienteDeDevolucion(listaDeAlquileres, "nombreLectorAbuscar"); // Es para probar, aca debemos pedir al usuario que ingrese el nombre
+                mostrarAlquileres(*listaDeAlquileres);
                 break;
             case 3:
-                mostrarDatosAlquiler(listaDeAlquileres);
+                mostrarAlquilerPendienteDeDevolucion(listaDeAlquileres, "nombreLectorAbuscar"); // Es para probar, aca debemos pedir al usuario que ingrese el nombre
                 break;
             case 0:
                 printf("Volviendo al men� principal.\n");

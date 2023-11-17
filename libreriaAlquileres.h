@@ -26,6 +26,6 @@ nodoAlquiler *crearNodoAlquiler(const stRegistroAlquiler nuevoAlquiler, nodoAlqu
 void mostrarAlquiler (stRegistroAlquiler dato);
 nodoAlquiler *cargarAlquileresDesdeArchivo(const char *nombreArchivo);
 void mostrarAlquileres(nodoAlquiler *listaAlquileres);
-
+void mostrarArchivoAlquileres(const char * archivoAlquileres);
 
 #endif // LIBRERIAALQUILERES_H_INCLUDED
