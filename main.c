@@ -17,16 +17,12 @@ void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLe
 int leerOpcion();
 int main()
 {
-<<<<<<< HEAD
-=======
-
->>>>>>> 581c2efc7ac94a04d1fda1eb5d47ac09ffa26665
         generarArchivoLectores("lectores.bin");
         //generarArchivoConGenerosYLibros("libros.bin");
         //mostrarArchivoDeLibros("libros.bin");
         listaGeneros * listaPrincipal = inicializarListaGeneros ();
         recorrerListaDeGeneros(listaPrincipal);
-        /*//Funcion para cargar archivos
+        //Funcion para cargar archivos
 
         //cargarArchivoLectores(archivoLectores);
         //cargarLibroEnArchivo(archivoLibros);
