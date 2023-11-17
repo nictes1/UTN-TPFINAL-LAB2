@@ -18,34 +18,18 @@ int leerOpcion();
 int main()
 {
 
-        generarArchivoLectores("lectores.bin");
-        //generarArchivoConGenerosYLibros("libros.bin");
-        //mostrarArchivoDeLibros("libros.bin");
+
         listaGeneros * listaPrincipal = inicializarListaGeneros ();
-        recorrerListaDeGeneros(listaPrincipal);
-        /*//Funcion para cargar archivos
+        listaPrincipal = cargarListaDeGenerosDesdeArchivo(archivoLibros,listaPrincipal);
 
-        //cargarArchivoLectores(archivoLectores);
-        //cargarLibroEnArchivo(archivoLibros);
+        nodoLector * listaDeLectores = iniciarLista();
+        listaDeLectores = cargarLectoresDesdeArchivo (archivoLectores);
 
-        //Funcion para mostrar archivos;
 
-        //mostrarArchivolectores(archivoLectores);
-        // mostrarArchivoDeLibros(archivoLibros);
-        //mostrarArchivoAlquileres(archivoAlquileres);
-        //Inicializar la lista lectores
-
-        nodoLector * listadoDeLectores = iniciarLista();
-
-        //Funcion para cargar la lista con los datos del archivo
-        listadoDeLectores = cargarLectoresDesdeArchivo (archivoLectores);
-
-        //Inicializar la lista de generos
-         listaGeneros * listaPrincipal = inicializarListaGeneros (); //inicializar La lista
-         listaPrincipal = cargarListaDeGenerosDesdeArchivo(archivoLibros,listaPrincipal); //Cargar la lista con los datos del archivo
 
         //Inicializar la lista y cargarla con los datos del archivo de alquiler
-            nodoAlquiler *listaAlquileres = cargarAlquileresDesdeArchivo(archivoAlquileres);
+        nodoAlquiler *listaAlquileres = inicializarListaAlquiler();
+        listaAlquileres = cargarAlquileresDesdeArchivo(archivoAlquileres);
 
          int opcion;
 
@@ -60,10 +44,10 @@ int main()
 
         switch (opcion) {
             case 1:
-                mostrarMenuBibliotecario(&listaPrincipal,&listadoDeLectores,&listaAlquileres);
+                mostrarMenuBibliotecario(&listaPrincipal,&listaDeLectores,&listaAlquileres);
                 break;
             case 2:
-                mostrarMenuAlquiler(&listaPrincipal,&listadoDeLectores,&listaAlquileres);
+                mostrarMenuAlquiler(&listaPrincipal,&listaDeLectores,&listaAlquileres);
                 break;
             case 0:
                 printf("Saliendo del programa. Hasta luego!\n");
@@ -163,7 +147,12 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
 
                 nodoLector * buscado = buscarNodoLector(*listaDeLectores,&nombreLectorAbuscar);
                 puts("\n");
-                mostrarLector(buscado->info);
+                if(buscado != NULL){
+                    mostrarLector(buscado->info);
+                }else
+                {
+                    printf("Lector inexistente\n");
+                }
                 system("pause");
                 system("cls");
                 break;
