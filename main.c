@@ -17,9 +17,9 @@ void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLe
 
 int main()
 {
-
-        generarArchivoConGenerosYLibros("libros.bin");
-        mostrarArchivoDeLibros("libros.bin");
+        generarArchivoLectores("lectores.bin");
+        //generarArchivoConGenerosYLibros("libros.bin");
+        //mostrarArchivoDeLibros("libros.bin");
         listaGeneros * listaPrincipal = inicializarListaGeneros ();
         recorrerListaDeGeneros(listaPrincipal);
         /*//Funcion para cargar archivos
