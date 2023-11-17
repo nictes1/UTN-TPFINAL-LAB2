@@ -127,9 +127,8 @@ nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
         return NULL;
     }
 
-    printf("nombre %s\n",nombre);
-
-    nodoLector* seg = lista;
+    nodoLector* seg;
+    seg = lista;
     while (seg != NULL) {
         if (strcasecmp(seg->info.nombreYapellido, nombre) == 0) {
             return seg;
@@ -137,7 +136,7 @@ nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
         seg = seg->sig;
     }
 
-    printf("No se encontró el lector con nombre %s.\n", nombre);
+    printf("No se encontro el lector con nombre %s.\n", nombre);
     return NULL;
 }
 

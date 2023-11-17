@@ -226,7 +226,7 @@ nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo) {
     }
 
      printf("\nNombre del libro a buscar  dentro del arbol: %s\n",titulo);
-     puts("Libro a comprar :\n");
+     puts("Libro a comparar :\n");
      mostrarLibro(arbol->dato);
      puts("\n");
     int comparacion = strcasecmp(titulo, arbol->dato.titulo);

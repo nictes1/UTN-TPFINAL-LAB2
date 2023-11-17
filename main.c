@@ -103,7 +103,7 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
 
                 printf("\nNombre del libro a buscar : %s\n",nombreLibro);
 
-                nodoArbolLibro *libroAbuscar = buscarLibroPorTituloEnLista(listaDeGeneros,&nombreLibro);
+                nodoArbolLibro *libroAbuscar = buscarLibroPorTituloEnLista(*listaDeGeneros,&nombreLibro);
 
 
                 if(libroAbuscar != NULL)
@@ -124,7 +124,7 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 fgets(nombreLector, sizeof(nombreLector), stdin);
                 nombreLector[strcspn(nombreLector, "\n")] = 0;
 
-                nodoLector * existe = buscarNodoLector(listaDeLectores,&nombreLector);
+                nodoLector * existe = buscarNodoLector(*listaDeLectores,&nombreLector);
                 lector nuevo;
 
                 if(existe == NULL) //Si no esta en la lista lo podemos agregar
@@ -145,14 +145,22 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 fgets(nombreLectorAbuscar, sizeof(nombreLectorAbuscar), stdin);
                 nombreLectorAbuscar[strcspn(nombreLectorAbuscar, "\n")] = 0;
 
-                nodoLector * buscado = buscarNodoLector(listaDeLectores,&nombreLectorAbuscar);
+                nodoLector * buscado = buscarNodoLector(*listaDeLectores,&nombreLectorAbuscar);
+                puts("\n");
+                mostrarLector(buscado->info);
+                system("pause");
+                system("cls");
                 break;
             case 6:
                 printf("Ver listado de lectores en el sistema.\n");
                 imprimirListaLectores(*listaDeLectores);
+                system("pause");
+                system("cls");
                 break;
             case 0:
                 printf("Volviendo al menu principal.\n");
+                sleep(1);
+                system("cls");
                 break;
             default:
                 printf("Opcion no valida. Intente nuevamente.\n");
@@ -187,6 +195,8 @@ void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLe
                 break;
             case 0:
                 printf("Volviendo al men� principal.\n");
+                sleep(1);
+                system("cls");
                 break;
             default:
                 printf("Opcion no valida. Intente nuevamente.\n");
@@ -200,7 +210,6 @@ int leerOpcion() {
     while (1) {
         printf("Seleccione una opcion: ");
         if (scanf("%d", &opcion) != 1) {
-            // Limpiar el búfer de entrada si la entrada no es un número
             while (getchar() != '\n');
             printf("Opcion no valida. Intente nuevamente.\n");
         } else {
