@@ -6,6 +6,64 @@
 #include <string.h>
 #include <unistd.h>
 
+/*
+typedef struct {
+
+    char nombreYapellido [30];
+    int dni;
+    int esEstudiante; // 1 � 0
+    char email [30];
+    char direccion [30];
+    int alquiler; // 0 no puede alquilar � 1 puede alquilar
+    fecha fechaAlquiler;
+
+}lector;
+*/
+
+const char *nombres[] = {
+    "Juan", "Ana", "Pedro", "Maria", "Carlos", "Lucia",
+    "Jose", "Sofia", "Fernando", "Carmen", "Miguel", "Elena",
+    "Francisco", "Isabel", "Diego", "Laura"
+};
+
+const char *apellidos[] = {
+    "Perez", "Gonzalez", "Lopez", "Martinez", "Rodriguez", "Garcia",
+    "Fernandez", "Gomez", "Sanchez", "Diaz", "Vazquez", "Romero",
+    "Torres", "Dominguez", "Jimenez", "Ruiz"
+};
+
+void generarLectorRandom(lector *l) {
+    const char *nombres[] = {"Juan", "Ana", "Pedro", "Maria", /* ... otros nombres ... */};
+    const char *apellidos[] = {"Perez", "Gonzalez", "Lopez", "Martinez", /* ... otros apellidos ... */};
+
+    int nombreIdx = rand() % (sizeof(nombres) / sizeof(nombres[0]));
+    int apellidoIdx = rand() % (sizeof(apellidos) / sizeof(apellidos[0]));
+
+    sprintf(l->nombreYapellido, "%s %s", nombres[nombreIdx], apellidos[apellidoIdx]);
+    l->dni = rand() % 50000000 + 10000000;
+    l->esEstudiante = rand() % 2;
+    sprintf(l->email, "%s%s@gmail.com", nombres[nombreIdx], apellidos[apellidoIdx]);
+    sprintf(l->direccion, "Calle %d", rand() % 100 + 1);
+}
+
+void generarArchivoLectores(const char *filename) {
+    FILE *buffer = fopen(filename, "ab");
+    if (!buffer) {
+        printf("Error al abrir el archivo %s\n", filename);
+        exit(1);
+    }
+
+    for (int i = 0; i < 100; i++) {
+        lector l;
+        generarLectorRandom(&l);
+        fwrite(&l, sizeof(lector), 1, buffer);
+    }
+
+    fclose(buffer);
+}
+
+
+
 // Funcion para cargar un lector desde la entrada estandar
 lector cargarLector(char nombrelector[])
 {
@@ -16,13 +74,13 @@ lector cargarLector(char nombrelector[])
     printf("Ingrese el DNI: ");
     scanf("%d", &nuevoLector.dni);
 
-    printf("Es estudiante (1 para s�, 0 para no): ");
+    printf("Es estudiante (1 para si, 0 para no): ");
     scanf("%d", &nuevoLector.esEstudiante);
 
     printf("Ingrese el email: ");
     scanf("%s", nuevoLector.email);
 
-    printf("Ingrese la direcci�n: ");
+    printf("Ingrese la direccion: ");
     scanf("%s", nuevoLector.direccion);
 
     nuevoLector.alquiler = 1;
