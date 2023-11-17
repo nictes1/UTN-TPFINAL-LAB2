@@ -10,18 +10,18 @@
 
 const char *generos[NUM_GENEROS] = {"Fantasia", "Ciencia Ficcion", "Terror", "Aventura", "Romance"};
 const char *titulos[NUM_GENEROS][LIBROS_POR_GENERO] = {
-    {"El Hobbit", "Harry Potter y la piedra filosofal", "El nombre del viento", "Juego de Tronos", "El señor de los anillos", "La historia interminable", "Las crónicas de Narnia", "American Gods", "Elric de Melniboné", "La rueda del tiempo"},
-    {"Dune", "Neuromante", "El juego de Ender", "Fahrenheit 451", "2001: Una odisea del espacio", "El marciano", "Blade Runner", "Hyperion", "Fundación", "La guerra de los mundos"},
-    {"Drácula", "It", "El exorcista", "La llamada de Cthulhu", "El resplandor", "Frankenstein", "La casa de hojas", "Cementerio de animales", "El silencio de los corderos", "Carrie"},
-    {"La isla del tesoro", "Las aventuras de Huckleberry Finn", "Robinson Crusoe", "Viaje al centro de la Tierra", "Los tres mosqueteros", "Moby Dick", "El conde de Montecristo", "La vuelta al mundo en 80 días", "El último mohicano", "La Odisea"},
-    {"Orgullo y prejuicio", "Lo que el viento se llevó", "Romeo y Julieta", "El amor en los tiempos del cólera", "Cumbres Borrascosas", "Jane Eyre", "La dama de las camelias", "Los puentes de Madison", "Posdata: Te amo", "El tiempo entre costuras"}
+    {"El Hobbit", "Harry Potter y la piedra filosofal", "El nombre del viento", "Juego de Tronos", "El senor de los anillos", "La historia interminable", "Las cronicas de Narnia", "American Gods", "Elric de Melnibone", "La rueda del tiempo"},
+    {"Dune", "Neuromante", "El juego de Ender", "Fahrenheit 451", "2001: Una odisea del espacio", "El marciano", "Blade Runner", "Hyperion", "Fundacion", "La guerra de los mundos"},
+    {"Dracula", "It", "El exorcista", "La llamada de Cthulhu", "El resplandor", "Frankenstein", "La casa de hojas", "Cementerio de animales", "El silencio de los corderos", "Carrie"},
+    {"La isla del tesoro", "Las aventuras de Huckleberry Finn", "Robinson Crusoe", "Viaje al centro de la Tierra", "Los tres mosqueteros", "Moby Dick", "El conde de Montecristo", "La vuelta al mundo en 80 dias", "El ultimo mohicano", "La Odisea"},
+    {"Orgullo y prejuicio", "Lo que el viento se llevo", "Romeo y Julieta", "El amor en los tiempos del colera", "Cumbres Borrascosas", "Jane Eyre", "La dama de las camelias", "Los puentes de Madison", "Posdata: Te amo", "El tiempo entre costuras"}
 };
 const char *autores[NUM_GENEROS][LIBROS_POR_GENERO] = {
     {"J.R.R. Tolkien", "J.K. Rowling", "Patrick Rothfuss", "George R.R. Martin", "J.R.R. Tolkien", "Michael Ende", "C.S. Lewis", "Neil Gaiman", "Michael Moorcock", "Robert Jordan"},
     {"Frank Herbert", "William Gibson", "Orson Scott Card", "Ray Bradbury", "Arthur C. Clarke", "Andy Weir", "Philip K. Dick", "Dan Simmons", "Isaac Asimov", "H.G. Wells"},
     {"Bram Stoker", "Stephen King", "William Peter Blatty", "H.P. Lovecraft", "Stephen King", "Mary Shelley", "Mark Z. Danielewski", "Stephen King", "Thomas Harris", "Stephen King"},
     {"Robert Louis Stevenson", "Mark Twain", "Daniel Defoe", "Julio Verne", "Alexandre Dumas", "Herman Melville", "Alexandre Dumas", "Julio Verne", "James Fenimore Cooper", "Homero"},
-    {"Jane Austen", "Margaret Mitchell", "William Shakespeare", "Gabriel García Márquez", "Emily Brontë", "Charlotte Brontë", "Alexandre Dumas (hijo)", "Robert James Waller", "Cecelia Ahern", "María Dueñas"}
+    {"Jane Austen", "Margaret Mitchell", "William Shakespeare", "Gabriel Garcia Marquez", "Emily Bronte", "Charlotte Bronte", "Alexandre Dumas (hijo)", "Robert James Waller", "Cecelia Ahern", "Maria Duenas"}
 };
 
 stlibros crearLibroEspecifico(const char *titulo, const char *autor, const char *genero, int anio, int cantCopias, float precio) {
@@ -136,7 +136,7 @@ int libroExisteEnArchivo(const char *nombreLibro, const char *archivo) {
 
     while (fread(&libro, sizeof(stlibros), 1, file) == 1) {
         // Comparar el nombre del libro en el archivo con el nombre proporcionado
-        if (strcmp(libro.titulo, nombreLibro) == 0) {
+        if (strcasecmp(libro.titulo, nombreLibro) == 0) {
             fclose(file);
             return 1; // El libro existe en el archivo
         }
@@ -172,11 +172,11 @@ void cargarLibroEnArchivo(const char *archivo) {
 
             fwrite(&libro, sizeof(stlibros), 1, file);
             fclose(file);
-
-            printf("Desea cargar otro libro? (S/N): ");
-            fflush(stdin);
-            scanf(" %c", &continuar);
         }
+
+        printf("Desea cargar otro libro? (S/N): ");
+        fflush(stdin);
+        scanf(" %c", &continuar);
     }
 }
 
@@ -225,6 +225,10 @@ nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo) {
         return NULL; // El �rbol est� vac�o, no se encontr� el libro
     }
 
+     printf("\nNombre del libro a buscar  dentro del arbol: %s\n",titulo);
+     puts("Libro a comprar :\n");
+     mostrarLibro(arbol->dato);
+     puts("\n");
     int comparacion = strcasecmp(titulo, arbol->dato.titulo);
 
     if (comparacion == 0) {
@@ -238,6 +242,8 @@ nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo) {
 
 nodoArbolLibro* buscarLibroPorTituloEnLista(listaGeneros *listaLibros, char const * libroBuscado) {
     nodoGenero *tempGenero = listaLibros->primero;
+
+    printf("Nombre del libro a buscar dentro de la lista : %s",libroBuscado);
 
     while (tempGenero != NULL) {
         nodoArbolLibro *libroEncontrado = buscarLibroEnArbol(tempGenero->arbolDeLibros, libroBuscado);
@@ -280,6 +286,7 @@ void inorder(nodoArbolLibro *arbol)
     if (arbol != NULL)
     {
         inorder(arbol->izq);
+        puts("\n");
         mostrarLibro(arbol->dato);
         inorder(arbol->der);
     }
@@ -340,6 +347,7 @@ void mostrarArchivoDeLibros(const char *archivo) {
     while (fread(&libro, sizeof(stlibros), 1, file) == 1) {
 
         mostrarLibro(libro);
+        puts("\n");
     }
 
     fclose(file);
@@ -429,10 +437,10 @@ void mostrarLibrosPorGenero(listaGeneros *lista, const char *genero) {
     nodoGenero *generoEncontrado = buscarGenero(lista, genero);
 
     if (generoEncontrado != NULL) {
-        printf("Libros del género %s:\n", genero);
+        printf("Libros del genero %s:\n", genero);
         inorder(generoEncontrado->arbolDeLibros);
     } else {
-        printf("El género %s no se encuentra en la lista.\n", genero);
+        printf("El genero %s no se encuentra en la lista.\n", genero);
     }
 }
 
