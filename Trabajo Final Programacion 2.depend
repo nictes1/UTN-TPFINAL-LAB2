@@ -7,6 +7,8 @@
 	<string.h>
 	<unistd.h>
 
+1700059194 
+
 1699138199 c:\tps lab ii\trabajo final programacion 2\librerialistapersonas.h
 
 1699032779 c:\tps lab ii\trabajo final programacion 2\libreriaarboldelibros.h
@@ -17,6 +19,8 @@
 	<unistd.h>
 	"libreriaListaPersonas.h"
 	"LibreriaArboLdeLibros.h"
+
+1699138387 rboLdeLibros.h"
 
 1699048340 source:c:\tps lab ii\trabajo final programacion 2\libreriaarboldelibros.c
 	<stdio.h>
@@ -34,11 +38,11 @@
 	<string.h>
 	<unistd.h>
 
-<<<<<<< HEAD
-1700089513 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
-=======
+1700222260 D
+
 1700220641 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
->>>>>>> origin/ramaAlquileres
+
+1700222465 gin/ramaAlquileres
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -48,6 +52,22 @@
 	<string.h>
 	<unistd.h>
 	"constants.h"
+	<stdio.h>
+	<stdlib.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	"libreriaAlquileres.h"
+	<string.h>
+	<unistd.h>
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	"libreriaAlquileres.h"
+	<string.h>
+
+1699996583 .h"
 
 1700088922 c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.h
 
@@ -55,31 +75,9 @@
 
 1699987240 c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.h
 
-<<<<<<< HEAD
-1700088922 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
-=======
 1700222260 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
->>>>>>> origin/ramaAlquileres
-	<stdio.h>
-	<stdlib.h>
-	"libreriaListaPersonas.h"
-	"LibreriaArboLdeLibros.h"
-	"libreriaAlquileres.h"
-	<string.h>
-	<unistd.h>
 
-<<<<<<< HEAD
-1700090312 source:c:\carpeta git\utn-tpfinal-lab2\main.c
-=======
 1700222465 source:c:\carpeta git\utn-tpfinal-lab2\main.c
->>>>>>> origin/ramaAlquileres
-	<stdio.h>
-	<stdlib.h>
-	<unistd.h>
-	"libreriaListaPersonas.h"
-	"LibreriaArboLdeLibros.h"
-	"libreriaAlquileres.h"
-	<string.h>
 
 1700059194 source:c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.c
 	<stdio.h>
@@ -94,4 +92,53 @@
 	"constants.h"
 
 1699998957 c:\carpeta git\utn-tpfinal-lab2\constants.h
+
+1700225335 source:/home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/libreriaAlquileres.c
+	<stdio.h>
+	<stdlib.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	"libreriaAlquileres.h"
+	<string.h>
+	<unistd.h>
+
+1700225335 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/libreriaListaPersonas.h
+
+1700225335 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/LibreriaArboLdeLibros.h
+
+1700220701 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/libreriaAlquileres.h
+
+1700225335 source:/home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/LibreriaArboLdeLibros.c
+	<stdio.h>
+	<stdlib.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	"libreriaAlquileres.h"
+	"globals.h"
+	<string.h>
+	<unistd.h>
+	"constants.h"
+
+1700220701 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/globals.h
+	"constants.h"
+
+1700220701 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/constants.h
+
+1700225335 source:/home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/libreriaListaPersonas.c
+	<stdio.h>
+	<stdlib.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	"libreriaAlquileres.h"
+	<string.h>
+	<unistd.h>
+
+1700225828 source:/home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	"libreriaAlquileres.h"
+	<string.h>
 

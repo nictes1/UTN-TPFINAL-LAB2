@@ -18,6 +18,7 @@ typedef struct
     char genero[30];
     int anioLanzamiento;
     int  idInterno;
+    int  cantAlquileres;
     stcopias Copias;
 
 } stlibros;

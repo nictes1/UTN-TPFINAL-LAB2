@@ -61,17 +61,15 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
 
     // Buscar el lector
     nodoLector *lectorEncontrado = buscarNodoLector(*listaLectores, nombreLector);
-
-
     if (lectorEncontrado != NULL && lectorEncontrado->info.alquiler == 0) {  //si existe en la lista y tiene el estado de alquiler en 0
-        printf("El lector tiene un alquiler pendiente de devolución:\n");
+        printf("El lector tiene un alquiler pendiente de devoluciï¿½n:\n");
         mostrarAlquilerPendienteDeDevolucion(*listaAlquileres, lectorEncontrado->info.nombreYapellido); //como tiene un alquiler pendiente de devolucion lo buscamos en la lista de alquileres
         return;
     }
 
-    if (lectorEncontrado == NULL) { //si no existe damos la opcion de crearlo
+    if (!lectorEncontrado) { //si no existe damos la opcion de crearlo
         char mander = 's';
-        printf("El lector no está registrado, ¿desea crearlo? (s/n): ");
+        printf("El lector no esta registrado, desea crearlo? (s/n): ");
         fflush(stdin);
         scanf("%c", &mander);
 
@@ -84,37 +82,33 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
         }
     }
 
-    printf("Ingrese el título del libro que desea buscar: ");
+    printf("Ingrese el titulo del libro que desea buscar: ");
     fgets(tituloBuscado, sizeof(tituloBuscado), stdin);
     tituloBuscado[strcspn(tituloBuscado, "\n")] = 0;
 
     // Buscar el libro en la lista de libros
     nodoArbolLibro *libroEncontrado = buscarLibroPorTituloEnLista(*listaLibros, tituloBuscado);
-
-
-    if (libroEncontrado == NULL) {
+    if (!libroEncontrado) {
         printf("Libro no encontrado.\n");
         return;
     }
-
     if (libroEncontrado->dato.Copias.cantCopias == 0) {
         printf("Libro no disponible.\n");
         return;
     }
 
     libroEncontrado->dato.Copias.cantCopias--; //modificamos la cantidad de copias del libro
-
-
     lectorEncontrado->info.alquiler = 0; //ponemos el estado del lector en 0
+    libroEncontrado->dato.cantAlquileres++; //incrementamos la cantidad veces que se alquilo el libro
 
     printf("Ingrese la fecha de alquiler (DD MM AAAA): ");
     scanf("%d %d %d", &dia, &mes, &anio);
 
-     // Crear el registro de alquiler usando la función modularizada
+     // Crear el registro de alquiler usando la funciï¿½n modularizada
     stRegistroAlquiler nuevoAlquiler = crearRegistroAlquiler(libroEncontrado->dato, lectorEncontrado->info, dia, mes, anio);
 
 
-    // Agregar el alquiler a la lista de alquileres con la función modularizada
+    // Agregar el alquiler a la lista de alquileres con la funciï¿½n modularizada
     *listaAlquileres = crearNodoAlquiler(nuevoAlquiler, *listaAlquileres);
 
     // Guardar el alquiler en el archivo de alquileres
@@ -202,7 +196,7 @@ void mostrarAlquiler (stRegistroAlquiler dato)
 nodoAlquiler *cargarAlquileresDesdeArchivo(const char *nombreArchivo) {
     FILE *archivo = fopen(nombreArchivo, "rb");
     if (archivo == NULL) {
-        // El archivo no existe, crea uno vacío
+        // El archivo no existe, crea uno vacï¿½o
         archivo = fopen(nombreArchivo, "wb");
         if (archivo == NULL) {
             printf("No se pudo crear el archivo de alquileres.\n");
@@ -219,7 +213,7 @@ nodoAlquiler *cargarAlquileresDesdeArchivo(const char *nombreArchivo) {
     }
 
     nodoAlquiler *listaAlquileres = inicializarListaAlquiler();
-    stRegistroAlquiler registroAlquiler; // Cambio: mover la declaración fuera del bucle
+    stRegistroAlquiler registroAlquiler; // Cambio: mover la declaraciï¿½n fuera del bucle
 
     // Lectura continua desde el archivo
     while (fread(&registroAlquiler, sizeof(registroAlquiler), 1, archivo) == 1) {

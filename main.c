@@ -5,23 +5,19 @@
 #include "LibreriaArboLdeLibros.h"
 #include "libreriaAlquileres.h"
 #include <string.h>
+#include "globals.h" ///aca estan las variables globales, incluir en caso de necesitar.
 
-
-
-const char * archivoLectores = "archivoLectores.bin";
-const char * archivoLibros = "archivoLibros.bin";
-const char * archivoAlquileres = "archivoAlquileres.bin";
 
 void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLectores, nodoAlquiler ** listaDeAlquileres);
 void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLectores, nodoAlquiler ** listaDeAlquileres);
 int leerOpcion();
 int main()
 {
-        generarArchivoLectores("lectores.bin");
+        //generarArchivoLectores(archivoLectores);
+        //mostrarArchivolectores(archivoLectores);
         //generarArchivoConGenerosYLibros("libros.bin");
         //mostrarArchivoDeLibros("libros.bin");
-        listaGeneros * listaPrincipal = inicializarListaGeneros ();
-        recorrerListaDeGeneros(listaPrincipal);
+        mostrarArchivoAlquileres(archivoAlquileres);
         //Funcion para cargar archivos
 
         //cargarArchivoLectores(archivoLectores);

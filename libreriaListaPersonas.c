@@ -125,6 +125,8 @@ void guardarLector(const lector *lectorAGuardar, const char *archivoLectores)
     fclose(archivo);
 }
 
+
+
 //funcion para agregar lectores al archivo - CARGA MANUAL DE LECTORES
 void cargarArchivoLectores(const char *archivoLectores)
 {
@@ -222,6 +224,7 @@ void mostrarLector(lector unLector) {
     printf("Direcci�n: %s\n", unLector.direccion);
     printf("Estado de alquiler: %s\n", unLector.alquiler ? "Disponible" : "En alquiler");
 }
+
 
 
 //Imprime lista completa de lectores
