@@ -62,7 +62,7 @@ void mostrarLibro(stlibros libro);
 void mostrarLibrosPorGenero(listaGeneros *lista, const char *genero);
 
 
-//Generacion de archivo .bin 
+//Generacion de archivo .bin
 void generarArchivoConGenerosYLibros(const char* nombreArchivo);
 void serializarYGuardarListaGeneros(FILE *archivo, listaGeneros *lista);
 void agregarGeneroALista(listaGeneros *lista, nodoGenero *nuevoGenero);

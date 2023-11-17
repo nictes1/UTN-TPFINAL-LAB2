@@ -196,7 +196,7 @@ void mostrarAlquiler (stRegistroAlquiler dato)
     printf("Libro : %s \n",dato.datoLibroAlquilado.titulo);
     printf("DNI: %i \n", dato.datosLector.dni);
     printf("Email: %s\n", dato.datosLector.email);
-    printf("Fecha de alquiler: %d/%d/%d\n", dato.datosLector.fechaAlquiler.dia, dato.datosLector.fechaAlquiler.mes, dato.datosLector.fechaAlquiler.anio);
+    printf("Fecha de alquiler: %d/%d/%d\n", dato.fechaAlquiler.dia, dato.fechaAlquiler.mes, dato.fechaAlquiler.anio);
 }
 
 nodoAlquiler *cargarAlquileresDesdeArchivo(const char *nombreArchivo) {
