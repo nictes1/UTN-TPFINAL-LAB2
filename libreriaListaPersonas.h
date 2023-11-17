@@ -30,7 +30,6 @@ lector cargarLector(char nombrelector[]);
 int lectorExiste(char nombreLector[], const char *archivoLectores);
 void guardarLector(const lector *lectorAGuardar, const char *archivoLectores);
 void cargarArchivoLectores(const char *archivoLectores);
-//nodoLector* buscarNodoLector(nodoLector* lista, char nombre[]);
 nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre);
 nodoLector* iniciarLista();
 nodoLector* crearNodoLector(lector nuevo);
@@ -42,5 +41,6 @@ nodoLector *cargarLectoresDesdeArchivo(const char *nombreArchivo);
 void liberarListaLectores(nodoLector *lista);
 void insertarOrdenado(nodoLector **lista, nodoLector *nuevoNodo);
 void mostrarLector(lector unLector);
+
 
 #endif // LIBRERIALISTAPERSONAS_H_INCLUDED
