@@ -102,11 +102,11 @@
 	<string.h>
 	<unistd.h>
 
-1700225335 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/libreriaListaPersonas.h
+1700228316 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/libreriaListaPersonas.h
 
-1700225335 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/LibreriaArboLdeLibros.h
+1700226958 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/LibreriaArboLdeLibros.h
 
-1700220701 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/libreriaAlquileres.h
+1700227775 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/libreriaAlquileres.h
 
 1700225335 source:/home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/LibreriaArboLdeLibros.c
 	<stdio.h>
@@ -119,7 +119,7 @@
 	<unistd.h>
 	"constants.h"
 
-1700220701 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/globals.h
+1700226675 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/globals.h
 	"constants.h"
 
 1700220701 /home/nictes/workspace/github.com/nictes1/UTN-TPFINAL-LAB2/constants.h
