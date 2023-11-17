@@ -42,6 +42,7 @@ void generarLectorRandom(lector *l) {
     sprintf(l->nombreYapellido, "%s %s", nombres[nombreIdx], apellidos[apellidoIdx]);
     l->dni = rand() % 50000000 + 10000000;
     l->esEstudiante = rand() % 2;
+    l->alquiler = 1;
     sprintf(l->email, "%s%s@gmail.com", nombres[nombreIdx], apellidos[apellidoIdx]);
     sprintf(l->direccion, "Calle %d", rand() % 100 + 1);
 }
@@ -172,8 +173,6 @@ void cargarArchivoLectores(const char *archivoLectores)
 }
 
 
-
-
 nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
     if (lista == NULL) {
         printf("La lista está vacía.\n");
@@ -187,7 +186,9 @@ nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
 
     nodoLector* seg;
     seg = lista;
+    printf("Lector a buscar %s\n",nombre);
     while (seg != NULL) {
+             printf("Lector a buscar %s , lector del nodo %s\n",nombre,seg->info.nombreYapellido);
         if (strcasecmp(seg->info.nombreYapellido, nombre) == 0) {
             return seg;
         }

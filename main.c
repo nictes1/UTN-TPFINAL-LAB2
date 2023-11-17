@@ -18,7 +18,6 @@ int leerOpcion();
 int main()
 {
 
-
         listaGeneros * listaPrincipal = inicializarListaGeneros ();
         listaPrincipal = cargarListaDeGenerosDesdeArchivo(archivoLibros,listaPrincipal);
 
@@ -190,10 +189,12 @@ void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLe
 
         switch (opcion) {
             case 1:
-                realizarAlquiler(archivoLectores, archivoLibros, archivoAlquileres, &listaDeGeneros, &listaDeLectores, &listaDeAlquileres);
+
+                realizarAlquiler(archivoLectores, archivoLibros, archivoAlquileres, listaDeGeneros, listaDeLectores, listaDeAlquileres);
                 break;
             case 2:
                 mostrarAlquileres(*listaDeAlquileres);
+                system("pause");
                 break;
             case 3:
                 mostrarAlquilerPendienteDeDevolucion(listaDeAlquileres, "nombreLectorAbuscar"); // Es para probar, aca debemos pedir al usuario que ingrese el nombre
