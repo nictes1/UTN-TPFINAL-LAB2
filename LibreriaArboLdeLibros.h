@@ -12,7 +12,7 @@ typedef struct
 //libros
 typedef struct
 {
-    char titulo[30];
+    char titulo[60];
     char autor[30];
     int cantPag;
     char genero[30];

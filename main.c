@@ -95,7 +95,7 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 puts("Datos de un libro");
                 //Mostrar un libro
                  puts("Libro a buscar\n");  // Buscar un libro por titulo
-                char nombreLibro [30];
+                char nombreLibro [60];
                 fflush(stdin);
                 fgets(nombreLibro, sizeof(nombreLibro), stdin);
                 nombreLibro[strcspn(nombreLibro, "\n")] = 0;
@@ -226,6 +226,7 @@ int leerOpcion() {
 }
 
 
+/*
 ///Funcion Dias
 int contarDias(lector a)
 {
@@ -240,6 +241,8 @@ int contarDias(lector a)
     return dias;
 }
 
+
+
 int diferenciaFechas(lector a, lector temp)
 {
     int dias1 = contarDias(a);
@@ -249,5 +252,5 @@ int diferenciaFechas(lector a, lector temp)
 
     return diferencia;
 }
-
+*/
 

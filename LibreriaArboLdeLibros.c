@@ -221,7 +221,7 @@ void agregarGenero(listaGeneros *lista, const char genero[]) {
 //Busca un libro en el arbol de libros por su titulo.
 nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo) {
     if (arbol == NULL) {
-        return NULL; // El �rbol est� vac�o, no se encontr� el libro
+        return NULL; // El arbol esta vacio, no se encontro el libro
     }
 
      printf("\nNombre del libro a buscar  dentro del arbol: %s\n",titulo);
@@ -242,9 +242,8 @@ nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo) {
 nodoArbolLibro* buscarLibroPorTituloEnLista(listaGeneros *listaLibros, char const * libroBuscado) {
     nodoGenero *tempGenero = listaLibros->primero;
 
-    printf("Nombre del libro a buscar dentro de la lista : %s",libroBuscado);
-
     while (tempGenero != NULL) {
+            printf("Buscando en genero : %s ",tempGenero->genero);
         nodoArbolLibro *libroEncontrado = buscarLibroEnArbol(tempGenero->arbolDeLibros, libroBuscado);
         if (libroEncontrado != NULL) {
             return libroEncontrado;
@@ -256,30 +255,21 @@ nodoArbolLibro* buscarLibroPorTituloEnLista(listaGeneros *listaLibros, char cons
 }
 
 
-// Inserta un nodo ordenado por su cantidad de copias.
-nodoArbolLibro *insertarPorCopias(nodoArbolLibro *arbol, nodoArbolLibro *nuevo)
-{
-    if (arbol == NULL)
-    {
+nodoArbolLibro *insertarPorNombre(nodoArbolLibro *arbol, nodoArbolLibro *nuevo) {
+    if (arbol == NULL) {
         arbol = nuevo;
-    }
-    else
-    {
-        if (nuevo->dato.Copias.cantCopias > arbol->dato.Copias.cantCopias)
-        {
-            arbol->der = insertarPorCopias(arbol->der, nuevo);
-        }
-        else
-        {
-            arbol->izq = insertarPorCopias(arbol->izq, nuevo);
+    } else {
+        if (strcasecmp(nuevo->dato.titulo, arbol->dato.titulo) > 0) {
+            arbol->der = insertarPorNombre(arbol->der, nuevo);
+        } else {
+            arbol->izq = insertarPorNombre(arbol->izq, nuevo);
         }
     }
     return arbol;
 }
 
 
-
-// Funcion para mostrar los libros en orden (por identificador interno)
+// Funcion para mostrar los libros en orden
 void inorder(nodoArbolLibro *arbol)
 {
     if (arbol != NULL)
@@ -322,7 +312,7 @@ listaGeneros *cargarListaDeGenerosDesdeArchivo(const char *nombreArchivo, listaG
         }
 
         // Crea el nodo del �rbol de libros para el libro y agr�galo al g�nero correspondiente
-        genero->arbolDeLibros = insertarPorCopias(genero->arbolDeLibros, crearNodoArbolLibro(libro));
+        genero->arbolDeLibros = insertarPorNombre(genero->arbolDeLibros, crearNodoArbolLibro(libro));
     }
 
     fclose(archivo);
@@ -415,7 +405,7 @@ void agregarLibroAListaYArchivo(listaGeneros *lista, const char *nombreArchivo) 
     }
 
     // Insertar el libro en el �rbol correspondiente al g�nero
-    generoEncontrado->arbolDeLibros = insertarPorCopias(generoEncontrado->arbolDeLibros, nuevoNodo);
+    generoEncontrado->arbolDeLibros = insertarPorNombre(generoEncontrado->arbolDeLibros, nuevoNodo);
 
     FILE *archivo = fopen(nombreArchivo, "ab");
     if (archivo == NULL) {
