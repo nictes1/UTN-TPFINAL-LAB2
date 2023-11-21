@@ -6,19 +6,6 @@
 #include <string.h>
 #include <unistd.h>
 
-/*
-typedef struct {
-
-    char nombreYapellido [30];
-    int dni;
-    int esEstudiante; // 1 � 0
-    char email [30];
-    char direccion [30];
-    int alquiler; // 0 no puede alquilar � 1 puede alquilar
-    fecha fechaAlquiler;
-
-}lector;
-*/
 
 const char *nombres[] = {
     "Juan", "Ana", "Pedro", "Maria", "Carlos", "Lucia",
@@ -42,6 +29,7 @@ void generarLectorRandom(lector *l) {
     sprintf(l->nombreYapellido, "%s %s", nombres[nombreIdx], apellidos[apellidoIdx]);
     l->dni = rand() % 50000000 + 10000000;
     l->esEstudiante = rand() % 2;
+    l->alquiler = 1;
     sprintf(l->email, "%s%s@gmail.com", nombres[nombreIdx], apellidos[apellidoIdx]);
     sprintf(l->direccion, "Calle %d", rand() % 100 + 1);
 }
@@ -172,8 +160,6 @@ void cargarArchivoLectores(const char *archivoLectores)
 }
 
 
-
-
 nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
     if (lista == NULL) {
         printf("La lista está vacía.\n");
@@ -187,6 +173,7 @@ nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
 
     nodoLector* seg;
     seg = lista;
+    printf("Lector a buscar %s\n",nombre);
     while (seg != NULL) {
         if (strcasecmp(seg->info.nombreYapellido, nombre) == 0) {
             return seg;
@@ -219,7 +206,7 @@ void mostrarLector(lector unLector) {
     printf("DNI: %d\n", unLector.dni);
     printf("Es estudiante: %s\n", unLector.esEstudiante ? "Si" : "No");
     printf("Email: %s\n", unLector.email);
-    printf("Direcci�n: %s\n", unLector.direccion);
+    printf("Direccion: %s\n", unLector.direccion);
     printf("Estado de alquiler: %s\n", unLector.alquiler ? "Disponible" : "En alquiler");
 }
 

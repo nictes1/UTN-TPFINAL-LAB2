@@ -2,9 +2,9 @@
 #define LIBRERIALISTAPERSONAS_H_INCLUDED
 typedef struct
 {
-    int dia;
-    int mes;
-    int anio;
+    unsigned int dia;
+    unsigned int mes;
+    unsigned int anio;
 } fecha;
 
 typedef struct {
@@ -43,4 +43,5 @@ void insertarOrdenado(nodoLector **lista, nodoLector *nuevoNodo);
 void mostrarLector(lector unLector);
 void generarLectorRandom(lector *l);
 void generarArchivoLectores(const char *filename);
+
 #endif // LIBRERIALISTAPERSONAS_H_INCLUDED

@@ -17,7 +17,8 @@ void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLe
 int leerOpcion();
 int main()
 {
-
+        //generarArchivoConGenerosYLibros(archivoLibros);
+        //generarArchivoLectores(archivoLectores);
 
         listaGeneros * listaPrincipal = inicializarListaGeneros ();
         listaPrincipal = cargarListaDeGenerosDesdeArchivo(archivoLibros,listaPrincipal);
@@ -45,9 +46,11 @@ int main()
         switch (opcion) {
             case 1:
                 mostrarMenuBibliotecario(&listaPrincipal,&listaDeLectores,&listaAlquileres);
+                system("cls");
                 break;
             case 2:
                 mostrarMenuAlquiler(&listaPrincipal,&listaDeLectores,&listaAlquileres);
+                system("cls");
                 break;
             case 0:
                 printf("Saliendo del programa. Hasta luego!\n");
@@ -63,6 +66,9 @@ int main()
 }
 
 void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLectores, nodoAlquiler ** listaDeAlquileres) {
+
+    system("cls");
+
     int opcion;
 
     do {
@@ -74,6 +80,7 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
         printf("4. Cargar un lector\n");
         printf("5. Ver un lector\n");
         printf("6. Ver lista de lectores\n");
+        printf("7. Dar de baja/alta un libro\n");
         printf("0. Volver al menu principal\n");
 
         opcion = leerOpcion();
@@ -90,13 +97,15 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 generoAver[strcspn(generoAver, "\n")] = 0;
 
                 mostrarLibrosPorGenero(*listaDeGeneros,&generoAver);
+                system("pause");
+                system("cls");
                 break;
             case 3:
                 //
                 puts("Datos de un libro");
                 //Mostrar un libro
                  puts("Libro a buscar\n");  // Buscar un libro por titulo
-                char nombreLibro [30];
+                char nombreLibro [60];
                 fflush(stdin);
                 fgets(nombreLibro, sizeof(nombreLibro), stdin);
                 nombreLibro[strcspn(nombreLibro, "\n")] = 0;
@@ -115,6 +124,8 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 {
                 puts("Libro inexistente");
                 }
+                system("pause");
+                system("cls");
                 break;
             case 4:
                 printf("Cargar un lector\n");
@@ -135,7 +146,8 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 {
                     printf("\nEl lector ya se encuentra en la lista\n");
                 }
-
+                system("pause");
+                system("cls");
                 break;
             case 5:
                 printf("Ver datos de un lector.\n");
@@ -162,6 +174,21 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 system("pause");
                 system("cls");
                 break;
+            case 7:
+                {
+                    char nombreLibro [60];
+                    int nuevoEstado;
+                    printf("Ingrese el nombre del libro: ");
+                    fflush(stdin);
+                    fgets(nombreLibro, sizeof(nombreLibro), stdin);
+                    nombreLibro[strcspn(nombreLibro, "\n")] = 0;
+
+                    printf("Ingrese el nuevo estado (1 para disponible, 0 para no disponible): ");
+                    scanf("%d", &nuevoEstado);
+
+                    modificarEstadoLibro(*listaDeGeneros,&nombreLibro, nuevoEstado, archivoLibros);
+                }
+                break;
             case 0:
                 printf("Volviendo al menu principal.\n");
                 sleep(1);
@@ -176,6 +203,9 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
 }
 
 void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLectores, nodoAlquiler ** listaDeAlquileres) {
+
+    system("cls");
+
     int opcion;
 
     do {
@@ -184,22 +214,42 @@ void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLe
         printf("1. Realizar nuevo alquiler\n");
         printf("2. Mostrar alquileres pendientes de devolucion\n");
         printf("3. Mostrar informacion de un alquiler\n");
+        printf("4. Realizar Devolucion\n");
         printf("0. Volver al menu principal\n");
 
         opcion = leerOpcion();
 
         switch (opcion) {
             case 1:
-                realizarAlquiler(archivoLectores, archivoLibros, archivoAlquileres, &listaDeGeneros, &listaDeLectores, &listaDeAlquileres);
+
+                realizarAlquiler(archivoLectores, archivoLibros, archivoAlquileres, listaDeGeneros, listaDeLectores, listaDeAlquileres);
+                system("pause");
+                system("cls");
                 break;
             case 2:
-                mostrarAlquilerPendienteDeDevolucion(listaDeAlquileres, "nombreLectorAbuscar"); // Es para probar, aca debemos pedir al usuario que ingrese el nombre
+                mostrarAlquileres(*listaDeAlquileres);
+                system("pause");
+                system("cls");
                 break;
             case 3:
-                mostrarDatosAlquiler(listaDeAlquileres);
+                {
+                char lectorDeudor [30];
+                printf("Ingrese el nombre del lector que va a buscar en la lista de alquileres: ");
+                fflush(stdin);
+                fgets(lectorDeudor, sizeof(lectorDeudor), stdin);
+                lectorDeudor[strcspn(lectorDeudor, "\n")] = 0;
+                mostrarAlquilerPendienteDeDevolucion(*listaDeAlquileres, lectorDeudor);
+                }
+                system("pause");
+                system("cls");
+                break;
+            case 4:
+                realizarDevolucion(archivoLectores,archivoLibros,archivoAlquileres,listaDeGeneros,listaDeLectores,listaDeAlquileres);
+                system("pause");
+                system("cls");
                 break;
             case 0:
-                printf("Volviendo al men� principal.\n");
+                printf("Volviendo al menu principal.\n");
                 sleep(1);
                 system("cls");
                 break;
@@ -222,31 +272,6 @@ int leerOpcion() {
         }
     }
     return opcion;
-}
-
-
-///Funcion Dias
-int contarDias(lector a)
-{
-    int meses[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    int dias = a.fechaAlquiler.dia;
-
-    for (int i = 0; i < a.fechaAlquiler.mes - 1; i++)
-    {
-        dias += meses[i];
-    }
-
-    return dias;
-}
-
-int diferenciaFechas(lector a, lector temp)
-{
-    int dias1 = contarDias(a);
-    int dias2 = contarDias(temp);
-
-    int diferencia = dias2 - dias1;
-
-    return diferencia;
 }
 
 

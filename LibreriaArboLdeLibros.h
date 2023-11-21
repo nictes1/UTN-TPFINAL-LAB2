@@ -12,13 +12,14 @@ typedef struct
 //libros
 typedef struct
 {
-    char titulo[30];
+    char titulo[60];
     char autor[30];
     int cantPag;
     char genero[30];
     int anioLanzamiento;
-    int  idInterno;
+    int cantidadaDevecesAlquilado;
     stcopias Copias;
+    int estado; // 1 disponible 2 no disponible
 
 } stlibros;
 
@@ -67,6 +68,7 @@ void generarArchivoConGenerosYLibros(const char* nombreArchivo);
 void serializarYGuardarListaGeneros(FILE *archivo, listaGeneros *lista);
 void agregarGeneroALista(listaGeneros *lista, nodoGenero *nuevoGenero);
 nodoGenero *crearNodoGenero(const char *genero, nodoArbolLibro *arbol);
-stlibros crearLibroEspecifico(const char *titulo, const char *autor, const char *genero, int anio, int cantCopias, float precio);
+stlibros crearLibroEspecifico(const char *titulo, const char *autor, const char *genero, int anio, int cantCopias, float precio, int estado);
+void modificarEstadoLibro(listaGeneros *lista, const char *nombreLibro, int nuevoEstado, const char *nombreArchivo);
 
 #endif // LIBRERIAARBOLDELIBROS_H_INCLUDED
