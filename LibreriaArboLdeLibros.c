@@ -102,10 +102,10 @@ stlibros crearLibro(char nombreLibro[])
     fgets(libro.autor, sizeof(libro.autor), stdin);
     libro.autor[strcspn(libro.autor, "\n")] = 0;
 
-    printf("Ingrese la cantidad de p�ginas: ");
+    printf("Ingrese la cantidad de paginas: ");
     scanf("%d", &libro.cantPag);
 
-    printf("Ingrese el g�nero del libro : ");
+    printf("Ingrese el genero del libro : ");
     fflush(stdin);
     fgets(libro.genero, sizeof(libro.genero), stdin);
     libro.genero[strcspn(libro.genero, "\n")] = 0;
@@ -118,6 +118,8 @@ stlibros crearLibro(char nombreLibro[])
 
     printf("Ingrese el precio de alquiler por copia: ");
     scanf("%f", &libro.Copias.precioAlquiler);
+
+    libro.estado = 1;
 
     return libro;
 }

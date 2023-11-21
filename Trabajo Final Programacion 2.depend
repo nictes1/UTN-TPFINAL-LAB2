@@ -36,7 +36,7 @@
 
 1700222260 D
 
-1700570478 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
+1700590468 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -87,7 +87,7 @@
 	<string.h>
 	<unistd.h>
 
-1700578962 source:c:\carpeta git\utn-tpfinal-lab2\main.c
+1700589858 source:c:\carpeta git\utn-tpfinal-lab2\main.c
 	<stdio.h>
 	<stdlib.h>
 	<unistd.h>
@@ -96,7 +96,7 @@
 	"libreriaAlquileres.h"
 	<string.h>
 
-1700578953 source:c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.c
+1700591102 source:c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"

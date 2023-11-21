@@ -173,7 +173,7 @@ nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
 
     nodoLector* seg;
     seg = lista;
-    printf("Lector a buscar %s\n",nombre);
+
     while (seg != NULL) {
         if (strcasecmp(seg->info.nombreYapellido, nombre) == 0) {
             return seg;

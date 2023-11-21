@@ -160,22 +160,21 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
     if (lectorEncontrado == NULL) { //si no existe damos la opcion de crearlo
         char mander = 's';
         printf("El lector no está registrado, ¿desea crearlo? (s/n): ");
-        fflush(stdin);
         scanf("%c", &mander);
 
         if (mander == 's') {
             lector nuevo = cargarLector(nombreLector);  //creamos el nodo
-            insertarOrdenado(listaLectores, crearNodoLector(nuevo)); //lo insertamos en la lista ordenada de lectores
-            lectorEncontrado = buscarNodoLector(*listaLectores, nombreLector); //volvemos a capturar el puntero al lector que creamos
+            agregarLectorAListaYArchivo(listaLectores,archivoLectores,nuevo);
+            lectorEncontrado = buscarNodoLector(*listaLectores, &nombreLector); //volvemos a capturar el puntero al lector que creamos
         } else {
+            sleep(1);
+            printf("Volviendo al menu principal\n");
             return;
         }
-    }else
-    {
-        printf("El lector existe\n");
     }
 
     printf("Ingrese el título del libro que desea buscar: ");
+    fflush(stdin);
     fgets(tituloBuscado, sizeof(tituloBuscado), stdin);
     tituloBuscado[strcspn(tituloBuscado, "\n")] = 0;
 
@@ -376,8 +375,13 @@ void realizarDevolucion(const char *archivoLectores, const char *archivoLibros, 
 
     // Calcular el costo total del alquiler
     float costoAlquilerTotal = (float) (diferenciaDias * libroEncontrado->dato.Copias.precioAlquiler);
+    puts("\n");
+    if(lectorEncontrado->info.esEstudiante == 1)
+    {
+        costoAlquilerTotal = (costoAlquilerTotal * 30) / 100 ;
+    }
     printf("Costo del alquiler del libro por dia : %f\n",libroEncontrado->dato.Copias.precioAlquiler);
-    printf("Costo total del alquiler : %f",costoAlquilerTotal);
+    printf("Costo total del alquiler : %f\n",costoAlquilerTotal);
 
     //mostrarDetalleDevolucion(&alquilerActual->alquiler);
 
