@@ -2,9 +2,9 @@
 #define LIBRERIALISTAPERSONAS_H_INCLUDED
 typedef struct
 {
-    int dia;
-    int mes;
-    int anio;
+    unsigned int dia;
+    unsigned int mes;
+    unsigned int anio;
 } fecha;
 
 typedef struct {

@@ -28,6 +28,9 @@ void mostrarAlquileres(nodoAlquiler *listaAlquileres);
 void mostrarArchivoAlquileres(const char * archivoAlquileres);
 int esBisiesto(int anio);
 fecha cargarFecha();
-
+void realizarDevolucion(const char *archivoLectores, const char *archivoLibros, const char *archivoAlquileres, listaGeneros **listaLibros, nodoLector **listaLectores, nodoAlquiler **listaAlquileres);
+int diferenciaFechas(fecha alquiler, fecha temp);
+int contarDias(fecha a);
+nodoAlquiler *buscarAlquiler(nodoAlquiler *listaAlquileres, const char *nombreLector, const char *tituloBuscado);
 
 #endif // LIBRERIAALQUILERES_H_INCLUDED
