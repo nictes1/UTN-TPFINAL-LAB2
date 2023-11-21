@@ -58,6 +58,9 @@
 	<unistd.h>
 	"constants.h"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -73,6 +76,7 @@
 	"libreriaAlquileres.h"
 	<string.h>
 
+<<<<<<< HEAD
 1700226067 c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.h
 
 1700088922 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
@@ -102,6 +106,8 @@
 	"libreriaAlquileres.h"
 	<string.h>
 
+=======
+>>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
 1700576324 c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.h
 
 1700570458 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
@@ -140,3 +146,55 @@
 
 1699998957 c:\carpeta git\utn-tpfinal-lab2\constants.h
 
+<<<<<<< HEAD
+=======
+1700589511 source:c:\users\nicolas\workspace\utn-tpfinal-lab2\libreriaalquileres.c
+	<stdio.h>
+	<stdlib.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	"libreriaAlquileres.h"
+	<string.h>
+	<unistd.h>
+
+1700592080 c:\users\nicolas\workspace\utn-tpfinal-lab2\librerialistapersonas.h
+
+1700592750 c:\users\nicolas\workspace\utn-tpfinal-lab2\libreriaarboldelibros.h
+
+1700589511 c:\users\nicolas\workspace\utn-tpfinal-lab2\libreriaalquileres.h
+
+1700592708 source:c:\users\nicolas\workspace\utn-tpfinal-lab2\libreriaarboldelibros.c
+	<stdio.h>
+	<stdlib.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	"libreriaAlquileres.h"
+	"globals.h"
+	<string.h>
+	<unistd.h>
+	"constants.h"
+
+1700589511 c:\users\nicolas\workspace\utn-tpfinal-lab2\globals.h
+	"constants.h"
+
+1700589511 c:\users\nicolas\workspace\utn-tpfinal-lab2\constants.h
+
+1700592012 source:c:\users\nicolas\workspace\utn-tpfinal-lab2\librerialistapersonas.c
+	<stdio.h>
+	<stdlib.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	"libreriaAlquileres.h"
+	<string.h>
+	<unistd.h>
+
+1700592790 source:c:\users\nicolas\workspace\utn-tpfinal-lab2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	"libreriaListaPersonas.h"
+	"LibreriaArboLdeLibros.h"
+	"libreriaAlquileres.h"
+	<string.h>
+
+>>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79

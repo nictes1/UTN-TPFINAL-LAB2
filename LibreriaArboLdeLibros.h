@@ -43,6 +43,12 @@ typedef struct listaGeneros {
     nodoGenero *primero;
 } listaGeneros;
 
+void mostrarGeneros(listaGeneros *lista);
+void mostrarLibrosDisponiblesEnArbol(nodoArbolLibro *arbol);
+void mostrarLibrosDisponibles(listaGeneros *lista);
+void buscarYMostrarLibroEnArbol(nodoArbolLibro *arbol, const char *nombreBuscado);
+void mostrarLibrosPorNombre(listaGeneros *lista, const char *nombreBuscado);
+
 nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo);
 stlibros crearLibro(char nombreLibro[]);
 int libroExisteEnArchivo(const char *nombreLibro, const char *archivo);

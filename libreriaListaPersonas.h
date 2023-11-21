@@ -31,6 +31,7 @@ int lectorExiste(char nombreLector[], const char *archivoLectores);
 void guardarLector(const lector *lectorAGuardar, const char *archivoLectores);
 void cargarArchivoLectores(const char *archivoLectores);
 nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre);
+nodoLector* buscarLectorPorDNI(nodoLector* lista, int dniBuscado);
 nodoLector* iniciarLista();
 nodoLector* crearNodoLector(lector nuevo);
 nodoLector * borrarNodoLector(nodoLector * lista, int dni) ;

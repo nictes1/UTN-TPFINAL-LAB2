@@ -23,6 +23,10 @@ int main()
         listaGeneros * listaPrincipal = inicializarListaGeneros ();
         listaPrincipal = cargarListaDeGenerosDesdeArchivo(archivoLibros,listaPrincipal);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
         nodoLector * listaDeLectores = iniciarLista();
         listaDeLectores = cargarLectoresDesdeArchivo (archivoLectores);
 
@@ -90,9 +94,21 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 agregarLibroAListaYArchivo(listaDeGeneros, archivoLibros);
                 break;
             case 2:
+<<<<<<< HEAD
                 puts("Mostrar por genero\n");
                 char generoAver [30];
                 fflush(stdin);
+=======
+                system("cls");
+                printf("2. Mostrar lista de libros por genero\n");
+                char generoAver [30];
+                fflush(stdin);
+
+                ///muestra los generos disponibles.
+                mostrarGeneros(*listaDeGeneros);
+
+                puts("Ingrese el genero que desea buscar: \n");
+>>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
                 fgets(generoAver, sizeof(generoAver), stdin);
                 generoAver[strcspn(generoAver, "\n")] = 0;
 
@@ -101,23 +117,37 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 system("cls");
                 break;
             case 3:
+<<<<<<< HEAD
                 //
                 puts("Datos de un libro");
                 //Mostrar un libro
                  puts("Libro a buscar\n");  // Buscar un libro por titulo
+=======
+                system("cls");
+                printf("3. Mostrar informacion de un libro por titulo\n");
+
+                mostrarLibrosDisponibles(*listaDeGeneros);
+
+                puts("\n"); //salto de linea para que se vea mas claro.
+                puts("Cual es libro que desa buscar? \n");  // Buscar un libro por titulo
+>>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
                 char nombreLibro [60];
                 fflush(stdin);
                 fgets(nombreLibro, sizeof(nombreLibro), stdin);
                 nombreLibro[strcspn(nombreLibro, "\n")] = 0;
 
                 printf("\nNombre del libro a buscar : %s\n",nombreLibro);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
                 nodoArbolLibro *libroAbuscar = buscarLibroPorTituloEnLista(*listaDeGeneros,&nombreLibro);
 
 
                 if(libroAbuscar != NULL)
                 {
                     puts("\nDato del libro\n");
+<<<<<<< HEAD
 
                     mostrarLibro(libroAbuscar->dato);
                 }else
@@ -135,6 +165,24 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 fgets(nombreLector, sizeof(nombreLector), stdin);
                 nombreLector[strcspn(nombreLector, "\n")] = 0;
 
+=======
+                    mostrarLibro(libroAbuscar->dato);
+                }else
+                {
+                puts("Libro inexistente");
+                }
+                system("pause");
+                system("cls");
+                break;
+            case 4:
+                printf("Cargar un lector\n");
+                char nombreLector [30];
+                printf("Ingrese el nombre del lector que va a ingresar: ");
+                fflush(stdin);
+                fgets(nombreLector, sizeof(nombreLector), stdin);
+                nombreLector[strcspn(nombreLector, "\n")] = 0;
+
+>>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
                 nodoLector * existe = buscarNodoLector(*listaDeLectores,&nombreLector);
                 lector nuevo;
 
@@ -150,6 +198,7 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 system("cls");
                 break;
             case 5:
+<<<<<<< HEAD
                 printf("Ver datos de un lector.\n");
                 char nombreLectorAbuscar [30];
                 printf("Ingrese el nombre del lector que va a buscar: ");
@@ -164,17 +213,38 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 }else
                 {
                     printf("Lector inexistente\n");
+=======
+                system("cls");
+                printf("5. Ver un lector\n");
+                int dniBuscado;
+                printf("Ingrese el DNI del lector: ");
+                scanf("%d", &dniBuscado); // Leer DNI como entero
+
+                nodoLector *buscado = buscarLectorPorDNI(*listaDeLectores, dniBuscado);
+                puts("\n");
+                if (buscado != NULL) {
+                    mostrarLector(buscado->info);
+                } else {
+                    printf("Lector con DNI %d no encontrado.\n", dniBuscado);
+>>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
                 }
                 system("pause");
                 system("cls");
                 break;
             case 6:
+<<<<<<< HEAD
                 printf("Ver listado de lectores en el sistema.\n");
+=======
+                system("cls");
+                printf("6. Ver lista de lectores\n");
+
+>>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
                 imprimirListaLectores(*listaDeLectores);
                 system("pause");
                 system("cls");
                 break;
             case 7:
+<<<<<<< HEAD
                 {
                     char nombreLibro [60];
                     int nuevoEstado;
@@ -188,6 +258,28 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
 
                     modificarEstadoLibro(*listaDeGeneros,&nombreLibro, nuevoEstado, archivoLibros);
                 }
+=======
+                system("cls");
+                printf("7. Dar de baja/alta un libro\n");
+                puts("Libros disponibles: \n");
+                mostrarLibrosDisponibles(*listaDeGeneros);
+                char libro [60];
+                int nuevoEstado;
+                printf("\n Ingrese el nombre del libro: ");
+                fflush(stdin);
+                fgets(libro, sizeof(libro), stdin);
+                libro[strcspn(libro, "\n")] = 0;
+
+
+                puts("Libro encontrado: \n");
+                mostrarLibrosPorNombre(*listaDeGeneros,&libro);
+
+                printf("Ingrese el nuevo estado (1 para disponible, 0 para no disponible): ");
+                scanf("%d", &nuevoEstado);
+
+                modificarEstadoLibro(*listaDeGeneros,&libro, nuevoEstado, archivoLibros);
+                buscarLibroPorTituloEnLista(*listaDeGeneros,&libro);
+>>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
                 break;
             case 0:
                 printf("Volviendo al menu principal.\n");
