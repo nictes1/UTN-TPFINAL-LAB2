@@ -214,6 +214,7 @@ void mostrarLector(lector unLector) {
 //Imprime lista completa de lectores
 void imprimirListaLectores(nodoLector* lista) {
     nodoLector* actual = lista;
+    puts("Lectores: \n");
     while (actual != NULL) {
         mostrarLector(actual->info);
         puts("\n---------\n");
@@ -360,3 +361,15 @@ nodoLector * borrarNodoLector(nodoLector * lista, int dni) {
     }
     return lista;
 }
+
+nodoLector *buscarLectorPorDNI(nodoLector *lista, int dniBuscado) {
+    nodoLector *actual = lista;
+    while (actual != NULL) {
+        if (actual->info.dni == dniBuscado) {
+            return actual; // Lector encontrado
+        }
+        actual = actual->sig;
+    }
+    return NULL; // Lector no encontrado
+}
+
