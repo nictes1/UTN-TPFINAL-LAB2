@@ -197,10 +197,17 @@ void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLe
                 system("pause");
                 break;
             case 3:
-                mostrarAlquilerPendienteDeDevolucion(listaDeAlquileres, "nombreLectorAbuscar"); // Es para probar, aca debemos pedir al usuario que ingrese el nombre
+                {
+                char lectorDeudor [30];
+                printf("Ingrese el nombre del lector que va a buscar en la lista de alquileres: ");
+                fflush(stdin);
+                fgets(lectorDeudor, sizeof(lectorDeudor), stdin);
+                lectorDeudor[strcspn(lectorDeudor, "\n")] = 0;
+                mostrarAlquilerPendienteDeDevolucion(*listaDeAlquileres, lectorDeudor);
+                }
                 break;
             case 0:
-                printf("Volviendo al men� principal.\n");
+                printf("Volviendo al menu principal.\n");
                 sleep(1);
                 system("cls");
                 break;

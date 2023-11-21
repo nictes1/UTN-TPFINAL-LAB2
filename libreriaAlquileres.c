@@ -21,7 +21,7 @@ void mostrarAlquilerPendienteDeDevolucion (nodoAlquiler * listaAlquileres, char 
     {
         nodoAlquiler * sig;
         sig = listaAlquileres;
-        while(sig != NULL && strcasecmp(sig->datosLector.nombreYapellido,nombreLectorAbuscar)!=0)
+        while(sig != NULL && strcasecmp(sig->alquiler.datosLector.nombreYapellido,nombreLectorAbuscar)!=0)
         {
             sig = sig->siguiente;
         }
@@ -46,11 +46,11 @@ void mostrarAlquileres(nodoAlquiler *listaAlquileres) {
 
 void mostrarDatosAlquiler(nodoAlquiler * listaAlquileres)
 {
-    printf("Nombre : %s \n", listaAlquileres->datosLector.nombreYapellido);
-    printf("Libro : %s \n",listaAlquileres->datoLibro.titulo);
-    printf("DNI: %i \n", listaAlquileres->datosLector.dni);
-    printf("Email: %s\n", listaAlquileres->datosLector.email);
-    printf("Fecha de alquiler: %d/%d/%d\n", listaAlquileres->datosLector.fechaAlquiler.dia, listaAlquileres->datosLector.fechaAlquiler.mes, listaAlquileres->datosLector.fechaAlquiler.anio);
+    printf("Nombre : %s \n", listaAlquileres->alquiler.datosLector.nombreYapellido);
+    printf("Libro : %s \n",listaAlquileres->alquiler.datoLibroAlquilado.titulo);
+    printf("DNI: %i \n", listaAlquileres->alquiler.datosLector.dni);
+    printf("Email: %s\n", listaAlquileres->alquiler.datosLector.email);
+    printf("Fecha de alquiler: %d/%d/%d\n", listaAlquileres->alquiler.datosLector.fechaAlquiler.dia, listaAlquileres->alquiler.datosLector.fechaAlquiler.mes, listaAlquileres->alquiler.datosLector.fechaAlquiler.anio);
     puts("\n---------------------\n");
 }
 
@@ -173,10 +173,7 @@ stRegistroAlquiler crearRegistroAlquiler(stlibros libro, lector lectorEncontrado
 nodoAlquiler* crearNodoAlquiler(stRegistroAlquiler nuevoAlquiler, nodoAlquiler *listaAlquileres) {
 
     nodoAlquiler *nuevoNodoAlquiler = (nodoAlquiler *)malloc(sizeof(nodoAlquiler));
-
-    nuevoNodoAlquiler->datoLibro = nuevoAlquiler.datoLibroAlquilado;
-    nuevoNodoAlquiler->datosLector = nuevoAlquiler.datosLector;
-    nuevoNodoAlquiler->fechaAlquiler = nuevoAlquiler.fechaAlquiler;
+    nuevoNodoAlquiler->alquiler = nuevoAlquiler;
     nuevoNodoAlquiler->siguiente = listaAlquileres;
 
     return nuevoNodoAlquiler;

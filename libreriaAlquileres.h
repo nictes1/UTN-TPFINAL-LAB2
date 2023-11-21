@@ -1,21 +1,20 @@
 #ifndef LIBRERIAALQUILERES_H_INCLUDED
 #define LIBRERIAALQUILERES_H_INCLUDED
 
-typedef struct nodoAlquiler
-{
-    stlibros datoLibro;
-    lector datosLector;
-    fecha fechaAlquiler;
-
-    struct nodoAlquiler * siguiente ;
-}nodoAlquiler;
-
 typedef struct
 {
     stlibros datoLibroAlquilado;
     lector datosLector;
     fecha fechaAlquiler;
 }stRegistroAlquiler;
+
+typedef struct nodoAlquiler
+{
+    stRegistroAlquiler alquiler;
+    struct nodoAlquiler * siguiente ;
+}nodoAlquiler;
+
+
 
 nodoAlquiler * inicializarListaAlquiler ();
 void mostrarAlquilerPendienteDeDevolucion(nodoAlquiler *listaAlquileres, char nombreLectorAbuscar[]);
