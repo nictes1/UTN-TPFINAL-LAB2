@@ -56,6 +56,15 @@ void agregarGeneroALista(listaGeneros *lista, nodoGenero *nuevoGenero) {
     }
 }
 
+void mostrarGeneros(listaGeneros *lista) {
+    nodoGenero *actual = lista->primero;
+    printf("Lista de Generos:\n");
+    while (actual != NULL) {
+        printf("%s\n", actual->genero);
+        actual = actual->siguiente;
+    }
+}
+
 void serializarYGuardarListaGeneros(FILE *archivo, listaGeneros *lista) {
     nodoGenero *generoActual = lista->primero;
     while (generoActual != NULL) {
@@ -455,6 +464,43 @@ void modificarEstadoLibro(listaGeneros *lista, const char *nombreLibro, int nuev
     }
 }
 
+void mostrarLibrosDisponibles(listaGeneros *lista) {
+    nodoGenero *generoActual = lista->primero;
+    while (generoActual != NULL) {
+        puts("\n");
+        printf("Genero: %s\n", generoActual->genero);
+        mostrarLibrosDisponiblesEnArbol(generoActual->arbolDeLibros);
+        generoActual = generoActual->siguiente;
+    }
+}
+
+void mostrarLibrosDisponiblesEnArbol(nodoArbolLibro *arbol) {
+    if (arbol != NULL) {
+        mostrarLibrosDisponiblesEnArbol(arbol->izq);
+        if (arbol->dato.estado == 1) {
+            printf("Titulo: %s\n", arbol->dato.titulo);
+        }
+        mostrarLibrosDisponiblesEnArbol(arbol->der);
+    }
+}
+
+void mostrarLibrosPorNombre(listaGeneros *lista, const char *nombreBuscado) {
+    nodoGenero *generoActual = lista->primero;
+    while (generoActual != NULL) {
+        buscarYMostrarLibroEnArbol(generoActual->arbolDeLibros, nombreBuscado);
+        generoActual = generoActual->siguiente;
+    }
+}
+
+void buscarYMostrarLibroEnArbol(nodoArbolLibro *arbol, const char *nombreBuscado) {
+    if (arbol != NULL) {
+        buscarYMostrarLibroEnArbol(arbol->izq, nombreBuscado);
+        if (strcasecmp(arbol->dato.titulo, nombreBuscado) == 0) {
+            mostrarLibro(arbol->dato); // Asumiendo que tienes una función para mostrar los detalles de un libro
+        }
+        buscarYMostrarLibroEnArbol(arbol->der, nombreBuscado);
+    }
+}
 
 
 
