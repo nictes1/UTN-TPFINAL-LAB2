@@ -3,105 +3,275 @@
 #include <unistd.h>
 #include "libreriaListaPersonas.h"
 #include "LibreriaArboLdeLibros.h"
+#include "libreriaAlquileres.h"
+#include <string.h>
 
 
-//Constantes para los archivos
+
 const char * archivoLectores = "archivoLectores.bin";
 const char * archivoLibros = "archivoLibros.bin";
+const char * archivoAlquileres = "archivoAlquileres.bin";
 
+void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLectores, nodoAlquiler ** listaDeAlquileres);
+void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLectores, nodoAlquiler ** listaDeAlquileres);
+int leerOpcion();
 int main()
 {
-        //Funcion para cargar archivo
-        cargarArchivoLectores(archivoLectores);
-        //Inicializar la lista
-        nodoLector * listadoDeLectores = iniciarLista();
-        //Funcion para cargar la lista con los datos del archivo
-        listadoDeLectores = cargarLectoresDesdeArchivo (archivoLectores);
-        puts("\n");
-        imprimirListaLectores(listadoDeLectores);
-        //Funcion para añadir un lector a la lista y tambien guardarlo en el archivo
-         agregarLectorAListaYArchivo(&listadoDeLectores, archivoLectores);
+        //generarArchivoConGenerosYLibros(archivoLibros);
+        //generarArchivoLectores(archivoLectores);
+
+        listaGeneros * listaPrincipal = inicializarListaGeneros ();
+        listaPrincipal = cargarListaDeGenerosDesdeArchivo(archivoLibros,listaPrincipal);
+
+        nodoLector * listaDeLectores = iniciarLista();
+        listaDeLectores = cargarLectoresDesdeArchivo (archivoLectores);
+
+
+
+        //Inicializar la lista y cargarla con los datos del archivo de alquiler
+        nodoAlquiler *listaAlquileres = inicializarListaAlquiler();
+        listaAlquileres = cargarAlquileresDesdeArchivo(archivoAlquileres);
+
+         int opcion;
+
+    do {
+        // Mostrar menu principal
+        printf("\n=== Menu Principal ===\n");
+        printf("1. Acciones del Bibliotecario\n");
+        printf("2. Acciones de Alquiler\n");
+        printf("0. Salir\n");
+
+        opcion = leerOpcion();
+
+        switch (opcion) {
+            case 1:
+                mostrarMenuBibliotecario(&listaPrincipal,&listaDeLectores,&listaAlquileres);
+                system("cls");
+                break;
+            case 2:
+                mostrarMenuAlquiler(&listaPrincipal,&listaDeLectores,&listaAlquileres);
+                system("cls");
+                break;
+            case 0:
+                printf("Saliendo del programa. Hasta luego!\n");
+                break;
+            default:
+                printf("Opcion no valida. Intente nuevamente.\n");
+                break;
+        }
+
+    } while (opcion != 0);
 
     return 0;
 }
 
+void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLectores, nodoAlquiler ** listaDeAlquileres) {
+
+    system("cls");
+
+    int opcion;
+
+    do {
+        // Mostrar menu del Bibliotecario
+        printf("\n=== Menu del Bibliotecario ===\n");
+        printf("1. Agregar nuevo libro\n");
+        printf("2. Mostrar lista de libros por genero\n");
+        printf("3. Mostrar informacion de un libro por titulo\n");
+        printf("4. Cargar un lector\n");
+        printf("5. Ver un lector\n");
+        printf("6. Ver lista de lectores\n");
+        printf("7. Dar de baja/alta un libro\n");
+        printf("0. Volver al menu principal\n");
+
+        opcion = leerOpcion();
+
+        switch (opcion) {
+            case 1:
+                agregarLibroAListaYArchivo(listaDeGeneros, archivoLibros);
+                break;
+            case 2:
+                puts("Mostrar por genero\n");
+                char generoAver [30];
+                fflush(stdin);
+                fgets(generoAver, sizeof(generoAver), stdin);
+                generoAver[strcspn(generoAver, "\n")] = 0;
+
+                mostrarLibrosPorGenero(*listaDeGeneros,&generoAver);
+                system("pause");
+                system("cls");
+                break;
+            case 3:
+                //
+                puts("Datos de un libro");
+                //Mostrar un libro
+                 puts("Libro a buscar\n");  // Buscar un libro por titulo
+                char nombreLibro [60];
+                fflush(stdin);
+                fgets(nombreLibro, sizeof(nombreLibro), stdin);
+                nombreLibro[strcspn(nombreLibro, "\n")] = 0;
+
+                printf("\nNombre del libro a buscar : %s\n",nombreLibro);
+
+                nodoArbolLibro *libroAbuscar = buscarLibroPorTituloEnLista(*listaDeGeneros,&nombreLibro);
 
 
-//Funciones Archivo
-void guardarListaEnArchivo(const char* nombreArchivo, nodoLector* lista) {
-    FILE* archivo = fopen(nombreArchivo, "ab"); // Abrir el archivo en modo de escritura binaria
+                if(libroAbuscar != NULL)
+                {
+                    puts("\nDato del libro\n");
 
-    if (archivo == NULL) {
-        printf("No se pudo abrir el archivo para escritura.\n");
-        return;
-    }
+                    mostrarLibro(libroAbuscar->dato);
+                }else
+                {
+                puts("Libro inexistente");
+                }
+                system("pause");
+                system("cls");
+                break;
+            case 4:
+                printf("Cargar un lector\n");
+                char nombreLector [30];
+                printf("Ingrese el nombre del lector que va a ingresar: ");
+                fflush(stdin);
+                fgets(nombreLector, sizeof(nombreLector), stdin);
+                nombreLector[strcspn(nombreLector, "\n")] = 0;
 
-    lector aux;
+                nodoLector * existe = buscarNodoLector(*listaDeLectores,&nombreLector);
+                lector nuevo;
 
-    nodoLector* actual = lista;
+                if(existe == NULL) //Si no esta en la lista lo podemos agregar
+                {
+                    nuevo = cargarLector(nombreLector);
+                    agregarLectorAListaYArchivo(listaDeLectores,archivoLectores,nuevo);
+                }else
+                {
+                    printf("\nEl lector ya se encuentra en la lista\n");
+                }
+                system("pause");
+                system("cls");
+                break;
+            case 5:
+                printf("Ver datos de un lector.\n");
+                char nombreLectorAbuscar [30];
+                printf("Ingrese el nombre del lector que va a buscar: ");
+                fflush(stdin);
+                fgets(nombreLectorAbuscar, sizeof(nombreLectorAbuscar), stdin);
+                nombreLectorAbuscar[strcspn(nombreLectorAbuscar, "\n")] = 0;
 
-    while (actual != NULL) {
+                nodoLector * buscado = buscarNodoLector(*listaDeLectores,&nombreLectorAbuscar);
+                puts("\n");
+                if(buscado != NULL){
+                    mostrarLector(buscado->info);
+                }else
+                {
+                    printf("Lector inexistente\n");
+                }
+                system("pause");
+                system("cls");
+                break;
+            case 6:
+                printf("Ver listado de lectores en el sistema.\n");
+                imprimirListaLectores(*listaDeLectores);
+                system("pause");
+                system("cls");
+                break;
+            case 7:
+                {
+                    char nombreLibro [60];
+                    int nuevoEstado;
+                    printf("Ingrese el nombre del libro: ");
+                    fflush(stdin);
+                    fgets(nombreLibro, sizeof(nombreLibro), stdin);
+                    nombreLibro[strcspn(nombreLibro, "\n")] = 0;
 
+                    printf("Ingrese el nuevo estado (1 para disponible, 0 para no disponible): ");
+                    scanf("%d", &nuevoEstado);
 
-        fwrite(&actual->info, sizeof(lector), 1, archivo);  //No guarda el nodo sino que guarda los datos de ese nodo.
-        actual = actual->sig;
-    }
+                    modificarEstadoLibro(*listaDeGeneros,&nombreLibro, nuevoEstado, archivoLibros);
+                }
+                break;
+            case 0:
+                printf("Volviendo al menu principal.\n");
+                sleep(1);
+                system("cls");
+                break;
+            default:
+                printf("Opcion no valida. Intente nuevamente.\n");
+                break;
+        }
 
-    fclose(archivo); // Cerrar el archivo
+    } while (opcion != 0);
 }
 
+void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLectores, nodoAlquiler ** listaDeAlquileres) {
 
+    system("cls");
 
-void guardarArregloDeArboles(celdaGeneros ADA[], int dim)
-{
-    FILE *archivo = fopen(archivoLibros, "wb"); // Abre el archivo para escritura binaria
-    if (archivo == NULL)
-    {
-        printf("Error al abrir el archivo para escritura.\n");
-        return;
-    }
+    int opcion;
 
-    for (int i = 0; i < dim; i++)
-    {
-        guardarArbolLibrosRecursivo(ADA[i].arbolDeLibros, archivo);
-    }
+    do {
+        // Mostrar menu de Alquiler
+        printf("\n=== Menu de Alquiler ===\n");
+        printf("1. Realizar nuevo alquiler\n");
+        printf("2. Mostrar alquileres pendientes de devolucion\n");
+        printf("3. Mostrar informacion de un alquiler\n");
+        printf("4. Realizar Devolucion\n");
+        printf("0. Volver al menu principal\n");
 
-    fclose(archivo);
+        opcion = leerOpcion();
+
+        switch (opcion) {
+            case 1:
+
+                realizarAlquiler(archivoLectores, archivoLibros, archivoAlquileres, listaDeGeneros, listaDeLectores, listaDeAlquileres);
+                system("pause");
+                system("cls");
+                break;
+            case 2:
+                mostrarAlquileres(*listaDeAlquileres);
+                system("pause");
+                system("cls");
+                break;
+            case 3:
+                {
+                char lectorDeudor [30];
+                printf("Ingrese el nombre del lector que va a buscar en la lista de alquileres: ");
+                fflush(stdin);
+                fgets(lectorDeudor, sizeof(lectorDeudor), stdin);
+                lectorDeudor[strcspn(lectorDeudor, "\n")] = 0;
+                mostrarAlquilerPendienteDeDevolucion(*listaDeAlquileres, lectorDeudor);
+                }
+                system("pause");
+                system("cls");
+                break;
+            case 4:
+                realizarDevolucion(archivoLectores,archivoLibros,archivoAlquileres,listaDeGeneros,listaDeLectores,listaDeAlquileres);
+                system("pause");
+                system("cls");
+                break;
+            case 0:
+                printf("Volviendo al menu principal.\n");
+                sleep(1);
+                system("cls");
+                break;
+            default:
+                printf("Opcion no valida. Intente nuevamente.\n");
+                break;
+        }
+
+    } while (opcion != 0);
 }
-
-
-void guardarArbolLibrosRecursivo(nodoArbolLibro *arbol, FILE *archivo)
-{
-    if (arbol != NULL)
-    {
-        fwrite(&arbol->dato , sizeof(stlibros), 1, archivo); // Guarda el libro en el archivo
-        guardarArbolLibrosRecursivo(arbol->izq, archivo); // Recorre el subárbol izquierdo
-        guardarArbolLibrosRecursivo(arbol->der, archivo); // Recorre el subárbol derecho
+int leerOpcion() {
+    int opcion;
+    while (1) {
+        printf("Seleccione una opcion: ");
+        if (scanf("%d", &opcion) != 1) {
+            while (getchar() != '\n');
+            printf("Opcion no valida. Intente nuevamente.\n");
+        } else {
+            break;
+        }
     }
-}
-
-///Funcion Dias
-int contarDias(lector a)
-{
-    int meses[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    int dias = a.fechaAlquiler.dia;
-
-    for (int i = 0; i < a.fechaAlquiler.mes - 1; i++)
-    {
-        dias += meses[i];
-    }
-
-    return dias;
-}
-
-int diferenciaFechas(lector a, lector temp)
-{
-    int dias1 = contarDias(a);
-    int dias2 = contarDias(temp);
-
-    int diferencia = dias2 - dias1;
-
-    return diferencia;
+    return opcion;
 }
 
 

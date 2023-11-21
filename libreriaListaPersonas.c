@@ -2,10 +2,57 @@
 #include <stdlib.h>
 #include "libreriaListaPersonas.h"
 #include "LibreriaArboLdeLibros.h"
+#include "libreriaAlquileres.h"
 #include <string.h>
 #include <unistd.h>
 
-// Función para cargar un lector desde la entrada estándar
+
+const char *nombres[] = {
+    "Juan", "Ana", "Pedro", "Maria", "Carlos", "Lucia",
+    "Jose", "Sofia", "Fernando", "Carmen", "Miguel", "Elena",
+    "Francisco", "Isabel", "Diego", "Laura"
+};
+
+const char *apellidos[] = {
+    "Perez", "Gonzalez", "Lopez", "Martinez", "Rodriguez", "Garcia",
+    "Fernandez", "Gomez", "Sanchez", "Diaz", "Vazquez", "Romero",
+    "Torres", "Dominguez", "Jimenez", "Ruiz"
+};
+
+void generarLectorRandom(lector *l) {
+    const char *nombres[] = {"Juan", "Ana", "Pedro", "Maria", /* ... otros nombres ... */};
+    const char *apellidos[] = {"Perez", "Gonzalez", "Lopez", "Martinez", /* ... otros apellidos ... */};
+
+    int nombreIdx = rand() % (sizeof(nombres) / sizeof(nombres[0]));
+    int apellidoIdx = rand() % (sizeof(apellidos) / sizeof(apellidos[0]));
+
+    sprintf(l->nombreYapellido, "%s %s", nombres[nombreIdx], apellidos[apellidoIdx]);
+    l->dni = rand() % 50000000 + 10000000;
+    l->esEstudiante = rand() % 2;
+    l->alquiler = 1;
+    sprintf(l->email, "%s%s@gmail.com", nombres[nombreIdx], apellidos[apellidoIdx]);
+    sprintf(l->direccion, "Calle %d", rand() % 100 + 1);
+}
+
+void generarArchivoLectores(const char *filename) {
+    FILE *buffer = fopen(filename, "ab");
+    if (!buffer) {
+        printf("Error al abrir el archivo %s\n", filename);
+        exit(1);
+    }
+
+    for (int i = 0; i < 100; i++) {
+        lector l;
+        generarLectorRandom(&l);
+        fwrite(&l, sizeof(lector), 1, buffer);
+    }
+
+    fclose(buffer);
+}
+
+
+
+// Funcion para cargar un lector desde la entrada estandar
 lector cargarLector(char nombrelector[])
 {
     lector nuevoLector;
@@ -15,21 +62,21 @@ lector cargarLector(char nombrelector[])
     printf("Ingrese el DNI: ");
     scanf("%d", &nuevoLector.dni);
 
-    printf("Es estudiante (1 para sí, 0 para no): ");
+    printf("Es estudiante (1 para si, 0 para no): ");
     scanf("%d", &nuevoLector.esEstudiante);
 
     printf("Ingrese el email: ");
     scanf("%s", nuevoLector.email);
 
-    printf("Ingrese la dirección: ");
+    printf("Ingrese la direccion: ");
     scanf("%s", nuevoLector.direccion);
 
-    nuevoLector.alquiler = 0;
+    nuevoLector.alquiler = 1;
 
     return nuevoLector;
 }
 
-// Función para verificar si un lector con el mismo nombre ya existe en un archivo binario
+// Funcion para verificar si un lector con el mismo nombre ya existe en un archivo binario
 int lectorExiste(char nombreLector[], const char *archivoLectores)
 {
     FILE *archivo = fopen(archivoLectores, "rb");
@@ -41,7 +88,7 @@ int lectorExiste(char nombreLector[], const char *archivoLectores)
     lector lectorActual;
     while (fread(&lectorActual, sizeof(lectorActual), 1, archivo))
     {
-        if (strcmp(lectorActual.nombreYapellido, nombreLector) == 0)
+        if (strcasecmp(lectorActual.nombreYapellido, nombreLector) == 0)
         {
             fclose(archivo);
             return 1; // El lector ya existe en el archivo
@@ -52,7 +99,7 @@ int lectorExiste(char nombreLector[], const char *archivoLectores)
     return 0; // El lector no existe en el archivo
 }
 
-// Función para guardar un lector en un archivo binario
+// Funcion para guardar un lector en un archivo binario
 void guardarLector(const lector *lectorAGuardar, const char *archivoLectores)
 {
     FILE *archivo = fopen(archivoLectores, "ab");
@@ -66,8 +113,7 @@ void guardarLector(const lector *lectorAGuardar, const char *archivoLectores)
     fclose(archivo);
 }
 
-
-
+//funcion para agregar lectores al archivo - CARGA MANUAL DE LECTORES
 void cargarArchivoLectores(const char *archivoLectores)
 {
     FILE *archivo = fopen(archivoLectores, "ab");
@@ -86,7 +132,8 @@ void cargarArchivoLectores(const char *archivoLectores)
         char nombre[20];
         printf("Ingrese el nombre del Lector: ");
         fflush(stdin);
-        gets(nombre);
+        fgets(nombre, sizeof(nombre), stdin);
+        nombre[strcspn(nombre, "\n")] = 0;
         existeLector = lectorExiste(nombre, archivoLectores);
 
         if (existeLector != 1)
@@ -113,23 +160,37 @@ void cargarArchivoLectores(const char *archivoLectores)
 }
 
 
-nodoLector* buscarNodoLector(nodoLector* lista, char nombre[])
-{
-    nodoLector* seg = lista;
+nodoLector* buscarNodoLector(nodoLector* lista, const char* nombre) {
+    if (lista == NULL) {
+        printf("La lista estÃ¡ vacÃ­a.\n");
+        return NULL;
+    }
 
-    while ((seg != NULL) && strcasecmp(seg->info.nombreYapellido,nombre)!=0) {
+    if (nombre == NULL) {
+        printf("El nombre proporcionado es NULL.\n");
+        return NULL;
+    }
+
+    nodoLector* seg;
+    seg = lista;
+    printf("Lector a buscar %s\n",nombre);
+    while (seg != NULL) {
+        if (strcasecmp(seg->info.nombreYapellido, nombre) == 0) {
+            return seg;
+        }
         seg = seg->sig;
     }
 
-    return seg;
+    printf("No se encontro el lector con nombre %s.\n", nombre);
+    return NULL;
 }
 
-
-
+//Inicializa la lista del lector
 nodoLector* iniciarLista() {
     return NULL;
 }
 
+//crea un nodo de tipo "lector"
 nodoLector* crearNodoLector(lector nuevo) {
     nodoLector* auxiliar = (nodoLector*)malloc(sizeof(nodoLector));
     auxiliar->info = nuevo;
@@ -139,47 +200,30 @@ nodoLector* crearNodoLector(lector nuevo) {
 }
 
 
-
-nodoLector * borrarNodoLector(nodoLector * lista, int dni) {
-    nodoLector * seg;
-    nodoLector * ante = NULL; // Apunta al nodo anterior a 'seg'.
-
-    if (lista != NULL && lista->info.dni == dni) {
-        nodoLector * aux = lista;
-        lista = lista->sig; // Saltear el primer nodo.
-        free(aux);         // Eliminar el primer nodo.
-    } else {
-        seg = lista;
-        while (seg != NULL && seg->info.dni != dni) {
-            ante = seg;          // Adelantar una posición la variable 'ante'.
-            seg = seg->sig;      // Avanzar al siguiente nodo.
-        }
-        // En este punto, 'ante' contiene la dirección del nodo anterior al buscado, y 'seg'
-        // contiene la dirección del nodo que quieres borrar.
-        if (seg != NULL) {
-            if (ante != NULL) {
-                ante->sig = seg->sig; // Saltear el nodo que quieres eliminar.
-            } else {
-                lista = seg->sig; // El nodo a eliminar es el primero de la lista.
-            }
-            free(seg); // Eliminar el nodo.
-        }
-    }
-    return lista;
+//Muestra informacion de un lector
+void mostrarLector(lector unLector) {
+    printf("Nombre: %s\n", unLector.nombreYapellido);
+    printf("DNI: %d\n", unLector.dni);
+    printf("Es estudiante: %s\n", unLector.esEstudiante ? "Si" : "No");
+    printf("Email: %s\n", unLector.email);
+    printf("Direccion: %s\n", unLector.direccion);
+    printf("Estado de alquiler: %s\n", unLector.alquiler ? "Disponible" : "En alquiler");
 }
 
+
+//Imprime lista completa de lectores
 void imprimirListaLectores(nodoLector* lista) {
     nodoLector* actual = lista;
     while (actual != NULL) {
-        printf("Nombre: %s, DNI: %d\n", actual->info.nombreYapellido, actual->info.dni);
+        mostrarLector(actual->info);
+        puts("\n---------\n");
         actual = actual->sig;
     }
-    printf("\n");
 }
 
 
-
-void mostrarArchivo (const char * archivoLectores)
+//Muesta el archivo de lectores
+void mostrarArchivolectores (const char * archivoLectores)
 {
     FILE * archi = fopen(archivoLectores,"rb");
     lector auxiliar;
@@ -191,35 +235,20 @@ void mostrarArchivo (const char * archivoLectores)
     {
         while(fread(&auxiliar,sizeof(lector),1,archi)==1)
         {
-            printf("Nombre: %s, DNI: %d\n", auxiliar.nombreYapellido, auxiliar.dni);
+            mostrarLector(auxiliar);
+            puts("\n------------\n");
         }
     }
 }
 
-nodoLector *cargarLectorDesdeArchivo(FILE *archivo)
-{
-    lector nuevoLector;
-    if (fread(&nuevoLector, sizeof(nuevoLector), 1, archivo) != 1)
-    {
-        printf("No se pudo abrir el archivo de lectores. (No hay lectores en el registro todavía)\n");
-        return NULL; // Fin del archivo
-    }
 
-    // Crear un nodo para el lector
-    nodoLector *nuevoNodo = crearNodoLector(nuevoLector);
-    return nuevoNodo;
-}
-
-nodoLector *cargarLectoresDesdeArchivo(const char *nombreArchivo)
-{
-    FILE *archivo;
-    archivo = fopen(nombreArchivo, "rb");
-    if (archivo == NULL)
-    {
-        // El archivo no existe, crea uno vacío
+//Carga la lista de lectores x Archivo
+nodoLector *cargarLectoresDesdeArchivo(const char *nombreArchivo) {
+    FILE *archivo = fopen(nombreArchivo, "rb");
+    if (archivo == NULL) {
+        // El archivo no existe, crea uno vacï¿½o
         archivo = fopen(nombreArchivo, "wb");
-        if (archivo == NULL)
-        {
+        if (archivo == NULL) {
             printf("No se pudo crear el archivo de lectores.\n");
             return NULL;
         }
@@ -227,19 +256,18 @@ nodoLector *cargarLectoresDesdeArchivo(const char *nombreArchivo)
 
         // Vuelve a abrir el archivo en modo lectura binaria
         archivo = fopen(nombreArchivo, "rb");
-        if (archivo == NULL)
-        {
+        if (archivo == NULL) {
             printf("No se pudo abrir el archivo de lectores.\n");
             return NULL;
         }
     }
 
     nodoLector *lista = iniciarLista();
-    nodoLector *nuevoNodo;
+    lector nuevoLector;  // Cambio: mover la declaraciï¿½n fuera del bucle
 
-    while ((nuevoNodo = cargarLectorDesdeArchivo(archivo)) != NULL)
-    {
-
+    // Lectura continua desde el archivo
+    while (fread(&nuevoLector, sizeof(nuevoLector), 1, archivo) == 1) {
+        nodoLector *nuevoNodo = crearNodoLector(nuevoLector);
         insertarOrdenado(&lista, nuevoNodo);
     }
 
@@ -249,7 +277,7 @@ nodoLector *cargarLectoresDesdeArchivo(const char *nombreArchivo)
 
 
 
-// Función para liberar la memoria de la lista de lectores
+// Funcion para liberar la memoria de la lista de lectores
 void liberarListaLectores(nodoLector *lista)
 {
     while (lista != NULL)
@@ -260,7 +288,7 @@ void liberarListaLectores(nodoLector *lista)
     }
 }
 
-// Función para insertar un lector en la lista ordenadamente por DNI
+// Funcion para insertar un lector en la lista ordenadamente por DNI
 void insertarOrdenado(nodoLector **lista, nodoLector *nuevoNodo)
 {
     if (*lista == NULL || nuevoNodo->info.dni < (*lista)->info.dni)
@@ -281,19 +309,11 @@ void insertarOrdenado(nodoLector **lista, nodoLector *nuevoNodo)
     }
 }
 
-void agregarLectorAListaYArchivo(nodoLector **lista, const char *archivoLectores) {
-    char nombre[20];
-    printf("Ingrese el nombre del Lector: ");
-    fflush(stdin);
-    gets(nombre);
+//Funcion para agregar un nuevo lector ordenado en la lista y en el archivo de lectores
+void agregarLectorAListaYArchivo(nodoLector **lista, const char *archivoLectores, lector aGuardar) {
 
-    if (lectorExiste(nombre, archivoLectores)) {
-        printf("El lector ya existe en el archivo.\n");
-        return;
-    }
 
-    lector lectorAGuardar = cargarLector(nombre);
-    nodoLector *nuevoNodo = crearNodoLector(lectorAGuardar);
+    nodoLector *nuevoNodo = crearNodoLector(aGuardar);
 
     insertarOrdenado(lista, nuevoNodo); // Agregar a la lista
 
@@ -304,9 +324,39 @@ void agregarLectorAListaYArchivo(nodoLector **lista, const char *archivoLectores
         return;
     }
 
-    fwrite(&lectorAGuardar, sizeof(lectorAGuardar), 1, archivo); // Guardar en el archivo
+    fwrite(&aGuardar, sizeof(aGuardar), 1, archivo); // Guardar en el archivo
     fclose(archivo);
 
     printf("Lector guardado en la lista y en el archivo.\n");
 }
 
+
+
+//Borra un nodo de lector buscando por su DNI
+nodoLector * borrarNodoLector(nodoLector * lista, int dni) {
+    nodoLector * seg;
+    nodoLector * ante = NULL; // Apunta al nodo anterior a 'seg'.
+
+    if (lista != NULL && lista->info.dni == dni) {
+        nodoLector * aux = lista;
+        lista = lista->sig; // Saltear el primer nodo.
+        free(aux);         // Eliminar el primer nodo.
+    } else {
+        seg = lista;
+        while (seg != NULL && seg->info.dni != dni) {
+            ante = seg;          // Adelantar una posiciï¿½n la variable 'ante'.
+            seg = seg->sig;      // Avanzar al siguiente nodo.
+        }
+        // En este punto, 'ante' contiene la direcciï¿½n del nodo anterior al buscado, y 'seg'
+        // contiene la direcciï¿½n del nodo que quieres borrar.
+        if (seg != NULL) {
+            if (ante != NULL) {
+                ante->sig = seg->sig; // Saltear el nodo que quieres eliminar.
+            } else {
+                lista = seg->sig; // El nodo a eliminar es el primero de la lista.
+            }
+            free(seg); // Eliminar el nodo.
+        }
+    }
+    return lista;
+}

@@ -2,34 +2,116 @@
 #include <stdlib.h>
 #include "libreriaListaPersonas.h"
 #include "LibreriaArboLdeLibros.h"
+#include "libreriaAlquileres.h"
+#include "globals.h"
 #include <string.h>
 #include <unistd.h>
+#include "constants.h"
+
+const char *generos[NUM_GENEROS] = {"Fantasia", "Ciencia Ficcion", "Terror", "Aventura", "Romance"};
+const char *titulos[NUM_GENEROS][LIBROS_POR_GENERO] = {
+    {"El Hobbit", "Harry Potter y la piedra filosofal", "El nombre del viento", "Juego de Tronos", "El senor de los anillos", "La historia interminable", "Las cronicas de Narnia", "American Gods", "Elric de Melnibone", "La rueda del tiempo"},
+    {"Dune", "Neuromante", "El juego de Ender", "Fahrenheit 451", "2001: Una odisea del espacio", "El marciano", "Blade Runner", "Hyperion", "Fundacion", "La guerra de los mundos"},
+    {"Dracula", "It", "El exorcista", "La llamada de Cthulhu", "El resplandor", "Frankenstein", "La casa de hojas", "Cementerio de animales", "El silencio de los corderos", "Carrie"},
+    {"La isla del tesoro", "Las aventuras de Huckleberry Finn", "Robinson Crusoe", "Viaje al centro de la Tierra", "Los tres mosqueteros", "Moby Dick", "El conde de Montecristo", "La vuelta al mundo en 80 dias", "El ultimo mohicano", "La Odisea"},
+    {"Orgullo y prejuicio", "Lo que el viento se llevo", "Romeo y Julieta", "El amor en los tiempos del colera", "Cumbres Borrascosas", "Jane Eyre", "La dama de las camelias", "Los puentes de Madison", "Posdata: Te amo", "El tiempo entre costuras"}
+};
+const char *autores[NUM_GENEROS][LIBROS_POR_GENERO] = {
+    {"J.R.R. Tolkien", "J.K. Rowling", "Patrick Rothfuss", "George R.R. Martin", "J.R.R. Tolkien", "Michael Ende", "C.S. Lewis", "Neil Gaiman", "Michael Moorcock", "Robert Jordan"},
+    {"Frank Herbert", "William Gibson", "Orson Scott Card", "Ray Bradbury", "Arthur C. Clarke", "Andy Weir", "Philip K. Dick", "Dan Simmons", "Isaac Asimov", "H.G. Wells"},
+    {"Bram Stoker", "Stephen King", "William Peter Blatty", "H.P. Lovecraft", "Stephen King", "Mary Shelley", "Mark Z. Danielewski", "Stephen King", "Thomas Harris", "Stephen King"},
+    {"Robert Louis Stevenson", "Mark Twain", "Daniel Defoe", "Julio Verne", "Alexandre Dumas", "Herman Melville", "Alexandre Dumas", "Julio Verne", "James Fenimore Cooper", "Homero"},
+    {"Jane Austen", "Margaret Mitchell", "William Shakespeare", "Gabriel Garcia Marquez", "Emily Bronte", "Charlotte Bronte", "Alexandre Dumas (hijo)", "Robert James Waller", "Cecelia Ahern", "Maria Duenas"}
+};
+
+stlibros crearLibroEspecifico(const char *titulo, const char *autor, const char *genero, int anio, int cantCopias, float precio, int estado) {
+    stlibros libro;
+    strcpy(libro.titulo, titulo);
+    strcpy(libro.autor, autor);
+    libro.cantPag = 300;
+    strcpy(libro.genero, genero);
+    libro.anioLanzamiento = anio;
+    libro.Copias.cantCopias = cantCopias;
+    libro.Copias.precioAlquiler = precio;
+    libro.estado = estado;
+    return libro;
+}
+nodoGenero *crearNodoGenero(const char *genero, nodoArbolLibro *arbol) {
+    nodoGenero *nuevoGenero = (nodoGenero *)malloc(sizeof(nodoGenero));
+    strcpy(nuevoGenero->genero, genero);
+    nuevoGenero->arbolDeLibros = arbol;
+    nuevoGenero->siguiente = NULL;
+    return nuevoGenero;
+}
+
+void agregarGeneroALista(listaGeneros *lista, nodoGenero *nuevoGenero) {
+    if (lista->primero == NULL) {
+        lista->primero = nuevoGenero;
+    } else {
+        nodoGenero *actual = lista->primero;
+        while (actual->siguiente != NULL) {
+            actual = actual->siguiente;
+        }
+        actual->siguiente = nuevoGenero;
+    }
+}
+
+void serializarYGuardarListaGeneros(FILE *archivo, listaGeneros *lista) {
+    nodoGenero *generoActual = lista->primero;
+    while (generoActual != NULL) {
+        nodoArbolLibro *libroActual = generoActual->arbolDeLibros;
+        while (libroActual != NULL) {
+            fwrite(&(libroActual->dato), sizeof(stlibros), 1, archivo);
+            libroActual = libroActual->der;
+        }
+        generoActual = generoActual->siguiente;
+    }
+}
+
+void generarArchivoConGenerosYLibros(const char* nombreArchivo) {
+    FILE* archivo = fopen(nombreArchivo, "wb");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo para escritura.\n");
+        return;
+    }
+
+    stlibros libro;
+
+     for (int i = 0; i < NUM_GENEROS; i++) {
+        for (int j = 0; j < LIBROS_POR_GENERO; j++) {
+            libro = crearLibroEspecifico(titulos[i][j], autores[i][j], generos[i], 2000 + j, 5, 50.0, 1);
+            fwrite(&libro, sizeof(libro), 1, archivo);
+        }
+    }
 
 
-stlibros crearLibro()
+    fclose(archivo);
+}
+
+
+
+//Crea un libro - carga de datos de forma manual por el usuario
+stlibros crearLibro(char nombreLibro[])
 {
     stlibros libro;
 
-    printf("Ingrese el título del libro : ");
-    fflush(stdin);
-    gets(libro.titulo);
+    strcpy(libro.titulo,nombreLibro);
 
     printf("Ingrese el autor del libro : ");
     fflush(stdin);
-    gets(libro.autor);
+    fgets(libro.autor, sizeof(libro.autor), stdin);
+    libro.autor[strcspn(libro.autor, "\n")] = 0;
 
-    printf("Ingrese la cantidad de páginas: ");
+    printf("Ingrese la cantidad de pï¿½ginas: ");
     scanf("%d", &libro.cantPag);
 
-    printf("Ingrese el género del libro : ");
+    printf("Ingrese el gï¿½nero del libro : ");
     fflush(stdin);
-    gets(libro.genero);
+    fgets(libro.genero, sizeof(libro.genero), stdin);
+    libro.genero[strcspn(libro.genero, "\n")] = 0;
 
-    printf("Ingrese el año de lanzamiento: ");
+    printf("Ingrese el aÃ±o de lanzamiento: ");
     scanf("%d", &libro.anioLanzamiento);
-
-    printf("Ingrese el ID interno del libro: ");
-    scanf("%d", &libro.idInterno);
 
     printf("Ingrese la cantidad de copias: ");
     scanf("%d", &libro.Copias.cantCopias);
@@ -40,11 +122,80 @@ stlibros crearLibro()
     return libro;
 }
 
+// Funcion para verificar si un libro ya existe en el archivo
+int libroExisteEnArchivo(const char *nombreLibro, const char *archivo) {
+    FILE *file = fopen(archivo, "rb");
+    if (file == NULL) {
+        return 0; // El archivo no estï¿½ disponible
+    }
+
+    stlibros libro;
+
+    while (fread(&libro, sizeof(stlibros), 1, file) == 1) {
+        // Comparar el nombre del libro en el archivo con el nombre proporcionado
+        if (strcasecmp(libro.titulo, nombreLibro) == 0) {
+            fclose(file);
+            return 1; // El libro existe en el archivo
+        }
+    }
+
+    fclose(file);
+    return 0; // No se encontrï¿½ el libro en el archivo
+}
+
+// Funcion para cargar un libro en el archivo - carga de datos de forma manual por el usuario
+void cargarLibroEnArchivo(const char *archivo) {
+    char continuar = 's';
+
+    while (continuar == 's' || continuar == 'S') {
+        stlibros libro;
+        FILE *file = fopen(archivo, "ab");
+
+        if (file == NULL) {
+            printf("Error al abrir el archivo de libros.\n");
+            return;
+        }
+
+        printf("Ingrese el titulo del libro: ");
+        fflush(stdin);
+        fgets(libro.titulo, sizeof(libro.titulo), stdin);
+        libro.titulo[strcspn(libro.titulo, "\n")] = 0;
+
+        if (libroExisteEnArchivo(libro.titulo, archivo)) {
+            printf("El libro ya existe en el archivo. No se puede cargar nuevamente.\n");
+            fclose(file);
+        } else {
+            libro = crearLibro(libro.titulo);
+
+            fwrite(&libro, sizeof(stlibros), 1, file);
+            fclose(file);
+        }
+
+        printf("Desea cargar otro libro? (S/N): ");
+        fflush(stdin);
+        scanf(" %c", &continuar);
+    }
+}
+
+//Inicializa la lilsta de libros
 nodoArbolLibro *inicializarArbol()
 {
     return NULL;
 }
 
+//iniciar lista de generos
+listaGeneros *inicializarListaGeneros() {
+    listaGeneros *nuevaLista = (listaGeneros *)malloc(sizeof(listaGeneros));
+    if (nuevaLista != NULL) {
+        nuevaLista->primero = NULL; // Inicializa el puntero primero a NULL
+    } else {
+        printf("Error al asignar memoria para la lista de generos.\n");
+        // Manejo de errores si no se pudo asignar memoria
+    }
+    return nuevaLista;
+}
+
+//crear nodo de libro - nodo de tipo "stLibros"
 nodoArbolLibro *crearNodoArbolLibro(stlibros libro)
 {
     nodoArbolLibro *aux = (nodoArbolLibro *)malloc(sizeof(nodoArbolLibro));
@@ -56,196 +207,254 @@ nodoArbolLibro *crearNodoArbolLibro(stlibros libro)
     return aux;
 }
 
-// Función para buscar un libro por su identificador interno
-nodoArbolLibro *buscar(nodoArbolLibro *arbol, int idInterno)
-{
-    nodoArbolLibro *rta = NULL;
-
-    if (arbol != NULL)
-    {
-        if (idInterno == arbol->dato.idInterno)
-        {
-            rta = arbol;
-        }
-        else if (idInterno > arbol->dato.idInterno)
-        {
-            rta = buscar(arbol->der, idInterno);
-        }
-        else
-        {
-            rta = buscar(arbol->izq, idInterno);
-        }
-    }
-
-    return rta;
+//agrega un genero de libro a la lista de generos - lista (generos) de arboles (libros)
+void agregarGenero(listaGeneros *lista, const char genero[]) {
+    nodoGenero *nuevoGenero = (nodoGenero *)malloc(sizeof(nodoGenero));
+    strcpy(nuevoGenero->genero, genero);
+    nuevoGenero->arbolDeLibros = inicializarArbol();
+    nuevoGenero->siguiente = lista->primero;
+    lista->primero = nuevoGenero;
 }
 
-// Función para insertar un libro en el árbol teniendo como criterio la cantidad de copias
-nodoArbolLibro *insertarPorCopias(nodoArbolLibro *arbol, nodoArbolLibro *nuevo)
-{
-    if (arbol == NULL)
-    {
-        arbol = nuevo;
+//Busca un libro en el arbol de libros por su titulo.
+nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo) {
+    if (arbol == NULL) {
+        return NULL; // El arbol esta vacio, no se encontro el libro
     }
-    else
-    {
-        if (nuevo->dato.Copias.cantCopias > arbol->dato.Copias.cantCopias)
-        {
-            arbol->der = insertarPorCopias(arbol->der, nuevo);
+
+    int comparacion = strcasecmp(titulo, arbol->dato.titulo);
+
+    if (comparacion == 0) {
+        return arbol; // El libro fue encontrado en este nodo
+    } else if (comparacion < 0) {
+        return buscarLibroEnArbol(arbol->izq, titulo); // Buscar en el subï¿½rbol izquierdo
+    } else {
+        return buscarLibroEnArbol(arbol->der, titulo); // Buscar en el subï¿½rbol derecho
+    }
+}
+
+nodoArbolLibro* buscarLibroPorTituloEnLista(listaGeneros *listaLibros, char const * libroBuscado) {
+    nodoGenero *tempGenero = listaLibros->primero;
+
+    while (tempGenero != NULL) {
+        nodoArbolLibro *libroEncontrado = buscarLibroEnArbol(tempGenero->arbolDeLibros, libroBuscado);
+        if (libroEncontrado != NULL) {
+            return libroEncontrado;
         }
-        else
-        {
-            arbol->izq = insertarPorCopias(arbol->izq, nuevo);
+        tempGenero = tempGenero->siguiente;
+    }
+
+    return NULL;
+}
+
+
+nodoArbolLibro *insertarPorNombre(nodoArbolLibro *arbol, nodoArbolLibro *nuevo) {
+    if (arbol == NULL) {
+        arbol = nuevo;
+    } else {
+        if (strcasecmp(nuevo->dato.titulo, arbol->dato.titulo) > 0) {
+            arbol->der = insertarPorNombre(arbol->der, nuevo);
+        } else {
+            arbol->izq = insertarPorNombre(arbol->izq, nuevo);
         }
     }
     return arbol;
 }
 
 
-
-// Función para mostrar los libros en orden (por identificador interno)
+// Funcion para mostrar los libros en orden
 void inorder(nodoArbolLibro *arbol)
 {
     if (arbol != NULL)
     {
         inorder(arbol->izq);
-        printf("ID: %d - Título: %s - Autor: %s\n", arbol->dato.idInterno, arbol->dato.titulo, arbol->dato.autor);
+        puts("\n");
+        mostrarLibro(arbol->dato);
         inorder(arbol->der);
     }
 }
 
-
-int ingresarLibro(celdaGeneros ADA[], int validos, nodoArbolLibro *nuevo)
-{
-    int pos = buscarPosicionGenero(ADA, validos, nuevo->dato.genero);
-
-    if (pos == -1)
-    {
-        // El género no existe, así que agregamos uno nuevo
-        validos = agregarGenero(ADA, validos, nuevo->dato.genero);
-        pos = validos - 1; // La posición es la última, que es la que acabamos de agregar
-    }
-
-    // Buscar si el libro ya existe en el árbol del género
-    nodoArbolLibro *libroExistente = buscar(nuevo->dato.idInterno, ADA[pos].arbolDeLibros);
-
-    if (libroExistente != NULL)
-    {
-        // El libro ya existe, preguntar al usuario si quiere agregar más copias
-        char respuesta;
-        printf("Has ingresado un libro existente, ¿desea cargar más copias? (S/N): ");
-        fflush(stdin);
-        scanf(" %c", &respuesta);
-
-        if (respuesta == 'S' || respuesta == 's')
-        {
-            int copiasAgregadas;
-            printf("¿Cuántas copias desea agregar?: ");
-            scanf("%d", &copiasAgregadas);
-
-            // Aumentar la cantidad de copias del libro existente
-            libroExistente->dato.Copias.cantCopias += copiasAgregadas;
+//busca un genero de la lista por su nombre - Ideal para mostrar todos los libros de un genero
+nodoGenero *buscarGenero(listaGeneros *lista, const char genero[]) {
+    nodoGenero *actual = lista->primero;
+    while (actual != NULL) {
+        if (strcasecmp(actual->genero, genero) == 0) {
+            return actual;
         }
+        actual = actual->siguiente;
     }
-    else
-    {
-        // Insertar el libro en el árbol correspondiente
-        ADA[pos].arbolDeLibros = insertarPorCopias(ADA[pos].arbolDeLibros, nuevo);
-    }
-
-    return validos;
+    return NULL; // Genero no encontrado
 }
 
-
-int buscarPosicionGenero (celdaGeneros ADA [],int validos,char genero[])
-{
-    int rta = -1;
-    int i=0;
-    while(i< validos && rta == -1)
-    {
-        if(strcasecmp(ADA[i].genero,genero)==0)
-        {
-            rta = i;   //si encuentra coincidencia nos devuelve la posicion de la materia en el arreglo
-        }              //sino devuelve -1
-        i++;
-    }
-
-    return rta;
-}
-
-int agregarGenero(celdaGeneros ADA[], const char genero[], int validos)
-{
-    strcpy(ADA[validos].genero, genero);
-    ADA[validos].arbolDeLibros = inicializarArbol();
-    validos++;
-
-    return validos;
-}
-
-int libroExisteEnArchivo(const char *nombreLibro, FILE *archivo) {
+//carga la lista de generos desde archivo .bin con datos de los generos.
+listaGeneros *cargarListaDeGenerosDesdeArchivo(const char *nombreArchivo, listaGeneros *listaGeneros) {
+    FILE *archivo = fopen(nombreArchivo, "rb");
     if (archivo == NULL) {
-        return 0; // El archivo no está disponible
+        printf("No se pudo abrir el archivo de libros.\n");
+        return listaGeneros; // Devolver la lista original
     }
 
     stlibros libro;
 
     while (fread(&libro, sizeof(stlibros), 1, archivo) == 1) {
-        // Comparar el nombre del libro en el archivo con el nombre proporcionado
-        if (strcmp(libro.titulo, nombreLibro) == 0) {
-            return 1; // El libro existe en el archivo
-        }
-    }
-
-    return 0; // No se encontró el libro en el archivo
-}
-
-int cargarArregloDeLibros(celdaGeneros ADA[], int dim, const char* archivo) {
-    char mander = 's';
-    int validos = 0;
-    stlibros aux;
-    nodoArbolLibro *nuevo;
-
-    FILE* archivoLibros = fopen(archivo, "wb");
-
-    if (archivoLibros == NULL) {
-        printf("Error al abrir el archivo de libros.\n");
-        return validos;
-    }
-
-    while (mander == 's' && validos < dim) {
-        aux = crearLibro();
-
-        // Primero, verifica si el libro ya existe en el archivo
-        if (libroExisteEnArchivo(aux.titulo, archivoLibros)) {
-            printf("El libro con ID %d ya existe en el archivo. No se puede cargar nuevamente.\n", aux.idInterno);
-        } else {
-            // Luego, verifica si el libro ya existe en el arreglo en memoria
-            if (!libroExisteEnArreglo(aux, ADA, validos)) {
-                nuevo = crearNodoArbolLibro(aux);
-                validos = ingresarLibro(ADA, validos, nuevo);
-            } else {
-                printf("El libro con ID %d ya existe en el arreglo en memoria. No se puede cargar nuevamente.\n", aux.idInterno);
-            }
+        nodoGenero *genero = buscarGenero(listaGeneros, libro.genero);
+        if (genero == NULL) {
+            // Si el genero no existe en la lista, agregalo
+            agregarGenero(listaGeneros, libro.genero);
+            genero = listaGeneros->primero;
         }
 
-        printf("Desea cargar más libros ?\n");
-        fflush(stdin);
-        scanf(" %c", &mander);
+        // Crea el nodo del ï¿½rbol de libros para el libro y agrï¿½galo al gï¿½nero correspondiente
+        genero->arbolDeLibros = insertarPorNombre(genero->arbolDeLibros, crearNodoArbolLibro(libro));
     }
 
-    fclose(archivoLibros);
-    return validos;
+    fclose(archivo);
+
+    return listaGeneros; // Devolver la lista modificada
 }
 
+//muestra la informacion del archivo de libros.
+void mostrarArchivoDeLibros(const char *archivo) {
+    FILE *file = fopen(archivo, "rb");
 
-int libroExisteEnArreglo(stlibros libro, celdaGeneros ADA[], int validos) {
-    for (int i = 0; i < validos; i++) {
-        nodoArbolLibro *arbol = ADA[i].arbolDeLibros;
-        if (buscar(arbol, libro.idInterno) != NULL) {
-            // El libro ya existe en el arreglo en memoria
-            return 1;
+    if (file == NULL) {
+        printf("No se pudo abrir el archivo de libros.\n");
+        return;
+    }
+
+    stlibros libro;
+
+    printf("Libros en el archivo:\n");
+
+    while (fread(&libro, sizeof(stlibros), 1, file) == 1) {
+
+        mostrarLibro(libro);
+        puts("\n");
+    }
+
+    fclose(file);
+}
+
+void mostrarLibro(stlibros libro)
+{
+    printf("Titulo: %s\n", libro.titulo);
+    printf("Autor: %s\n", libro.autor);
+    printf("Cantidad de paginas: %d\n", libro.cantPag);
+    printf("Genero: %s\n", libro.genero);
+    printf("Anio de lanzamiento: %d\n", libro.anioLanzamiento);
+    printf("Cantidad de copias: %d\n", libro.Copias.cantCopias);
+    printf("Precio de alquiler por copia: %.2f\n", libro.Copias.precioAlquiler);
+    printf("Estado del libro: %s\n", libro.estado ? "Disponible" : "No disponible");
+}
+
+//Recorre la lista de generos y muesta los libros ordenados por id. (utiliza funcion inorder(nodoArbolLibro *arbol);)
+void recorrerListaDeGeneros(listaGeneros *lista) {
+    nodoGenero *actual = lista->primero;
+
+    while (actual != NULL) {
+        printf("Genero: %s\n", actual->genero);
+        printf("Libros en este genero (ordenados por Cantidad de copias):\n");
+
+        inorder(actual->arbolDeLibros);
+
+        printf("\n");
+
+        actual = actual->siguiente;
+    }
+}
+
+//agrega un libro a la lista y tambien al archivo con los datos correspondientes a los generos.
+void agregarLibroAListaYArchivo(listaGeneros *lista, const char *nombreArchivo) {
+    char nombreLibro[20];
+    char genero[20];
+
+    printf("Ingrese el titulo del libro: ");
+    fflush(stdin);
+    fgets(nombreLibro, sizeof(nombreLibro), stdin);
+    nombreLibro[strcspn(nombreLibro, "\n")] = 0;
+
+    int existe = libroExisteEnArchivo(lista,nombreLibro);
+
+    if (existe == 1) {
+        printf("El libro ya existe en la lista.\n");
+        return;
+    }
+
+    printf("Ingrese el gwnero del libro: ");
+    fflush(stdin);
+    fgets(genero, sizeof(genero), stdin);
+    genero[strcspn(genero, "\n")] = 0;
+
+    stlibros libroAGuardar = crearLibro(nombreLibro);
+    nodoArbolLibro *nuevoNodo = crearNodoArbolLibro(libroAGuardar);
+
+    // Buscar el gï¿½nero en la lista
+    nodoGenero *generoEncontrado = buscarGenero(lista, genero);
+
+    if (generoEncontrado == NULL) {
+        // Si el gï¿½nero no existe en la lista, agrï¿½galo
+        agregarGenero(lista, genero);
+        generoEncontrado = lista->primero;
+    }
+
+    // Insertar el libro en el ï¿½rbol correspondiente al gï¿½nero
+    generoEncontrado->arbolDeLibros = insertarPorNombre(generoEncontrado->arbolDeLibros, nuevoNodo);
+
+    FILE *archivo = fopen(nombreArchivo, "ab");
+    if (archivo == NULL) {
+        printf("No se pudo abrir el archivo para escritura.\n");
+        free(nuevoNodo); // Liberar memoria si no se pudo abrir el archivo
+        return;
+    }
+
+    fwrite(&libroAGuardar, sizeof(libroAGuardar), 1, archivo); // Guardar en el archivo
+    fclose(archivo);
+
+    printf("Libro guardado en la lista y en el archivo.\n");
+}
+
+// FunciÃ³n para mostrar el Ã¡rbol completo de libros de un determinado gÃ©nero
+void mostrarLibrosPorGenero(listaGeneros *lista, const char *genero) {
+    // Buscar el gÃ©nero en la lista
+    nodoGenero *generoEncontrado = buscarGenero(lista, genero);
+
+    if (generoEncontrado != NULL) {
+        printf("Libros del genero %s:\n", genero);
+        inorder(generoEncontrado->arbolDeLibros);
+    } else {
+        printf("El genero %s no se encuentra en la lista.\n", genero);
+    }
+}
+
+// FunciÃ³n para modificar el estado de un libro por su tÃ­tulo
+void modificarEstadoLibro(listaGeneros *lista, const char *nombreLibro, int nuevoEstado, const char *nombreArchivo) {
+    // Buscar el libro en la lista
+    nodoArbolLibro *libroEncontrado = buscarLibroPorTituloEnLista(lista, nombreLibro);
+
+    if (libroEncontrado != NULL) {
+        // Modificar el estado del libro
+        libroEncontrado->dato.estado = nuevoEstado;
+
+        // Actualizar el archivo con la nueva informaciÃ³n
+        FILE *archivo = fopen(nombreArchivo, "rb+");
+
+        if (archivo == NULL) {
+            printf("No se pudo abrir el archivo para modificar el estado del libro.\n");
+            return;
         }
+
+        // Buscar la posiciÃ³n del libro en el archivo
+        fseek(archivo, -sizeof(stlibros), SEEK_CUR);
+        fwrite(&(libroEncontrado->dato), sizeof(stlibros), 1, archivo);
+
+        fclose(archivo);
+
+        printf("Estado del libro \"%s\" modificado correctamente.\n", nombreLibro);
+    } else {
+        printf("El libro \"%s\" no se encuentra en la lista.\n", nombreLibro);
     }
-    return 0;  // El libro no existe en el arreglo en memoria
 }
+
+
+
 
