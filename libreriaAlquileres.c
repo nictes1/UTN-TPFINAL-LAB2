@@ -39,6 +39,7 @@ void mostrarAlquileres(nodoAlquiler *listaAlquileres) {
 
     while (actual != NULL) {
         mostrarAlquiler(actual->alquiler);
+        puts("\n--------------------\n");
         actual = actual->siguiente;
     }
 }
@@ -88,7 +89,7 @@ fecha cargarFecha() {
 
         // Verificar si el día ingresado es válido
         if (nuevaFecha.dia < 1 || nuevaFecha.dia > diasEnMes) {
-            printf("¡Dia inválido para el mes y anio dados! Intente nuevamente.\n");
+            printf("¡Dia invalido para el mes y anio dados! Intente nuevamente.\n");
         }
     } while (nuevaFecha.dia < 1 || nuevaFecha.dia > diasEnMes);
 
@@ -173,7 +174,7 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
         }
     }
 
-    printf("Ingrese el título del libro que desea buscar: ");
+    printf("Ingrese el titulo del libro que desea buscar: ");
     fflush(stdin);
     fgets(tituloBuscado, sizeof(tituloBuscado), stdin);
     tituloBuscado[strcspn(tituloBuscado, "\n")] = 0;
@@ -200,11 +201,6 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
 
     printf("Ingrese la fecha de alquiler (DD MM AAAA)\n");
     fecha miFecha = cargarFecha();
-
-    int contar = contarDias(miFecha);
-    puts("\n");
-
-    printf("Cantidad de dias hasta la fecha : %d",contar);
 
      // Crear el registro de alquiler usando la función modularizada
     stRegistroAlquiler nuevoAlquiler = crearRegistroAlquiler(libroEncontrado->dato, lectorEncontrado->info, miFecha);
