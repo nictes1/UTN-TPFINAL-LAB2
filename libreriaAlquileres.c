@@ -25,7 +25,15 @@ void mostrarAlquilerPendienteDeDevolucion (nodoAlquiler * listaAlquileres, char 
         {
             sig = sig->siguiente;
         }
-        mostrarAlquiler(sig->alquiler);
+
+        if(sig != NULL)
+        {
+            mostrarAlquiler(sig->alquiler);
+        }else
+        {
+            printf("No se encontro al lector dentro del registro de alquileres\n");
+        }
+
     }
 }
 
@@ -39,6 +47,7 @@ void mostrarAlquileres(nodoAlquiler *listaAlquileres) {
 
     while (actual != NULL) {
         mostrarAlquiler(actual->alquiler);
+        puts("\n");
         actual = actual->siguiente;
     }
 }
@@ -138,7 +147,7 @@ nodoAlquiler *buscarAlquiler(nodoAlquiler *listaAlquileres, const char *nombreLe
 }
 
 
-void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, const char *archivoAlquileres, listaGeneros **listaLibros, nodoLector **listaLectores, nodoAlquiler **listaAlquileres) {
+void realizarAlquiler(const char *archivoAlquileres, listaGeneros **listaLibros, nodoLector **listaLectores, nodoAlquiler **listaAlquileres) {
     char nombreLector[60];
     char tituloBuscado[60];
 
@@ -203,9 +212,6 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
     fecha miFecha = cargarFecha();
 
     int contar = contarDias(miFecha);
-    puts("\n");
-
-    printf("Cantidad de dias hasta la fecha : %d",contar);
 
      // Crear el registro de alquiler usando la función modularizada
     stRegistroAlquiler nuevoAlquiler = crearRegistroAlquiler(libroEncontrado->dato, lectorEncontrado->info, miFecha);
@@ -221,25 +227,6 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
         fclose(archivoAlquiler);
     } else {
         printf("Error al abrir el archivo de alquileres para escritura.\n");
-    }
-
-    // Actualizar el estado del lector en el archivo de lectores
-    FILE *archivoLect = fopen(archivoLectores, "r+b");
-    if (archivoLect != NULL) {
-        fseek(archivoLect, (long)(-sizeof(lector)), SEEK_CUR);
-        fwrite(&(lectorEncontrado->info), sizeof(lector), 1, archivoLect);
-        fclose(archivoLect);
-    } else {
-        printf("Error al abrir el archivo de lectores para escritura.\n");
-    }
-
-    FILE *archivoLib = fopen(archivoLibros, "r+b");
-    if (archivoLib != NULL) {
-        fseek(archivoLib, (long)(-sizeof(stlibros)), SEEK_CUR);
-        fwrite(&(libroEncontrado->dato), sizeof(stlibros), 1, archivoLib);
-        fclose(archivoLib);
-    } else {
-        printf("Error al abrir el archivo de libros para escritura.\n");
     }
 }
 
@@ -314,7 +301,7 @@ nodoAlquiler *cargarAlquileresDesdeArchivo(const char *nombreArchivo) {
 }
 
 
-void realizarDevolucion(const char *archivoLectores, const char *archivoLibros, const char *archivoAlquileres, listaGeneros **listaLibros, nodoLector **listaLectores, nodoAlquiler **listaAlquileres) {
+void realizarDevolucion(const char *archivoAlquileres, listaGeneros **listaLibros, nodoLector **listaLectores, nodoAlquiler **listaAlquileres) {
     char nombreLector[60];
     char tituloBuscado[60];
 
@@ -344,7 +331,7 @@ void realizarDevolucion(const char *archivoLectores, const char *archivoLibros, 
     }
 
     nodoAlquiler *alquilerActual = buscarAlquiler(*listaAlquileres, nombreLector, tituloBuscado);
-    nodoAlquiler *ant = NULL;
+    nodoAlquiler *alquilerAux = alquilerActual;  //declaro un nodo temporal que me va a servir para borrar en el archivo luego
 
     if (alquilerActual == NULL) {
         printf("El lector no tiene ese libro alquilado.\n");
@@ -376,54 +363,67 @@ void realizarDevolucion(const char *archivoLectores, const char *archivoLibros, 
 
     // Calcular el costo total del alquiler
     float costoAlquilerTotal = (float) (diferenciaDias * libroEncontrado->dato.Copias.precioAlquiler);
+    puts("\n");
     printf("Costo del alquiler del libro por dia : %f\n",libroEncontrado->dato.Copias.precioAlquiler);
     printf("Costo total del alquiler : %f",costoAlquilerTotal);
 
-    //mostrarDetalleDevolucion(&alquilerActual->alquiler);
 
     // Restaurar la cantidad de copias del libro y el estado del lector
     libroEncontrado->dato.Copias.cantCopias++;
     lectorEncontrado->info.alquiler = 1; // El lector puede volver a alquilar
 
-    // Eliminar el nodo de la lista de alquileres
-    if (ant == NULL) {
-        *listaAlquileres = alquilerActual->siguiente;
-    } else {
-        ant->siguiente = alquilerActual->siguiente;
-    }
+    //Borrar el Nodo de la lista de alquileres
+    borrarNodoAlquiler(listaAlquileres,alquilerActual->alquiler.datosLector.dni);
 
-    free(alquilerActual);
-
-
-    // Actualizar archivos
-    FILE *archivoLib = fopen(archivoLibros, "r+b");
-    if (archivoLib != NULL) {
-        fseek(archivoLib, (long)(-sizeof(stlibros)), SEEK_CUR);
-        fwrite(&(libroEncontrado->dato), sizeof(stlibros), 1, archivoLib);
-        fclose(archivoLib);
-    } else {
-        printf("Error al abrir el archivo de libros para escritura.\n");
-    }
-
-    // Actualizar el estado del lector en el archivo de lectores
-    FILE *archivoLect = fopen(archivoLectores, "r+b");
-    if (archivoLect != NULL) {
-        fseek(archivoLect, (long)(-sizeof(lector)), SEEK_CUR);
-        fwrite(&(lectorEncontrado->info), sizeof(lector), 1, archivoLect);
-        fclose(archivoLect);
-    } else {
-        printf("Error al abrir el archivo de lectores para escritura.\n");
-    }
 
     // Actualizar el archivo de alquileres
     FILE *archivoAlq = fopen(archivoAlquileres, "rb+");
-    nodoAlquiler *actual = *listaAlquileres;
+    if (archivoAlq == NULL) {
+        printf("Error al abrir el archivo de alquileres.\n");
+        return;
+    }
 
-    while (actual != NULL) {
-        fwrite(&(actual->alquiler), sizeof(stRegistroAlquiler), 1, archivoAlq);
-        actual = actual->siguiente;
+    stRegistroAlquiler registro;
+
+    // Eliminar el registro de alquiler
+    FILE *archiAlquilerTemp = fopen("alquiler_temp.dat", "wb");  // Creo un archivo temporal
+    if (archiAlquilerTemp == NULL) {
+        printf("Error al abrir el archivo temporal de alquileres.\n");
+        fclose(archivoAlq);
+        return;
+    }
+
+    fseek(archivoAlq, 0, SEEK_SET);
+
+    while (fread(&registro, sizeof(stRegistroAlquiler), 1, archivoAlq) == 1) {
+        if (registro.datosLector.dni != alquilerAux->alquiler.datosLector.dni) {
+            fwrite(&registro, sizeof(stRegistroAlquiler), 1, archiAlquilerTemp);
+        }
     }
 
     fclose(archivoAlq);
+    fclose(archiAlquilerTemp);  // Cierro los archivos
 
+    remove(archivoAlquileres);   // Borro mi archivo de alquileres original
+    rename("alquiler_temp.dat", archivoAlquileres); // Y renombro el archivo temporal con el nombre del archivo original
+}
+
+
+void borrarNodoAlquiler(nodoAlquiler **lista, int dni) {
+    nodoAlquiler *actual = *lista;
+    nodoAlquiler *anterior = NULL;
+
+    while (actual != NULL && actual->alquiler.datosLector.dni != dni) {
+        anterior = actual;
+        actual = actual->siguiente;
+    }
+
+    if (actual != NULL) {
+        if (anterior != NULL) {
+            anterior->siguiente = actual->siguiente;
+        } else {
+            *lista = actual->siguiente;
+        }
+        free(actual);
+    }
 }

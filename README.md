@@ -6,7 +6,7 @@ Diagrama: https://app.diagrams.net/#G1T2MjlcxWRUTtldddjIvnXBCn9QNhOVPE
 
 ## Desarrolladores
 
-- Federico Sosa - 
+- Federico Sosa - https://www.linkedin.com/in/federico-sosa-533512239/
 - Nicolas Tesone - https://www.linkedin.com/in/nicolastesone/
 
 ## Instalación y Uso

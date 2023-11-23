@@ -36,7 +36,7 @@
 
 1700222260 D
 
-1700570478 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
+1700741933 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -57,10 +57,7 @@
 	<string.h>
 	<unistd.h>
 	"constants.h"
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
+
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -76,7 +73,7 @@
 	"libreriaAlquileres.h"
 	<string.h>
 
-<<<<<<< HEAD
+
 1700226067 c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.h
 
 1700088922 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
@@ -84,8 +81,7 @@
 1699987240 c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.h
 
 1700226067 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
-=======
->>>>>>> origin/ramaAlquileres
+
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -93,11 +89,9 @@
 	"libreriaAlquileres.h"
 	<string.h>
 	<unistd.h>
-<<<<<<< HEAD
 
 1700228647 source:c:\carpeta git\utn-tpfinal-lab2\main.c
-=======
->>>>>>> origin/ramaAlquileres
+
 	<stdio.h>
 	<stdlib.h>
 	<unistd.h>
@@ -106,15 +100,15 @@
 	"libreriaAlquileres.h"
 	<string.h>
 
-=======
->>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79
+
 1700576324 c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.h
 
-1700570458 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
 
-1700578314 c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.h
+1700741952 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
 
-1700511000 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
+1700742924 c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.h
+
+1700780662 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -123,7 +117,7 @@
 	<string.h>
 	<unistd.h>
 
-1700578962 source:c:\carpeta git\utn-tpfinal-lab2\main.c
+1700779803 source:c:\carpeta git\utn-tpfinal-lab2\main.c
 	<stdio.h>
 	<stdlib.h>
 	<unistd.h>
@@ -132,7 +126,7 @@
 	"libreriaAlquileres.h"
 	<string.h>
 
-1700578953 source:c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.c
+1700781306 source:c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -141,13 +135,12 @@
 	<string.h>
 	<unistd.h>
 
-1699996583 c:\carpeta git\utn-tpfinal-lab2\globals.h
+1700705238 c:\carpeta git\utn-tpfinal-lab2\globals.h
 	"constants.h"
 
-1699998957 c:\carpeta git\utn-tpfinal-lab2\constants.h
+1700705238 c:\carpeta git\utn-tpfinal-lab2\constants.h
 
-<<<<<<< HEAD
-=======
+
 1700589511 source:c:\users\nicolas\workspace\utn-tpfinal-lab2\libreriaalquileres.c
 	<stdio.h>
 	<stdlib.h>
@@ -197,4 +190,3 @@
 	"libreriaAlquileres.h"
 	<string.h>
 
->>>>>>> 5e3e51a4e9637a1a9f65a44acad5c9cda1614f79

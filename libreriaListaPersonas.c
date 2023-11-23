@@ -20,8 +20,12 @@ const char *apellidos[] = {
 };
 
 void generarLectorRandom(lector *l) {
-    const char *nombres[] = {"Juan", "Ana", "Pedro", "Maria", /* ... otros nombres ... */};
-    const char *apellidos[] = {"Perez", "Gonzalez", "Lopez", "Martinez", /* ... otros apellidos ... */};
+    const char *nombres[] = {"Juan", "Ana", "Pedro", "Maria", "Carlos", "Lucia",
+    "Jose", "Sofia", "Fernando", "Carmen", "Miguel", "Elena",
+    "Francisco", "Isabel", "Diego", "Laura"};
+    const char *apellidos[] = {"Perez", "Gonzalez", "Lopez", "Martinez", "Rodriguez", "Garcia",
+    "Fernandez", "Gomez", "Sanchez", "Diaz", "Vazquez", "Romero",
+    "Torres", "Dominguez", "Jimenez", "Ruiz"};
 
     int nombreIdx = rand() % (sizeof(nombres) / sizeof(nombres[0]));
     int apellidoIdx = rand() % (sizeof(apellidos) / sizeof(apellidos[0]));
@@ -70,6 +74,7 @@ lector cargarLector(char nombrelector[])
 
     printf("Ingrese la direccion: ");
     scanf("%s", nuevoLector.direccion);
+
 
     nuevoLector.alquiler = 1;
 
@@ -371,5 +376,25 @@ nodoLector *buscarLectorPorDNI(nodoLector *lista, int dniBuscado) {
         actual = actual->sig;
     }
     return NULL; // Lector no encontrado
+}
+
+void escribirArchivoLectores(nodoLector *inicio, const char *nombreArchivo) {
+    FILE *archivo = fopen(nombreArchivo, "wb"); // Abre el archivo en modo escritura binaria
+
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return;
+    }
+
+    nodoLector *actual = inicio;
+
+    while (actual != NULL) {
+        // Escribe el lector en el archivo
+        fwrite(&(actual->info), sizeof(lector), 1, archivo);
+
+        actual = actual->sig;
+    }
+
+    fclose(archivo); // Cierra el archivo
 }
 

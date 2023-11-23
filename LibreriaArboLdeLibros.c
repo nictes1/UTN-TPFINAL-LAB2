@@ -111,10 +111,10 @@ stlibros crearLibro(char nombreLibro[])
     fgets(libro.autor, sizeof(libro.autor), stdin);
     libro.autor[strcspn(libro.autor, "\n")] = 0;
 
-    printf("Ingrese la cantidad de p�ginas: ");
+    printf("Ingrese la cantidad de paginas: ");
     scanf("%d", &libro.cantPag);
 
-    printf("Ingrese el g�nero del libro : ");
+    printf("Ingrese el genero del libro : ");
     fflush(stdin);
     fgets(libro.genero, sizeof(libro.genero), stdin);
     libro.genero[strcspn(libro.genero, "\n")] = 0;
@@ -397,16 +397,16 @@ void agregarLibroAListaYArchivo(listaGeneros *lista, const char *nombreArchivo) 
     stlibros libroAGuardar = crearLibro(nombreLibro);
     nodoArbolLibro *nuevoNodo = crearNodoArbolLibro(libroAGuardar);
 
-    // Buscar el g�nero en la lista
+    // Buscar el genero en la lista
     nodoGenero *generoEncontrado = buscarGenero(lista, genero);
 
     if (generoEncontrado == NULL) {
-        // Si el g�nero no existe en la lista, agr�galo
+        // Si el genero no existe en la lista, agr�galo
         agregarGenero(lista, genero);
         generoEncontrado = lista->primero;
     }
 
-    // Insertar el libro en el �rbol correspondiente al g�nero
+    // Insertar el libro en el arbol correspondiente al g�nero
     generoEncontrado->arbolDeLibros = insertarPorNombre(generoEncontrado->arbolDeLibros, nuevoNodo);
 
     FILE *archivo = fopen(nombreArchivo, "ab");
@@ -502,5 +502,29 @@ void buscarYMostrarLibroEnArbol(nodoArbolLibro *arbol, const char *nombreBuscado
     }
 }
 
+void escribirArchivoLibros(listaGeneros *lista, const char *nombreArchivo) {
+    FILE *archivo = fopen(nombreArchivo, "wb"); // Abre el archivo en modo escritura binaria
 
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return;
+    }
+
+    nodoGenero *actualGenero = lista->primero;
+
+    while (actualGenero != NULL) {
+        nodoArbolLibro *actualLibro = actualGenero->arbolDeLibros;
+
+        while (actualLibro != NULL) {
+            // Escribe el libro en el archivo
+            fwrite(&(actualLibro->dato), sizeof(stlibros), 1, archivo);
+
+            actualLibro = actualLibro->der;
+        }
+
+        actualGenero = actualGenero->siguiente;
+    }
+
+    fclose(archivo); // Cierra el archivo
+}
 

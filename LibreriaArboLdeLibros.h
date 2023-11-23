@@ -76,5 +76,6 @@ void agregarGeneroALista(listaGeneros *lista, nodoGenero *nuevoGenero);
 nodoGenero *crearNodoGenero(const char *genero, nodoArbolLibro *arbol);
 stlibros crearLibroEspecifico(const char *titulo, const char *autor, const char *genero, int anio, int cantCopias, float precio, int estado);
 void modificarEstadoLibro(listaGeneros *lista, const char *nombreLibro, int nuevoEstado, const char *nombreArchivo);
+void escribirArchivoLibros(listaGeneros *lista, const char *nombreArchivo);
 
 #endif // LIBRERIAARBOLDELIBROS_H_INCLUDED
