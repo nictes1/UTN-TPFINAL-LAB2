@@ -376,8 +376,6 @@ void realizarDevolucion(const char *archivoAlquileres, listaGeneros **listaLibro
     borrarNodoAlquiler(listaAlquileres,alquilerActual->alquiler.datosLector.dni);
 
 
-    mostrarAlquileres(*listaAlquileres);
-
     // Actualizar el archivo de alquileres
     FILE *archivoAlq = fopen(archivoAlquileres, "rb+");
     if (archivoAlq == NULL) {

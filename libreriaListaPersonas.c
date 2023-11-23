@@ -75,6 +75,7 @@ lector cargarLector(char nombrelector[])
     printf("Ingrese la direccion: ");
     scanf("%s", nuevoLector.direccion);
 
+
     nuevoLector.alquiler = 1;
 
     return nuevoLector;
