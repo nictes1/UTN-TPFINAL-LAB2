@@ -377,3 +377,23 @@ nodoLector *buscarLectorPorDNI(nodoLector *lista, int dniBuscado) {
     return NULL; // Lector no encontrado
 }
 
+void escribirArchivoLectores(nodoLector *inicio, const char *nombreArchivo) {
+    FILE *archivo = fopen(nombreArchivo, "wb"); // Abre el archivo en modo escritura binaria
+
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return;
+    }
+
+    nodoLector *actual = inicio;
+
+    while (actual != NULL) {
+        // Escribe el lector en el archivo
+        fwrite(&(actual->info), sizeof(lector), 1, archivo);
+
+        actual = actual->sig;
+    }
+
+    fclose(archivo); // Cierra el archivo
+}
+

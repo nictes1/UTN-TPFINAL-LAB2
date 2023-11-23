@@ -285,18 +285,24 @@ void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLe
 
         switch (opcion) {
             case 1:
-
-                realizarAlquiler(archivoLectores, archivoLibros, archivoAlquileres, listaDeGeneros, listaDeLectores, listaDeAlquileres);
-                system("pause");
-                system("cls");
+                {
+                    system("cls");
+                   realizarAlquiler(archivoAlquileres, listaDeGeneros, listaDeLectores, listaDeAlquileres);
+                   escribirArchivoLibros(*listaDeGeneros,archivoLibros);
+                   escribirArchivoLectores(*listaDeLectores,archivoLectores);
+                   system("pause");
+                   system("cls");
+                }
                 break;
             case 2:
+                system("cls");
                 mostrarAlquileres(*listaDeAlquileres);
                 system("pause");
                 system("cls");
                 break;
             case 3:
                 {
+                system("cls");
                 char lectorDeudor [30];
                 printf("Ingrese el nombre del lector que va a buscar en la lista de alquileres: ");
                 fflush(stdin);
@@ -308,9 +314,14 @@ void mostrarMenuAlquiler(listaGeneros ** listaDeGeneros, nodoLector ** listaDeLe
                 system("cls");
                 break;
             case 4:
-                realizarDevolucion(archivoLectores,archivoLibros,archivoAlquileres,listaDeGeneros,listaDeLectores,listaDeAlquileres);
-                system("pause");
-                system("cls");
+                {
+                    system("cls");
+                    realizarDevolucion(archivoAlquileres,listaDeGeneros,listaDeLectores,listaDeAlquileres);
+                    escribirArchivoLibros(*listaDeGeneros,archivoLibros);
+                    escribirArchivoLectores(*listaDeLectores,archivoLectores);
+                    system("pause");
+                    system("cls");
+                }
                 break;
             case 0:
                 printf("Volviendo al menu principal.\n");

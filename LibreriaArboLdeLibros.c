@@ -502,5 +502,29 @@ void buscarYMostrarLibroEnArbol(nodoArbolLibro *arbol, const char *nombreBuscado
     }
 }
 
+void escribirArchivoLibros(listaGeneros *lista, const char *nombreArchivo) {
+    FILE *archivo = fopen(nombreArchivo, "wb"); // Abre el archivo en modo escritura binaria
 
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return;
+    }
+
+    nodoGenero *actualGenero = lista->primero;
+
+    while (actualGenero != NULL) {
+        nodoArbolLibro *actualLibro = actualGenero->arbolDeLibros;
+
+        while (actualLibro != NULL) {
+            // Escribe el libro en el archivo
+            fwrite(&(actualLibro->dato), sizeof(stlibros), 1, archivo);
+
+            actualLibro = actualLibro->der;
+        }
+
+        actualGenero = actualGenero->siguiente;
+    }
+
+    fclose(archivo); // Cierra el archivo
+}
 
