@@ -23,7 +23,6 @@ int main()
         listaGeneros * listaPrincipal = inicializarListaGeneros ();
         listaPrincipal = cargarListaDeGenerosDesdeArchivo(archivoLibros,listaPrincipal);
 
-
         nodoLector * listaDeLectores = iniciarLista();
         listaDeLectores = cargarLectoresDesdeArchivo (archivoLectores);
 
