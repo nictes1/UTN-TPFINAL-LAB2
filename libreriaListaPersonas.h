@@ -44,5 +44,7 @@ void insertarOrdenado(nodoLector **lista, nodoLector *nuevoNodo);
 void mostrarLector(lector unLector);
 void generarLectorRandom(lector *l);
 void generarArchivoLectores(const char *filename);
+void escribirArchivoLectores(nodoLector *inicio, const char *nombreArchivo);
+
 
 #endif // LIBRERIALISTAPERSONAS_H_INCLUDED

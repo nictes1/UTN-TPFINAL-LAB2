@@ -7,9 +7,9 @@
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
-      "externalConsole": false,
-      "cwd": "/home/nictes/workspace/TrabajoFinalLab2",
-      "program": "/home/nictes/workspace/TrabajoFinalLab2/build/Debug/outDebug",
+      "externalConsole": true,
+      "cwd": "c:/Users/nicolas/workspace/UTN-TPFINAL-LAB2",
+      "program": "c:/Users/nicolas/workspace/UTN-TPFINAL-LAB2/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
