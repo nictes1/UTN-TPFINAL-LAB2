@@ -111,10 +111,10 @@ stlibros crearLibro(char nombreLibro[])
     fgets(libro.autor, sizeof(libro.autor), stdin);
     libro.autor[strcspn(libro.autor, "\n")] = 0;
 
-    printf("Ingrese la cantidad de p�ginas: ");
+    printf("Ingrese la cantidad de paginas: ");
     scanf("%d", &libro.cantPag);
 
-    printf("Ingrese el g�nero del libro : ");
+    printf("Ingrese el genero del libro : ");
     fflush(stdin);
     fgets(libro.genero, sizeof(libro.genero), stdin);
     libro.genero[strcspn(libro.genero, "\n")] = 0;
@@ -397,16 +397,16 @@ void agregarLibroAListaYArchivo(listaGeneros *lista, const char *nombreArchivo) 
     stlibros libroAGuardar = crearLibro(nombreLibro);
     nodoArbolLibro *nuevoNodo = crearNodoArbolLibro(libroAGuardar);
 
-    // Buscar el g�nero en la lista
+    // Buscar el genero en la lista
     nodoGenero *generoEncontrado = buscarGenero(lista, genero);
 
     if (generoEncontrado == NULL) {
-        // Si el g�nero no existe en la lista, agr�galo
+        // Si el genero no existe en la lista, agr�galo
         agregarGenero(lista, genero);
         generoEncontrado = lista->primero;
     }
 
-    // Insertar el libro en el �rbol correspondiente al g�nero
+    // Insertar el libro en el arbol correspondiente al g�nero
     generoEncontrado->arbolDeLibros = insertarPorNombre(generoEncontrado->arbolDeLibros, nuevoNodo);
 
     FILE *archivo = fopen(nombreArchivo, "ab");

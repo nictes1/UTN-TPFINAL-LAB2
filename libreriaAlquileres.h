@@ -32,5 +32,6 @@ void realizarDevolucion(const char *archivoLectores, const char *archivoLibros, 
 int diferenciaFechas(fecha alquiler, fecha temp);
 int contarDias(fecha a);
 nodoAlquiler *buscarAlquiler(nodoAlquiler *listaAlquileres, const char *nombreLector, const char *tituloBuscado);
+void borrarNodoAlquiler(nodoAlquiler **lista, int dni);
 
 #endif // LIBRERIAALQUILERES_H_INCLUDED

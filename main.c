@@ -88,7 +88,7 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
 
         switch (opcion) {
             case 1:
-                agregarLibroAListaYArchivo(listaDeGeneros, archivoLibros);
+                agregarLibroAListaYArchivo(*listaDeGeneros, archivoLibros);
                 break;
             case 2:
                 system("cls");
@@ -136,6 +136,8 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 system("cls");
                 break;
             case 4:
+                {
+                system("cls");
                 printf("Cargar un lector\n");
                 char nombreLector [30];
                 printf("Ingrese el nombre del lector que va a ingresar: ");
@@ -156,23 +158,70 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                 }
                 system("pause");
                 system("cls");
+                }
                 break;
             case 5:
-                system("cls");
-                printf("5. Ver un lector\n");
-                int dniBuscado;
-                printf("Ingrese el DNI del lector: ");
-                scanf("%d", &dniBuscado); // Leer DNI como entero
+                {
+                        system("cls");
+                        printf("5. Ver un lector\n");
+                        int opcion;
 
-                nodoLector *buscado = buscarLectorPorDNI(*listaDeLectores, dniBuscado);
-                puts("\n");
-                if (buscado != NULL) {
-                    mostrarLector(buscado->info);
-                } else {
-                    printf("Lector con DNI %d no encontrado.\n", dniBuscado);
+                        do{
+
+                        printf("1.Buscar por Dni\n");
+                        printf("2.Buscar por Nombre y Apellido\n");
+                        printf("0.Volver\n");
+
+
+                        opcion = leerOpcion();
+
+                        switch(opcion) {
+                        case 1:
+                            {
+                               int dniBuscado;
+                                printf("Ingrese el DNI del lector: ");
+                                scanf("%d", &dniBuscado); // Leer DNI como entero
+
+                                nodoLector *buscado = buscarLectorPorDNI(*listaDeLectores, dniBuscado);
+                                puts("\n");
+                                if (buscado != NULL) {
+                                    mostrarLector(buscado->info);
+                                } else {
+                                    printf("Lector con DNI %d no encontrado.\n", dniBuscado);
+                                }
+                                system("pause");
+                                system("cls");
+                            }
+                            break;
+                        case 2:
+                            {
+                                char nombreLector [30];
+                                printf("Ingrese el nombre del lector que va a ingresar: ");
+                                fflush(stdin);
+                                fgets(nombreLector, sizeof(nombreLector), stdin);
+                                nombreLector[strcspn(nombreLector, "\n")] = 0;
+
+                                nodoLector * existe = buscarNodoLector(*listaDeLectores,&nombreLector);
+                                puts("\n");
+                                if (existe != NULL) {
+                                    mostrarLector(existe->info);
+                                } else {
+                                    printf("Lector no encontrado.\n");
+                                }
+                                system("pause");
+                                system("cls");
+                            }
+                        case 0:
+                            {
+                                puts("Volviendo\n");
+                            }
+                        default:
+                                puts("Opcion no valida\n");
+                                system("cls");
+                            break;
+                        }
+                    }while(opcion != 0);
                 }
-                system("pause");
-                system("cls");
                 break;
             case 6:
                 system("cls");

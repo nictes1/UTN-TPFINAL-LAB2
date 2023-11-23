@@ -20,8 +20,12 @@ const char *apellidos[] = {
 };
 
 void generarLectorRandom(lector *l) {
-    const char *nombres[] = {"Juan", "Ana", "Pedro", "Maria", /* ... otros nombres ... */};
-    const char *apellidos[] = {"Perez", "Gonzalez", "Lopez", "Martinez", /* ... otros apellidos ... */};
+    const char *nombres[] = {"Juan", "Ana", "Pedro", "Maria", "Carlos", "Lucia",
+    "Jose", "Sofia", "Fernando", "Carmen", "Miguel", "Elena",
+    "Francisco", "Isabel", "Diego", "Laura"};
+    const char *apellidos[] = {"Perez", "Gonzalez", "Lopez", "Martinez", "Rodriguez", "Garcia",
+    "Fernandez", "Gomez", "Sanchez", "Diaz", "Vazquez", "Romero",
+    "Torres", "Dominguez", "Jimenez", "Ruiz"};
 
     int nombreIdx = rand() % (sizeof(nombres) / sizeof(nombres[0]));
     int apellidoIdx = rand() % (sizeof(apellidos) / sizeof(apellidos[0]));

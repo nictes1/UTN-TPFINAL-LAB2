@@ -222,7 +222,7 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
     } else {
         printf("Error al abrir el archivo de alquileres para escritura.\n");
     }
-
+    /*
     // Actualizar el estado del lector en el archivo de lectores
     FILE *archivoLect = fopen(archivoLectores, "r+b");
     if (archivoLect != NULL) {
@@ -240,6 +240,40 @@ void realizarAlquiler(const char *archivoLectores, const char *archivoLibros, co
         fclose(archivoLib);
     } else {
         printf("Error al abrir el archivo de libros para escritura.\n");
+    }
+    */
+
+    // Actualizar archivos
+    FILE *archivoLib = fopen(archivoLibros, "r+b");
+
+    stlibros libroAmodificar;
+
+    if (archivoLib != NULL) {
+
+        while(fread(&libroAmodificar,sizeof(stlibros),1,archivoLib)==1)
+        {
+            if(strcasecmp(libroAmodificar.titulo,libroEncontrado->dato.titulo) == 0)
+                fseek(archivoLib, -1 * sizeof(stlibros), SEEK_CUR);
+                fwrite(&(libroEncontrado->dato), sizeof(stlibros), 1, archivoLib);
+                fclose(archivoLib);
+        }
+    } else {
+        printf("Error al abrir el archivo de libros para escritura.\n");
+    }
+
+    FILE * archi = fopen(archivoLectores, "r+b");
+    lector aModificar;
+
+    if(archi != NULL){
+        while(fread(&aModificar,sizeof(lector),1,archi)==10)
+        {
+          if(strcasecmp(aModificar.nombreYapellido,lectorEncontrado->info.nombreYapellido) == 0)
+             fseek(archi, -1 * sizeof(stlibros), SEEK_CUR);
+             fwrite(&(lectorEncontrado->info), sizeof(lector), 1, archi);
+             fclose(archi);
+        }
+    }else {
+        printf("Error al abrir el archivo de lectores para escritura.\n");
     }
 }
 
@@ -344,7 +378,7 @@ void realizarDevolucion(const char *archivoLectores, const char *archivoLibros, 
     }
 
     nodoAlquiler *alquilerActual = buscarAlquiler(*listaAlquileres, nombreLector, tituloBuscado);
-    nodoAlquiler *ant = NULL;
+    nodoAlquiler *ant = listaAlquileres;
 
     if (alquilerActual == NULL) {
         printf("El lector no tiene ese libro alquilado.\n");
@@ -379,39 +413,45 @@ void realizarDevolucion(const char *archivoLectores, const char *archivoLibros, 
     printf("Costo del alquiler del libro por dia : %f\n",libroEncontrado->dato.Copias.precioAlquiler);
     printf("Costo total del alquiler : %f",costoAlquilerTotal);
 
-    //mostrarDetalleDevolucion(&alquilerActual->alquiler);
 
     // Restaurar la cantidad de copias del libro y el estado del lector
     libroEncontrado->dato.Copias.cantCopias++;
     lectorEncontrado->info.alquiler = 1; // El lector puede volver a alquilar
 
-    // Eliminar el nodo de la lista de alquileres
-    if (ant == NULL) {
-        *listaAlquileres = alquilerActual->siguiente;
-    } else {
-        ant->siguiente = alquilerActual->siguiente;
-    }
-
-    free(alquilerActual);
+    //Borrar el Nodo de la lista de alquileres
+    borrarNodoAlquiler(listaAlquileres,alquilerActual->alquiler.datosLector.dni);
 
 
     // Actualizar archivos
     FILE *archivoLib = fopen(archivoLibros, "r+b");
+
+    stlibros libroAmodificar;
+
     if (archivoLib != NULL) {
-        fseek(archivoLib, (long)(-sizeof(stlibros)), SEEK_CUR);
-        fwrite(&(libroEncontrado->dato), sizeof(stlibros), 1, archivoLib);
-        fclose(archivoLib);
+
+        while(fread(&libroAmodificar,sizeof(stlibros),1,archivoLib)==1)
+        {
+            if(strcasecmp(libroAmodificar.titulo,libroEncontrado->dato.titulo) == 0)
+                fseek(archivoLib, -1 * sizeof(stlibros), SEEK_CUR);
+                fwrite(&(libroEncontrado->dato), sizeof(stlibros), 1, archivoLib);
+                fclose(archivoLib);
+        }
     } else {
         printf("Error al abrir el archivo de libros para escritura.\n");
     }
 
-    // Actualizar el estado del lector en el archivo de lectores
-    FILE *archivoLect = fopen(archivoLectores, "r+b");
-    if (archivoLect != NULL) {
-        fseek(archivoLect, (long)(-sizeof(lector)), SEEK_CUR);
-        fwrite(&(lectorEncontrado->info), sizeof(lector), 1, archivoLect);
-        fclose(archivoLect);
-    } else {
+    FILE * archi = fopen(archivoLectores, "r+b");
+    lector aModificar;
+
+    if(archi != NULL){
+        while(fread(&aModificar,sizeof(lector),1,archi)==10)
+        {
+          if(strcasecmp(aModificar.nombreYapellido,lectorEncontrado->info.nombreYapellido) == 0)
+             fseek(archi, -1 * sizeof(stlibros), SEEK_CUR);
+             fwrite(&(lectorEncontrado->info), sizeof(lector), 1, archi);
+             fclose(archi);
+        }
+    }else {
         printf("Error al abrir el archivo de lectores para escritura.\n");
     }
 
@@ -426,4 +466,31 @@ void realizarDevolucion(const char *archivoLectores, const char *archivoLibros, 
 
     fclose(archivoAlq);
 
+}
+
+void borrarNodoAlquiler(nodoAlquiler **lista, int dni) {
+    nodoAlquiler *seg;
+    nodoAlquiler *ante = NULL; // Apunta al nodo anterior a 'seg'.
+
+    if (*lista != NULL && (*lista)->alquiler.datosLector.dni == dni) {
+        nodoAlquiler *aux = *lista;
+        *lista = (*lista)->siguiente; // Saltear el primer nodo.
+        free(aux);             // Eliminar el primer nodo.
+    } else {
+        seg = *lista;
+        while (seg != NULL && seg->alquiler.datosLector.dni != dni) {
+            ante = seg;      // Adelantar una posición la variable 'ante'.
+            seg = seg->siguiente;  // Avanzar al siguiente nodo.
+        }
+        // En este punto, 'ante' contiene la dirección del nodo anterior al buscado, y 'seg'
+        // contiene la dirección del nodo que quieres borrar.
+        if (seg != NULL) {
+            if (ante != NULL) {
+                ante->siguiente = seg->siguiente; // Saltear el nodo que quieres eliminar.
+            } else {
+                *lista = seg->siguiente; // El nodo a eliminar es el primero de la lista.
+            }
+            free(seg); // Eliminar el nodo.
+        }
+    }
 }
