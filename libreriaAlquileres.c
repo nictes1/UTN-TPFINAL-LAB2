@@ -378,7 +378,7 @@ void realizarDevolucion(const char *archivoLectores, const char *archivoLibros, 
     }
 
     nodoAlquiler *alquilerActual = buscarAlquiler(*listaAlquileres, nombreLector, tituloBuscado);
-    nodoAlquiler *ant = listaAlquileres;
+    nodoAlquiler *alquilerTemp = alquilerActual;  //declaro un nodo temporal que me va a servir para borrar en el archivo luego
 
     if (alquilerActual == NULL) {
         printf("El lector no tiene ese libro alquilado.\n");
@@ -457,14 +457,24 @@ void realizarDevolucion(const char *archivoLectores, const char *archivoLibros, 
 
     // Actualizar el archivo de alquileres
     FILE *archivoAlq = fopen(archivoAlquileres, "rb+");
-    nodoAlquiler *actual = *listaAlquileres;
+    stRegistroAlquiler registro;
 
-    while (actual != NULL) {
-        fwrite(&(actual->alquiler), sizeof(stRegistroAlquiler), 1, archivoAlq);
-        actual = actual->siguiente;
+    // Eliminar el registro de alquiler
+    FILE* archiAlquilerTemp = fopen("alquiler_temp.dat", "wb");  //Creo un archivo temporal
+    fseek(archivoAlq, 0, SEEK_SET);
+
+     while (fread(&registro, sizeof(stRegistroAlquiler), 1, archivoAlq) == 1) {
+        if (registro.datosLector.dni != alquilerTemp) {
+            fwrite(&registro, sizeof(stRegistroAlquiler), 1, archiAlquilerTemp);  //Escribo en el archivo temporal todos los registros del archivo original menos el que quiero borrar
+        }
     }
 
-    fclose(archivoAlq);
+    fclose(archivoAlquileres);
+    fclose(archiAlquilerTemp);  //Cierro los archivos
+    remove(archivoAlquileres);   //Borro mi archivo de alquileres original
+    rename("alquiler_temp.dat", archivoAlquileres); //Y renombro el archivo temporal con el nombre del archivo original
+
+    fclose(archivoAlquileres);
 
 }
 
