@@ -2,7 +2,7 @@
 
 Este es el proyecto final para la Universidad Tecnológica Nacional (UTN), desarrollado por Federico Sosa y Nicolas Tesone. El proyecto es un sistema de reservas de libros para bibliotecas. Permite a los usuarios buscar, reservar y alquilar libros, ofreciendo una interfaz fácil de usar y un backend eficiente para la gestión de datos.
 
-Diagrama: https://app.diagrams.net/#G1T2MjlcxWRUTtldddjIvnXBCn9QNhOVPE
+Diagrama: [https://app.diagrams.net/#G1T2MjlcxWRUTtldddjIvnXBCn9QNhOVPE](https://drive.google.com/file/d/1T2MjlcxWRUTtldddjIvnXBCn9QNhOVPE/view?usp=sharing)
 
 ## Desarrolladores
 
