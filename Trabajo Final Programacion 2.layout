@@ -2,84 +2,49 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-
-	<File name="main.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="LibreriaArboLdeLibros.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3640" topLine="138" />
-		</Cursor>
-	</File>
-	<File name="libreriaAlquileres.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="897" topLine="15" />
-
-	<File name="main.c" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7324" topLine="85" />
-		</Cursor>
-	</File>
-	<File name="LibreriaArboLdeLibros.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="17535" topLine="465" />
-
-		</Cursor>
-		<Folding>
-			<Collapse line="286" />
-		</Folding>
-	</File>
-
-	<File name="LibreriaArboLdeLibros.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="18276" topLine="484" />
+			<Cursor1 position="812" topLine="14" />
 		</Cursor>
 	</File>
 	<File name="globals.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="36" topLine="0" />
-
-	<File name="globals.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="36" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="libreriaListaPersonas.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+	<File name="main.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="10843" topLine="63" />
-
+			<Cursor1 position="13060" topLine="327" />
 		</Cursor>
-		<Folding>
-			<Collapse line="56" />
-			<Collapse line="80" />
-			<Collapse line="103" />
-			<Collapse line="117" />
-			<Collapse line="162" />
-			<Collapse line="188" />
-		</Folding>
 	</File>
-
 	<File name="libreriaAlquileres.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1577" topLine="12" />
 		</Cursor>
 	</File>
-	<File name="libreriaListaPersonas.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="LibreriaArboLdeLibros.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1606" topLine="25" />
-		</Cursor>
-	</File>
-	<File name="LibreriaArboLdeLibros.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3011" topLine="56" />
-		</Cursor>
-	</File>
-	<File name="libreriaListaPersonas.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2539" topLine="65" />
+			<Cursor1 position="18542" topLine="504" />
 		</Cursor>
 	</File>
 	<File name="constants.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="58" topLine="0" />
-
+		</Cursor>
+	</File>
+	<File name="libreriaAlquileres.c" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="697" topLine="347" />
+		</Cursor>
+	</File>
+	<File name="libreriaListaPersonas.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2539" topLine="62" />
+		</Cursor>
+	</File>
+	<File name="libreriaListaPersonas.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1606" topLine="25" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

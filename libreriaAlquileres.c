@@ -97,7 +97,7 @@ fecha cargarFecha() {
 
         // Verificar si el día ingresado es válido
         if (nuevaFecha.dia < 1 || nuevaFecha.dia > diasEnMes) {
-            printf("¡Dia inválido para el mes y anio dados! Intente nuevamente.\n");
+            printf("¡Dia invalido para el mes y anio dados! Intente nuevamente.\n");
         }
     } while (nuevaFecha.dia < 1 || nuevaFecha.dia > diasEnMes);
 
@@ -161,14 +161,14 @@ void realizarAlquiler(const char *archivoAlquileres, listaGeneros **listaLibros,
     nodoLector *lectorEncontrado = buscarNodoLector(*listaLectores,&nombreLector);
 
     if (lectorEncontrado != NULL && lectorEncontrado->info.alquiler == 0) {  //si existe en la lista y tiene el estado de alquiler en 0
-        printf("El lector tiene un alquiler pendiente de devolución:\n");
+        printf("El lector tiene un alquiler pendiente de devolucion:\n");
         mostrarAlquilerPendienteDeDevolucion(*listaAlquileres, lectorEncontrado->info.nombreYapellido); //como tiene un alquiler pendiente de devolucion lo buscamos en la lista de alquileres
         return;
     }
 
     if (lectorEncontrado == NULL) { //si no existe damos la opcion de crearlo
         char mander = 's';
-        printf("El lector no está registrado, ¿desea crearlo? (s/n): ");
+        printf("El lector no está registrado, ¿ desea crearlo ? (s/n): ");
         fflush(stdin);
         scanf("%c", &mander);
 
@@ -177,14 +177,14 @@ void realizarAlquiler(const char *archivoAlquileres, listaGeneros **listaLibros,
             insertarOrdenado(listaLectores, crearNodoLector(nuevo)); //lo insertamos en la lista ordenada de lectores
             lectorEncontrado = buscarNodoLector(*listaLectores, nombreLector); //volvemos a capturar el puntero al lector que creamos
         } else {
+            printf("Volviendo al menu principal\n");
+            sleep(1);
             return;
         }
-    }else
-    {
-        printf("El lector existe\n");
     }
 
-    printf("Ingrese el título del libro que desea buscar: ");
+    fflush(stdin);
+    printf("Ingrese el titulo del libro que desea buscar: ");
     fgets(tituloBuscado, sizeof(tituloBuscado), stdin);
     tituloBuscado[strcspn(tituloBuscado, "\n")] = 0;
 
@@ -350,8 +350,6 @@ void realizarDevolucion(const char *archivoAlquileres, listaGeneros **listaLibro
 
     puts("\n");
 
-    printf("La diferencia de dias desde el alquiler a la devolucion fue de : %d ",diferenciaDias);
-
     // Verificar si la diferencia de días es negativa (en caso de que la devolución sea antes de la fecha de alquiler)
     if (diferenciaDias < 0) {
         printf("Error: La fecha de devolucion no puede ser anterior a la fecha de alquiler.\n");
@@ -364,6 +362,13 @@ void realizarDevolucion(const char *archivoAlquileres, listaGeneros **listaLibro
     // Calcular el costo total del alquiler
     float costoAlquilerTotal = (float) (diferenciaDias * libroEncontrado->dato.Copias.precioAlquiler);
     puts("\n");
+
+    if(lectorEncontrado->info.esEstudiante == 1)
+    {
+        printf("El lector es un estudiante por lo que se le aplica un descuento del 30%\n");
+        costoAlquilerTotal = (costoAlquilerTotal * 30)/100;
+    }
+
     printf("Costo del alquiler del libro por dia : %f\n",libroEncontrado->dato.Copias.precioAlquiler);
     printf("Costo total del alquiler : %f",costoAlquilerTotal);
 

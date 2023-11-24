@@ -44,17 +44,16 @@ nodoGenero *crearNodoGenero(const char *genero, nodoArbolLibro *arbol) {
     return nuevoGenero;
 }
 
-void agregarGeneroALista(listaGeneros *lista, nodoGenero *nuevoGenero) {
-    if (lista->primero == NULL) {
-        lista->primero = nuevoGenero;
-    } else {
-        nodoGenero *actual = lista->primero;
-        while (actual->siguiente != NULL) {
-            actual = actual->siguiente;
-        }
-        actual->siguiente = nuevoGenero;
-    }
+listaGeneros* agregarGeneroALista(listaGeneros *lista, const char genero[]) {
+    nodoGenero *nuevoGenero = (nodoGenero *)malloc(sizeof(nodoGenero));
+    strcpy(nuevoGenero->genero, genero);
+    nuevoGenero->arbolDeLibros = inicializarArbol();
+    nuevoGenero->siguiente = lista->primero;
+
+    lista->primero = nuevoGenero;
+    return lista;
 }
+
 
 void mostrarGeneros(listaGeneros *lista) {
     nodoGenero *actual = lista->primero;
@@ -372,54 +371,54 @@ void recorrerListaDeGeneros(listaGeneros *lista) {
     }
 }
 
-//agrega un libro a la lista y tambien al archivo con los datos correspondientes a los generos.
-void agregarLibroAListaYArchivo(listaGeneros *lista, const char *nombreArchivo) {
+listaGeneros* agregarGeneroAListaYArchivo(listaGeneros *lista, const char *archivoLibros) {
     char nombreLibro[20];
     char genero[20];
 
-    printf("Ingrese el titulo del libro: ");
+    printf("Ingrese el título del libro: ");
     fflush(stdin);
     fgets(nombreLibro, sizeof(nombreLibro), stdin);
     nombreLibro[strcspn(nombreLibro, "\n")] = 0;
 
-    int existe = libroExisteEnArchivo(lista,nombreLibro);
+    int existe = libroExisteEnArchivo(nombreLibro, archivoLibros);
 
-    if (existe == 1) {
+    if (existe == 0) {  // Si el libro no se encontraba en el archivo
+
+        stlibros libroAGuardar = crearLibro(nombreLibro);
+        nodoArbolLibro *nuevoNodo = crearNodoArbolLibro(libroAGuardar);
+
+        strcpy(genero, nuevoNodo->dato.genero);
+        printf("Genero a buscar : %s", genero);
+
+        // Buscar el genero en la lista
+        nodoGenero *generoEncontrado = buscarGenero(lista, genero);
+
+        if (generoEncontrado == NULL) {
+            puts("Genero no encontrado\n");
+            generoEncontrado = crearNodoGenero(genero, nuevoNodo);
+            lista = agregarGeneroALista(lista, generoEncontrado);
+        } else {
+            // Insertar el libro en el árbol correspondiente al género
+            generoEncontrado->arbolDeLibros = insertarPorNombre(generoEncontrado->arbolDeLibros, nuevoNodo);
+        }
+
+        FILE *archivo = fopen(archivoLibros, "ab");
+        if (archivo == NULL) {
+            printf("No se pudo abrir el archivo para escritura.\n");
+            free(nuevoNodo); // Liberar memoria si no se pudo abrir el archivo
+            return lista;
+        }
+
+        fwrite(&libroAGuardar, sizeof(libroAGuardar), 1, archivo); // Guardar en el archivo
+        fclose(archivo);
+
+        printf("Libro guardado en la lista y en el archivo.\n");
+
+    } else {
         printf("El libro ya existe en la lista.\n");
-        return;
     }
 
-    printf("Ingrese el gwnero del libro: ");
-    fflush(stdin);
-    fgets(genero, sizeof(genero), stdin);
-    genero[strcspn(genero, "\n")] = 0;
-
-    stlibros libroAGuardar = crearLibro(nombreLibro);
-    nodoArbolLibro *nuevoNodo = crearNodoArbolLibro(libroAGuardar);
-
-    // Buscar el genero en la lista
-    nodoGenero *generoEncontrado = buscarGenero(lista, genero);
-
-    if (generoEncontrado == NULL) {
-        // Si el genero no existe en la lista, agr�galo
-        agregarGenero(lista, genero);
-        generoEncontrado = lista->primero;
-    }
-
-    // Insertar el libro en el arbol correspondiente al g�nero
-    generoEncontrado->arbolDeLibros = insertarPorNombre(generoEncontrado->arbolDeLibros, nuevoNodo);
-
-    FILE *archivo = fopen(nombreArchivo, "ab");
-    if (archivo == NULL) {
-        printf("No se pudo abrir el archivo para escritura.\n");
-        free(nuevoNodo); // Liberar memoria si no se pudo abrir el archivo
-        return;
-    }
-
-    fwrite(&libroAGuardar, sizeof(libroAGuardar), 1, archivo); // Guardar en el archivo
-    fclose(archivo);
-
-    printf("Libro guardado en la lista y en el archivo.\n");
+    return lista;
 }
 
 // Función para mostrar el árbol completo de libros de un determinado género

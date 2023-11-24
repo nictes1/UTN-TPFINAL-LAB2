@@ -36,7 +36,7 @@
 
 1700222260 D
 
-1700741933 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
+1700827884 source:c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -57,7 +57,6 @@
 	<string.h>
 	<unistd.h>
 	"constants.h"
-
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -73,42 +72,13 @@
 	"libreriaAlquileres.h"
 	<string.h>
 
+1700741934 c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.h
 
-1700226067 c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.h
-
-1700088922 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
-
-1699987240 c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.h
-
-1700226067 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
-
-	<stdio.h>
-	<stdlib.h>
-	"libreriaListaPersonas.h"
-	"LibreriaArboLdeLibros.h"
-	"libreriaAlquileres.h"
-	<string.h>
-	<unistd.h>
-
-1700228647 source:c:\carpeta git\utn-tpfinal-lab2\main.c
-
-	<stdio.h>
-	<stdlib.h>
-	<unistd.h>
-	"libreriaListaPersonas.h"
-	"LibreriaArboLdeLibros.h"
-	"libreriaAlquileres.h"
-	<string.h>
-
-
-1700576324 c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.h
-
-
-1700741952 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
+1700827740 c:\carpeta git\utn-tpfinal-lab2\libreriaarboldelibros.h
 
 1700742924 c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.h
 
-1700780662 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
+1700781836 source:c:\carpeta git\utn-tpfinal-lab2\librerialistapersonas.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -117,7 +87,7 @@
 	<string.h>
 	<unistd.h>
 
-1700779803 source:c:\carpeta git\utn-tpfinal-lab2\main.c
+1700827769 source:c:\carpeta git\utn-tpfinal-lab2\main.c
 	<stdio.h>
 	<stdlib.h>
 	<unistd.h>
@@ -126,7 +96,7 @@
 	"libreriaAlquileres.h"
 	<string.h>
 
-1700781306 source:c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.c
+1700826396 source:c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
@@ -139,7 +109,6 @@
 	"constants.h"
 
 1700705238 c:\carpeta git\utn-tpfinal-lab2\constants.h
-
 
 1700589511 source:c:\users\nicolas\workspace\utn-tpfinal-lab2\libreriaalquileres.c
 	<stdio.h>

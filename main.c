@@ -87,7 +87,7 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
 
         switch (opcion) {
             case 1:
-                agregarLibroAListaYArchivo(*listaDeGeneros, archivoLibros);
+                *listaDeGeneros = agregarGeneroAListaYArchivo(*listaDeGeneros, archivoLibros);
                 break;
             case 2:
                 system("cls");
