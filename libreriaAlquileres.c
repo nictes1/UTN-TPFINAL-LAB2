@@ -360,18 +360,23 @@ void realizarDevolucion(const char *archivoAlquileres, listaGeneros **listaLibro
     puts("\n");
 
     // Calcular el costo total del alquiler
-    float costoAlquilerTotal = (float) (diferenciaDias * libroEncontrado->dato.Copias.precioAlquiler);
+    float costoParcial = (float) (diferenciaDias * libroEncontrado->dato.Copias.precioAlquiler);
+    puts("\n");
+    float costoDescuento = (costoParcial * 30)/100;
+    float costoAlquilerTotal ;
+    mostrarLector(lectorEncontrado->info);
     puts("\n");
 
-    if(lectorEncontrado->info.esEstudiante == 1)
+    if(lectorEncontrado->info.esEstudiante)
     {
         printf("El lector es un estudiante por lo que se le aplica un descuento del 30%\n");
-        costoAlquilerTotal = (costoAlquilerTotal * 30)/100;
+
+        costoAlquilerTotal = costoParcial - costoDescuento;
     }
 
     printf("Costo del alquiler del libro por dia : %f\n",libroEncontrado->dato.Copias.precioAlquiler);
     printf("Costo total del alquiler : %f",costoAlquilerTotal);
-
+    puts("\n");
 
     // Restaurar la cantidad de copias del libro y el estado del lector
     libroEncontrado->dato.Copias.cantCopias++;

@@ -87,7 +87,7 @@
 	<string.h>
 	<unistd.h>
 
-1700827769 source:c:\carpeta git\utn-tpfinal-lab2\main.c
+1700830235 source:c:\carpeta git\utn-tpfinal-lab2\main.c
 	<stdio.h>
 	<stdlib.h>
 	<unistd.h>
@@ -96,7 +96,7 @@
 	"libreriaAlquileres.h"
 	<string.h>
 
-1700826396 source:c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.c
+1700830883 source:c:\carpeta git\utn-tpfinal-lab2\libreriaalquileres.c
 	<stdio.h>
 	<stdlib.h>
 	"libreriaListaPersonas.h"
