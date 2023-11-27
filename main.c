@@ -81,6 +81,8 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
         printf("5. Ver un lector\n");
         printf("6. Ver lista de lectores\n");
         printf("7. Dar de baja/alta un libro\n");
+        printf("8. Modificar un libro\n");
+        printf("9. Modificar un lector\n");
         printf("0. Volver al menu principal\n");
 
         opcion = leerOpcion();
@@ -211,10 +213,12 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
                                 system("pause");
                                 system("cls");
                             }
+                            break;
                         case 0:
                             {
                                 puts("Volviendo\n");
                             }
+                            break;
                         default:
                                 puts("Opcion no valida\n");
                                 system("cls");
@@ -252,6 +256,60 @@ void mostrarMenuBibliotecario(listaGeneros ** listaDeGeneros, nodoLector ** list
 
                 modificarEstadoLibro(*listaDeGeneros,&libro, nuevoEstado, archivoLibros);
                 buscarLibroPorTituloEnLista(*listaDeGeneros,&libro);
+                break;
+            case 8:
+                {
+                    system("cls");
+                    printf("Generos\n");
+                    mostrarGeneros(*listaDeGeneros);
+
+                    char generoAver [30];
+                    fflush(stdin);
+
+                    puts("Ingrese el genero que desea buscar: \n");
+                    fgets(generoAver, sizeof(generoAver), stdin);
+                    generoAver[strcspn(generoAver, "\n")] = 0;
+
+                    mostrarLibrosPorGenero(*listaDeGeneros,&generoAver);
+
+                    nodoGenero *genero = buscarGenero(*listaDeGeneros, &generoAver);
+
+                    if (genero != NULL) {
+                        char libro [60];
+                        printf("\n Ingrese el nombre del libro: ");
+                        fflush(stdin);
+                        fgets(libro, sizeof(libro), stdin);
+                        libro[strcspn(libro, "\n")] = 0;
+                        modificarLibro(genero, &libro);
+                        escribirArchivoLibros(*listaDeGeneros,archivoLibros);
+                    } else {
+                        printf("Género no encontrado.\n");
+                    }
+                    system("Pause\n");
+                    system("cls");
+                    break;
+                }
+            case 9:
+                {
+                    char nombreLector [30];
+                    printf("Ingrese el nombre del lector que va a ingresar: ");
+                    fflush(stdin);
+                    fgets(nombreLector, sizeof(nombreLector), stdin);
+                    nombreLector[strcspn(nombreLector, "\n")] = 0;
+
+                    nodoLector * existe = buscarNodoLector(*listaDeLectores,&nombreLector);
+                    puts("\n");
+                    if (existe != NULL) {
+                        printf("Datos del lector a modificar\n");
+                        mostrarLector(existe->info);
+                        modificarLector(&existe->info);
+                        escribirArchivoLectores(*listaDeLectores,archivoLectores);
+                    } else {
+                        printf("Lector no encontrado.\n");
+                    }
+                    system("pause");
+                    system("cls");
+                }
                 break;
             case 0:
                 printf("Volviendo al menu principal.\n");

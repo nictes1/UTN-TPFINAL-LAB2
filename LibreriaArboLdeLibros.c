@@ -375,12 +375,12 @@ listaGeneros* agregarGeneroAListaYArchivo(listaGeneros *lista, const char *archi
     char nombreLibro[20];
     char genero[20];
 
-    printf("Ingrese el título del libro: ");
+    printf("Ingrese el titulo del libro: ");
     fflush(stdin);
     fgets(nombreLibro, sizeof(nombreLibro), stdin);
     nombreLibro[strcspn(nombreLibro, "\n")] = 0;
 
-    int existe = libroExisteEnArchivo(nombreLibro, archivoLibros);
+    int existe = libroExisteEnArchivo(&nombreLibro, archivoLibros);
 
     if (existe == 0) {  // Si el libro no se encontraba en el archivo
 
@@ -397,6 +397,8 @@ listaGeneros* agregarGeneroAListaYArchivo(listaGeneros *lista, const char *archi
             puts("Genero no encontrado\n");
             generoEncontrado = crearNodoGenero(genero, nuevoNodo);
             lista = agregarGeneroALista(lista, generoEncontrado);
+            generoEncontrado = buscarGenero(lista, genero);
+            generoEncontrado->arbolDeLibros = insertarPorNombre(generoEncontrado->arbolDeLibros,nuevoNodo);
         } else {
             // Insertar el libro en el árbol correspondiente al género
             generoEncontrado->arbolDeLibros = insertarPorNombre(generoEncontrado->arbolDeLibros, nuevoNodo);
@@ -495,7 +497,7 @@ void buscarYMostrarLibroEnArbol(nodoArbolLibro *arbol, const char *nombreBuscado
     if (arbol != NULL) {
         buscarYMostrarLibroEnArbol(arbol->izq, nombreBuscado);
         if (strcasecmp(arbol->dato.titulo, nombreBuscado) == 0) {
-            mostrarLibro(arbol->dato); // Asumiendo que tienes una función para mostrar los detalles de un libro
+            mostrarLibro(arbol->dato);
         }
         buscarYMostrarLibroEnArbol(arbol->der, nombreBuscado);
     }
@@ -527,3 +529,97 @@ void escribirArchivoLibros(listaGeneros *lista, const char *nombreArchivo) {
     fclose(archivo); // Cierra el archivo
 }
 
+nodoArbolLibro* buscarLibroPorTituloEnGenero(nodoGenero *genero, char const * libroBuscado) {
+    if (genero == NULL) {
+        return NULL;
+    }
+
+    return buscarLibroEnArbol(genero->arbolDeLibros, libroBuscado);
+}
+
+// Función para modificar un campo específico del libro
+void modificarLibro(nodoGenero *genero, char const *titulo) {
+    printf("Libro a modificar : %s\n",titulo);
+    nodoArbolLibro *libro = buscarLibroPorTituloEnGenero(genero, titulo);
+    mostrarLibro(libro->dato);
+     if (libro != NULL) {
+        int opcion;
+        printf("¿Que campo deseas modificar?\n");
+        printf("1. Titulo\n");
+        printf("2. Autor\n");
+        printf("3. Cantidad de paginas\n");
+        printf("4. Genero\n");
+        printf("5. Anio de lanzamiento\n");
+        printf("6. Cantidad de veces alquilado\n");
+        printf("7. Cantidad de copias\n");
+        printf("8. Precio de alquiler\n");
+        printf("9. Volver\n");
+
+        printf("Ingresa el número de la opción: ");
+        opcion = leerOpcion();
+
+        char buffer[100];
+
+        switch (opcion) {
+            case 1:
+                printf("Ingresa el nuevo título: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                buffer[strcspn(buffer, "\n")] = 0; // Eliminar el carácter de nueva línea
+                strncpy(libro->dato.titulo, buffer, sizeof(libro->dato.titulo));
+                break;
+            case 2:
+                printf("Ingresa el nuevo autor: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                buffer[strcspn(buffer, "\n")] = 0;
+                strncpy(libro->dato.autor, buffer, sizeof(libro->dato.autor));
+                break;
+            case 3:
+                printf("Ingresa la nueva cantidad de páginas: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                libro->dato.cantPag = atoi(buffer);
+                break;
+            case 4:
+                printf("Ingresa el nuevo género: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                buffer[strcspn(buffer, "\n")] = 0;
+                strncpy(libro->dato.genero, buffer, sizeof(libro->dato.genero));
+                break;
+            case 5:
+                printf("Ingresa el nuevo año de lanzamiento: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                libro->dato.anioLanzamiento = atoi(buffer);
+                break;
+            case 6:
+                printf("Ingresa la nueva cantidad de veces alquilado: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                libro->dato.cantidadaDevecesAlquilado = atoi(buffer);
+                break;
+            case 7:
+                printf("Ingresa la nueva cantidad de copias: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                libro->dato.Copias.cantCopias = atoi(buffer);
+                break;
+            case 8:
+                printf("Ingresa el nuevo precio de alquiler: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                libro->dato.Copias.precioAlquiler = atof(buffer);
+                break;
+            case 9:
+                printf("Volviendo\n");
+                sleep(1);
+                break;
+            default:
+                printf("Opción no válida.\n");
+        }
+    } else {
+        printf("Libro no encontrado.\n");
+    }
+}

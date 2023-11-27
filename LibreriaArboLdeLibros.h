@@ -43,39 +43,40 @@ typedef struct listaGeneros {
     nodoGenero *primero;
 } listaGeneros;
 
-void mostrarGeneros(listaGeneros *lista);
-void mostrarLibrosDisponiblesEnArbol(nodoArbolLibro *arbol);
-void mostrarLibrosDisponibles(listaGeneros *lista);
-void buscarYMostrarLibroEnArbol(nodoArbolLibro *arbol, const char *nombreBuscado);
-void mostrarLibrosPorNombre(listaGeneros *lista, const char *nombreBuscado);
+void mostrarGeneros(listaGeneros *lista); //Funcion para mostrar generos disponibles
+void mostrarLibrosDisponiblesEnArbol(nodoArbolLibro *arbol); //Funcion para mostrar libros disponibles dentro de un genero( no dados de baja )
+void mostrarLibrosDisponibles(listaGeneros *lista); //Funcion para mostrar todos libros disponibles
+void buscarYMostrarLibroEnArbol(nodoArbolLibro *arbol, const char *nombreBuscado); //Fn para buscar y mostrar datos de un libro
+void mostrarLibrosPorNombre(listaGeneros *lista, const char *nombreBuscado); ///
 
-nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo);
-stlibros crearLibro(char nombreLibro[]);
-int libroExisteEnArchivo(const char *nombreLibro, const char *archivo);
-void cargarLibroEnArchivo(const char *archivo);
-nodoArbolLibro *inicializarArbol();
-listaGeneros *inicializarListaGeneros();
-nodoArbolLibro *crearNodoArbolLibro(stlibros libro);
-void agregarGenero(listaGeneros *lista, const char genero[]);
-nodoArbolLibro* buscarLibroPorTituloEnLista(listaGeneros *listaLibros, char const * libroBuscado);
-nodoArbolLibro *insertarPorCopias(nodoArbolLibro *arbol, nodoArbolLibro *nuevo);
-void inorder(nodoArbolLibro *arbol);
-nodoGenero *buscarGenero(listaGeneros *lista, const char genero[]);
-listaGeneros *cargarListaDeGenerosDesdeArchivo(const char *nombreArchivo, listaGeneros *listaGeneros);
-void mostrarArchivoDeLibros(const char *archivo);
-void recorrerListaDeGeneros(listaGeneros *lista);
-listaGeneros* agregarGeneroAListaYArchivo(listaGeneros *lista, const char *archivoLibros);
-void mostrarLibro(stlibros libro);
-void mostrarLibrosPorGenero(listaGeneros *lista, const char *genero);
-
+nodoArbolLibro *buscarLibroEnArbol(nodoArbolLibro *arbol, const char * titulo); //Funcion para buscar un libro especifico y retornarlo
+stlibros crearLibro(char nombreLibro[]); //Funcion para crear un libro manualmente
+int libroExisteEnArchivo(const char *nombreLibro, const char *archivo); //Fn para verificar la existencia de un libro en el archivo
+void cargarLibroEnArchivo(const char *archivo); //Funcion para cargar un libro al archivo
+nodoArbolLibro *inicializarArbol(); //Fn para inicializar un arbol
+listaGeneros *inicializarListaGeneros(); //Fn para inicializar una lista de generos
+nodoArbolLibro *crearNodoArbolLibro(stlibros libro); //Fn para crear un nodo de libro
+void agregarGenero(listaGeneros *lista, const char genero[]); //Fn para crear un genero nuevo
+nodoArbolLibro* buscarLibroPorTituloEnLista(listaGeneros *listaLibros, char const * libroBuscado); //Fn para buscar un libro dentro de la lista general
+nodoArbolLibro *insertarPorCopias(nodoArbolLibro *arbol, nodoArbolLibro *nuevo); //fn para insetar un libro dentro del arbol ordenadamente
+void inorder(nodoArbolLibro *arbol); //Fn para mostrar los libros ordenadamente por cantidad de copias
+nodoGenero *buscarGenero(listaGeneros *lista, const char genero[]); //Fn para buscar un genero especifico
+listaGeneros *cargarListaDeGenerosDesdeArchivo(const char *nombreArchivo, listaGeneros *listaGeneros); //Fn para cargar los generos desde un archivo
+void mostrarArchivoDeLibros(const char *archivo); //Fn para mostrar el archivo de libros
+void recorrerListaDeGeneros(listaGeneros *lista); //Fn para recorrer los generos de la lista
+listaGeneros* agregarGeneroAListaYArchivo(listaGeneros *lista, const char *archivoLibros); //Fn para crear un libro, un genero o ambos manualmente
+void mostrarLibro(stlibros libro); //Fn para mostrar los datos de un libro
+void mostrarLibrosPorGenero(listaGeneros *lista, const char *genero); //Fn para mostrar los libros de cada genero
+void modificarLibro(nodoGenero *genero, char const *titulo); //Fn para modificar los datos de un libro manualmente
+nodoArbolLibro* buscarLibroPorTituloEnGenero(nodoGenero *genero, char const * libroBuscado); //Fn para buscar un libro por titulo en un genero
 
 //Generacion de archivo .bin
-void generarArchivoConGenerosYLibros(const char* nombreArchivo);
-void serializarYGuardarListaGeneros(FILE *archivo, listaGeneros *lista);
-listaGeneros* agregarGeneroALista(listaGeneros *lista, const char genero[]);
-nodoGenero *crearNodoGenero(const char *genero, nodoArbolLibro *arbol);
-stlibros crearLibroEspecifico(const char *titulo, const char *autor, const char *genero, int anio, int cantCopias, float precio, int estado);
-void modificarEstadoLibro(listaGeneros *lista, const char *nombreLibro, int nuevoEstado, const char *nombreArchivo);
-void escribirArchivoLibros(listaGeneros *lista, const char *nombreArchivo);
+void generarArchivoConGenerosYLibros(const char* nombreArchivo); //Fn para generar un archivo  automaticamente con datos de la base de datos
+void serializarYGuardarListaGeneros(FILE *archivo, listaGeneros *lista); //Fn para serializar los datos del archivo
+listaGeneros* agregarGeneroALista(listaGeneros *lista, const char genero[]); //Fn para agregar generos en la lista
+nodoGenero *crearNodoGenero(const char *genero, nodoArbolLibro *arbol); //Fn para crear un nodo genero
+stlibros crearLibroEspecifico(const char *titulo, const char *autor, const char *genero, int anio, int cantCopias, float precio, int estado); //Fn para crear un libro con los datos de la base
+void modificarEstadoLibro(listaGeneros *lista, const char *nombreLibro, int nuevoEstado, const char *nombreArchivo);//Fn para dar de alta o baja logica a un libro
+void escribirArchivoLibros(listaGeneros *lista, const char *nombreArchivo); //Fn para escribir los datos de la lista en un archivo luego de moficicarla
 
 #endif // LIBRERIAARBOLDELIBROS_H_INCLUDED

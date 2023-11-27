@@ -398,3 +398,69 @@ void escribirArchivoLectores(nodoLector *inicio, const char *nombreArchivo) {
     fclose(archivo); // Cierra el archivo
 }
 
+void modificarLector(lector *l) {
+    int opcion;
+    do {
+        // Menú de opciones
+        printf("\n=== Modificar Lector ===\n");
+        printf("1. Modificar Nombre y Apellido\n");
+        printf("2. Modificar DNI\n");
+        printf("3. Modificar Es Estudiante\n");
+        printf("4. Modificar Email\n");
+        printf("5. Modificar Dirección\n");
+        printf("0. Volver\n");
+
+        printf("Ingresa el número de la opción: ");
+        opcion = leerOpcion();
+
+        char buffer[100];
+
+        switch (opcion) {
+            case 1:
+                printf("Ingresa el nuevo Nombre y Apellido: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                buffer[strcspn(buffer, "\n")] = 0; // Eliminar el carácter de nueva línea
+                strncpy(l->nombreYapellido, buffer, sizeof(l->nombreYapellido));
+                break;
+            case 2:
+                printf("Ingresa el nuevo DNI: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                l->dni = atoi(buffer);
+                break;
+            case 3:
+                printf("Es estudiante (1 para Sí, 0 para No): ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                l->esEstudiante = atoi(buffer);
+                break;
+            case 4:
+                printf("Ingresa el nuevo Email: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                buffer[strcspn(buffer, "\n")] = 0;
+                strncpy(l->email, buffer, sizeof(l->email));
+                break;
+            case 5:
+                printf("Ingresa la nueva Dirección: ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                buffer[strcspn(buffer, "\n")] = 0;
+                strncpy(l->direccion, buffer, sizeof(l->direccion));
+                break;
+            case 6:
+                printf("Puede alquilar (1 para Sí, 0 para No): ");
+                fflush(stdin);
+                fgets(buffer, sizeof(buffer), stdin);
+                l->alquiler = atoi(buffer);
+                break;
+            case 0:
+                printf("Volviendo al menú principal.\n");
+                break;
+            default:
+                printf("Opción no válida. Intente nuevamente.\n");
+                break;
+        }
+    } while (opcion != 0);
+}
